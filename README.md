@@ -116,6 +116,7 @@ TODO
 * Tests.
 * Allow serialization config from multiple files.
 * Split out serialization framework.
+* Serialization config from annotations?
 * Implement the product model.
 * Performance.
 
