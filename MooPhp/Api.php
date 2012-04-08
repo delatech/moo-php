@@ -31,12 +31,12 @@ class Api implements MooInterface\MooApi {
 
 	/**
 	 * @param MooInterface\Request\Request $request
-	 * @param string $type
+	 * @param string $responseType
 	 * @return string
 	 */
-	protected function _makeRequest($request, $type) {
+	public function makeRequest(\MooPhp\MooInterface\Request\Request $request, $responseType) {
 		$rawResponse = $this->_client->makeRequest($request->getMethod(), $this->_marshaller->marshall($request, "Request"));
-		return $this->_handleResponse($rawResponse, $type);
+		return $this->_handleResponse($rawResponse, $responseType);
 	}
 
 	protected function _handleResponse($rawResponse, $type) {
@@ -69,7 +69,7 @@ class Api implements MooInterface\MooApi {
 		$request->setPack($pack);
 		$request->setProduct($productType);
 		$request->setTrackingId($trackingId);
-		return $this->_makeRequest($request, "CreatePackResponse");
+		return $this->makeRequest($request, "CreatePackResponse");
 	}
 
 	/**
@@ -81,7 +81,7 @@ class Api implements MooInterface\MooApi {
 	public function packGetPack($packId) {
 		$request = new MooInterface\Request\GetPack();
 		$request->setPackId($packId);
-		return $this->_makeRequest($request, "GetPackResponse");
+		return $this->makeRequest($request, "GetPackResponse");
 	}
 
 	/**
@@ -95,7 +95,7 @@ class Api implements MooInterface\MooApi {
 		$request = new MooInterface\Request\UpdatePack();
 		$request->setPackId($packId);
 		$request->setPack($pack);
-		return $this->_makeRequest($request, "GetPackResponse");
+		return $this->makeRequest($request, "GetPackResponse");
 	}
 
 	/**
@@ -108,7 +108,7 @@ class Api implements MooInterface\MooApi {
 	public function packAddToCart($packId, $quantity = 1) {
 		$request = new MooInterface\Request\AddToCart();
 		$request->setPackId($packId, $quantity);
-		return $this->_makeRequest($request, "AddToCartResponse");
+		return $this->makeRequest($request, "AddToCartResponse");
 	}
 
 	/**
@@ -158,7 +158,7 @@ class Api implements MooInterface\MooApi {
 		$request = new MooInterface\Request\ImportImage();
 		$request->setImageType($imageType);
 		$request->setImageUrl($url);
-		return $this->_makeRequest($request, "ImportImageResponse");
+		return $this->makeRequest($request, "ImportImageResponse");
 	}
 
 }

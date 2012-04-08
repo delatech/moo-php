@@ -45,6 +45,16 @@ interface MooApi {
 	 * Moo will try to guess if it's a photo or lineart
 	 */
 	const IMAGE_TYPE_DETECT = "detect";
+
+	/**
+	 * Send a request object to the Moo API, and deserialize the response as $responseType.
+	 *
+	 * @abstract
+	 * @param Request\Request $request
+	 * @param $responseType
+	 */
+	public function makeRequest(\MooPhp\MooInterface\Request\Request $request, $responseType);
+
 	/**
 	 * Create a new Moo pack.
 	 * This will actually create a pack of a given type on the server.
