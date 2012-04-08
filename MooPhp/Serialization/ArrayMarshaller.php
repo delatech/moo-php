@@ -10,8 +10,8 @@ class ArrayMarshaller implements Marshaller {
 
 	private $_config;
 
-	public function __construct($configFile) {
-		$this->_config = json_decode(file_get_contents($configFile), true);
+	public function __construct(array $configArray) {
+		$this->_config = $configArray;
 	}
 
 	protected function _propertyAsType($data, $type) {
@@ -36,24 +36,24 @@ class ArrayMarshaller implements Marshaller {
 				}
 				return $converted;
 			}
-
-		} else {
-			switch ($type) {
-				case "string":
-					return (string)$data;
-					break;
-				case "int":
-					return (int)$data;
-					break;
-				case "bool":
-					return (bool)$data;
-					break;
-				case "float":
-					return (float)$data;
-					break;
-			}
+			throw new \RuntimeException("Unknown complex type $realType");
 		}
-		throw new \RuntimeException("Failed to convert to $type");
+
+		switch ($type) {
+			case "string":
+				return (string)$data;
+				break;
+			case "int":
+				return (int)$data;
+				break;
+			case "bool":
+				return (bool)$data;
+				break;
+			case "float":
+				return (float)$data;
+				break;
+		}
+		throw new \RuntimeException("Unknown type $type");
 	}
 
 	protected function _valueAsType($data, $type) {
@@ -78,35 +78,36 @@ class ArrayMarshaller implements Marshaller {
 				}
 				return $converted;
 			}
+			throw new \RuntimeException("Unknown complex type $realType");
 
-		} else {
-			switch ($type) {
-				case "string":
-					return (string)$data;
-					break;
-				case "int":
-					return (int)$data;
-					break;
-				case "bool":
-					return (bool)$data;
-					break;
-				case "float":
-					return (float)$data;
-					break;
-			}
 		}
-		throw new \RuntimeException("Failed");
+		switch ($type) {
+			case "string":
+				return (string)$data;
+				break;
+			case "int":
+				return (int)$data;
+				break;
+			case "bool":
+				return (bool)$data;
+				break;
+			case "float":
+				return (float)$data;
+				break;
+		}
+		throw new \RuntimeException("Unknown type $type");
 	}
 
 	public function marshall($object, $ref) {
 		if (!is_object($object)) {
 			throw new \InvalidArgumentException("Got passed non object for marshalling of $ref");
 		}
-		$entry = $this->_config[$ref];
+
 		$reflector = new \ReflectionObject($object);
-		if (!isset($entry)) {
+		if (!isset($this->_config[$ref])) {
 			throw new \RuntimeException("Cannot find config entry for $ref working on " . $reflector->getName());
 		}
+		$entry = $this->_config[$ref];
 		if (!isset($entry["properties"])) {
 			$entry["properties"] = array();
 		}

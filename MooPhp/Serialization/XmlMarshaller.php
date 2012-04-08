@@ -10,8 +10,8 @@ class XmlMarshaller implements Marshaller {
 
 	private $_config;
 
-	public function __construct($configFile) {
-		$this->_config = json_decode(file_get_contents($configFile), true);
+	public function __construct(array $configArray) {
+		$this->_config = $configArray;
 	}
 
 	protected function _simpleValueAsType($value, $type) {

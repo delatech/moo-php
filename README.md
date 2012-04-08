@@ -19,6 +19,8 @@ The implementations currently provided are \MooPhp\Client\OAuthSigningClient, an
 
 ```php
 
+    require_once("path/to/autoloader.php");
+
     $client = new \MooPhp\Client\OAuthSigningClient($apiKey, $apiSecret);
     $api = new \MooPhp\Api($client);
 
@@ -114,6 +116,7 @@ So is this safe to use?
 TODO
 ----
 * Refactor Serializers: the Xml one's pattern is better...
+* Greatly improve error handling, especially in the serializers
 * Tests.
 * Allow serialization config from multiple files.
 * Split out serialization framework.
