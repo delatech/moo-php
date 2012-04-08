@@ -608,6 +608,102 @@ class ArrayMarshallerTest extends \PHPUnit_Framework_TestCase {
 		$this->assertSame($expected, $marshalled);
 
 	}
+
+	/**
+	 * @covers \MooPhp\Serialization\ArrayMarshaller::__construct
+	 * @covers \MooPhp\Serialization\ArrayMarshaller::marshall
+	 * @covers \MooPhp\Serialization\ArrayMarshaller::_propertyAsType
+	 */
+	public function testMarshallWithDiscriminators() {
+
+		$config = array(
+			"DummyClassA" => array(
+				"type" => 'DummyClassA',
+				"discriminator" => array(
+					"name" => "tipe",
+					"property" => "tripe",
+					"values" => array(
+						"Flork" => "DummyClassAA",
+						"fLark" => "DummyClassAB"
+					)
+				)
+			),
+			"DummyClassAA" => array(
+				"type" => "DummyClassAA",
+				"properties" => array(
+					"foo" => array(
+						"name" => "foo",
+						"type" => "string"
+					)
+				)
+			),
+			"DummyClassAB" => array(
+				"type" => "DummyClassAB",
+			)
+		);
+
+		$mockAA = $this->getMock('DummyClassAA', array('getFoo', 'getTripe'));
+		$mockAA->expects($this->once())->method('getFoo')->will($this->returnValue('bar'));
+		$mockAA->expects($this->once())->method('getTripe')->will($this->returnValue('Flork'));
+
+		$mockAB = $this->getMock('DummyClassAB', array('getTripe'));
+		$mockAB->expects($this->once())->method('getTripe')->will($this->returnValue('fLark'));
+
+		$mock = $this->getMock('DummyClassA', array('getTripe'));
+		$mock->expects($this->once())->method('getTripe')->will($this->returnValue("dunno"));
+
+		$marshaller = new \MooPhp\Serialization\ArrayMarshaller($config);
+
+		$marshalled = $marshaller->marshall($mockAA, "DummyClassA");
+		$expected = array(
+			"tipe" => "Flork",
+			"foo" => "bar",
+		);
+		$this->assertSame($expected, $marshalled);
+
+		$marshalled = $marshaller->marshall($mockAB, "DummyClassA");
+		$expected = array(
+			"tipe" => "fLark",
+		);
+		$this->assertSame($expected, $marshalled);
+
+		$marshalled = $marshaller->marshall($mock, "DummyClassA");
+		$expected = array(
+			"tipe" => "dunno",
+		);
+		$this->assertSame($expected, $marshalled);
+	}
+
+	/**
+	 * @covers \MooPhp\Serialization\ArrayMarshaller::__construct
+	 * @covers \MooPhp\Serialization\ArrayMarshaller::marshall
+	 * @covers \MooPhp\Serialization\ArrayMarshaller::_propertyAsType
+	 * @expectedException \RuntimeException
+	 */
+	public function testMarshallWithMissingDiscriminatorMethod() {
+
+		$config = array(
+			"DummyClassA" => array(
+				"type" => 'DummyClassA',
+				"discriminator" => array(
+					"name" => "tipe",
+					"property" => "tripe",
+					"values" => array(
+						"fLark" => "DummyClassAB"
+					)
+				)
+			),
+			"DummyClassAB" => array(
+				"type" => "DummyClassAB",
+			)
+		);
+
+		$mockAB = $this->getMock('DummyClassAB', array());
+
+		$marshaller = new \MooPhp\Serialization\ArrayMarshaller($config);
+
+		$marshaller->marshall($mockAB, "DummyClassA");
+	}
 }
 
 class DummyClassA {
@@ -640,5 +736,13 @@ class DummyClassD {
 	public function __call($name, $args) {
 		return call_user_func_array(array(self::$mockery, $name), $args);
 	}
+}
+
+class DummyClassAA extends DummyClassA {
+
+}
+
+class DummyClassAB extends DummyClassA {
+
 }
 

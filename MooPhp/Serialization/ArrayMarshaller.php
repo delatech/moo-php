@@ -144,11 +144,16 @@ class ArrayMarshaller implements Marshaller {
 				throw new \RuntimeException("Unable to call getter $getter for $ref", 0, $e);
 			}
 
-			$ref = $discriminatorConfig["values"][$subType];
-			// We also need to add the discriminator to the serialized data
-			$marshalled[$discriminatorConfig["name"]] = $subType;
-
-			$marshalled += $this->marshall($object, $ref);
+			if (isset($discriminatorConfig["values"][$subType])) {
+				$ref = $discriminatorConfig["values"][$subType];
+				// We also need to add the discriminator to the serialized data
+				$marshalled[$discriminatorConfig["name"]] = $subType;
+				$marshalled += $this->marshall($object, $ref);
+			} else {
+				// Otherwise we have no idea... serialize as the base type and add
+				// the discriminator value
+				$marshalled[$discriminatorConfig["name"]] = $subType;
+			}
 
 		}
 		return $marshalled;
