@@ -113,6 +113,7 @@ So is this safe to use?
 
 TODO
 ----
+* Refactor Serializers: the Xml one's pattern is better...
 * Tests.
 * Allow serialization config from multiple files.
 * Split out serialization framework.
