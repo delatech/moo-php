@@ -1,0 +1,742 @@
+{
+    "Pack": {
+        "type": "\\MooPhp\\MooInterface\\Data\\Pack",
+        "properties": {
+            "numCards": {
+                "name": "numCards",
+                "type": "int"
+            },
+            "productCode": {
+                "name": "productCode",
+                "type": "string"
+            },
+            "productVersion": {
+                "name": "productVersion",
+                "type": "int"
+            },
+            "sides": {
+                "name": "sides",
+                "type": [
+                    "array",
+                    {
+                        "key": "int",
+                        "value": [
+                            "ref",
+                            "Side"
+                        ]
+                    }
+                ]
+            },
+            "cards": {
+                "name": "cards",
+                "type": [
+                    "array",
+                    {
+                        "key": "int",
+                        "value": [
+                            "ref",
+                            "Card"
+                        ]
+                    }
+                ]
+            },
+            "extras": {
+                "name": "extras",
+                "type": [
+                    "array",
+                    {
+                        "key": "int",
+                        "value": [
+                            "ref",
+                            "Extra"
+                        ]
+                    }
+                ]
+            },
+            "imageBasket": {
+                "name": "imageBasket",
+                "type": [
+                        "ref",
+                        "ImageBasket"
+                ]
+            }
+        }
+    },
+    "Side": {
+        "type": "\\MooPhp\\MooInterface\\Data\\Side",
+        "properties": {
+            "type": {
+                "name": "type",
+                "type": "string"
+            },
+            "sideNum": {
+                "name": "sideNum",
+                "type": "int"
+            },
+            "templateCode": {
+                "name": "templateCode",
+                "type": "string"
+            },
+            "data": {
+                "name": "data",
+                "type": [
+                    "array",
+                    {
+                        "key": "int",
+                        "value": [
+                            "ref",
+                            "Datum"
+                            ]
+                    }
+                ]
+            }
+        }
+    },
+    "ImageBasketItemImage": {
+        "type": "\\MooPhp\\MooInterface\\Data\\ImageBasketItemImage",
+        "properties": {
+            "type": {
+                "name": "type",
+                "type": "string"
+            },
+            "resourceUri": {
+                "name": "resourceUri",
+                "type": "string"
+            },
+            "width": {
+                "name": "width",
+                "type": "float"
+            },
+            "height": {
+                "name": "height",
+                "type": "float"
+            },
+            "rotation": {
+                "name": "rotation",
+                "type": "float"
+            }
+        }
+    },
+    "ImageBasketItem": {
+        "type": "\\MooPhp\\MooInterface\\Data\\ImageBasketItem",
+        "properties": {
+            "removable": {
+                "name": "removable",
+                "type": "bool"
+            },
+            "copyrightOwner": {
+                "name": "copyrightOwner",
+                "type": "string"
+            },
+            "imageItems": {
+                "name": "imageItems",
+                "type": [
+                    "array",
+                    {
+                        "key": "int",
+                        "value": ["ref", "ImageBasketItemImage"]
+                    }
+                ]
+            },
+            "croppable": {
+                "name": "croppable",
+                "type": "bool"
+            },
+            "resourceUri": {
+                "name": "resourceUri",
+                "type": "string"
+            },
+            "shouldEnhance": {
+                "name": "shouldEnhance",
+                "type": "bool"
+            },
+            "type": {
+                "name": "type",
+                "type": "string"
+            },
+            "cacheId": {
+                "name": "cacheId",
+                "type": "string"
+            }
+        }
+    },
+    "ImageBasket": {
+        "type": "\\MooPhp\\MooInterface\\Data\\ImageBasket",
+        "properties": {
+            "items": {
+                "name": "items",
+                "type": [
+                    "array",
+                    {
+                        "key": "int",
+                        "value": ["ref", "ImageBasketItem"]
+                    }
+                ]
+            },
+            "type": {
+                "name": "type",
+                "type": "string"
+            },
+            "name": {
+                "name": "name",
+                "type": "string"
+            },
+            "immutable": {
+                "name": "immutable",
+                "type": "bool"
+            }
+        }
+
+    },
+    "Extra": {
+        "type": "\\MooPhp\\MooInterface\\Data\\Extra",
+        "properties": {
+            "name": {
+                "name": "name",
+                "type": "string"
+            },
+            "value": {
+                "name": "value",
+                "type": "string"
+            }
+        }
+    },
+    "CardSide": {
+        "type": "\\MooPhp\\MooInterface\\Data\\CardSide",
+        "properties": {
+            "sideNum": {
+                "name": "sideNum",
+                "type": "int"
+            },
+            "sideType": {
+                "name": "sideType",
+                "type": "string"
+            }
+        }
+    },
+    "Card": {
+        "type": "\\MooPhp\\MooInterface\\Data\\Card",
+        "properties": {
+            "cardNum": {
+                "name": "cardNum",
+                "type": "int"
+            },
+            "cardSides": {
+                "name": "cardSides",
+                "type": [
+                    "array",
+                    ["ref", "CardSide"]
+                ]
+            }
+        }
+    },
+    "Datum": {
+        "type": "\\MooPhp\\MooInterface\\Data\\UserData\\Datum",
+        "properties": {
+            "linkId": {
+                "name": "linkId",
+                "type": "string"
+            }
+        },
+        "discriminator": {
+            "name": "type",
+            "property": "type",
+            "values": {
+                "textData": "TextData",
+                "imageData": "ImageData",
+                "boxData": "BoxData",
+                "multiLineTextData": "MultiLineTextData"
+            }
+        }
+    },
+    "TextData": {
+        "type": "\\MooPhp\\MooInterface\\Data\\UserData\\TextData",
+        "properties": {
+            "text": {
+                "name": "text",
+                "type": "string"
+            },
+            "font": {
+                "name": "font",
+                "type": ["ref", "Font"]
+            },
+            "pointSize": {
+                "name": "pointSize",
+                "type": "float"
+            },
+            "colour": {
+                "name": "colour",
+                "type": ["ref", "Colour"]
+            },
+            "alignment": {
+                "name": "alignment",
+                "type": "string"
+            }
+        }
+    },
+    "MultiLineTextData": {
+        "type": "\\MooPhp\\MooInterface\\Data\\UserData\\MultiLineTextData",
+        "properties": {
+            "text": {
+                "name": "text",
+                "type": "string"
+            },
+            "font": {
+                "name": "font",
+                "type": ["ref", "Font"]
+            },
+            "pointSize": {
+                "name": "pointSize",
+                "type": "float"
+            },
+            "colour": {
+                "name": "colour",
+                "type": ["ref", "Colour"]
+            },
+            "alignment": {
+                "name": "alignment",
+                "type": "string"
+            }
+        }
+    },
+    "ImageData": {
+        "type": "\\MooPhp\\MooInterface\\Data\\UserData\\ImageData",
+        "properties": {
+            "resourceUri": {
+                "name": "resourceUri",
+                "type": "string"
+            },
+            "imageStoreFileId": {
+                "name": "imageStoreFileId",
+                "type": "string"
+            },
+            "enhance": {
+                "name": "enhance",
+                "type": "bool"
+            },
+            "imageBox": {
+                "name": "imageBox",
+                "type": ["ref", "BoundingBox"]
+            }
+        }
+    },
+    "BoxData": {
+        "type": "\\MooPhp\\MooInterface\\Data\\UserData\\BoxData",
+        "properties": {
+            "colour": {
+                "name": "colour",
+                "type": ["ref", "Colour"]
+            }
+        }
+    },
+    "Point": {
+        "type": "\\MooPhp\\MooInterface\\Data\\Types\\Point",
+        "properties": {
+            "x": {
+                "name": "x",
+                "type": "float"
+            },
+            "y": {
+                "name": "y",
+                "type": "float"
+            }
+        }
+    },
+    "Font": {
+        "type": "\\MooPhp\\MooInterface\\Data\\Types\\Font",
+        "properties": {
+            "family": {
+                "name": "fontFamily",
+                "type": "string"
+            },
+            "bold": {
+                "name": "bold",
+                "type": "bool"
+            },
+            "italic": {
+                "name": "italic",
+                "type": "bool"
+            }
+        }
+    },
+    "Colour": {
+        "type": "\\MooPhp\\MooInterface\\Data\\Types\\Colour",
+        "discriminator": {
+            "name": "type",
+            "property": "type",
+            "values": {
+                "RGB": "ColourRGB",
+                "CMYK": "ColourCMYK"
+            }
+        }
+    },
+    "ColourRGB": {
+        "type": "\\MooPhp\\MooInterface\\Data\\Types\\ColourRGB",
+        "properties": {
+            "r": {
+                "name": "r",
+                "type": "int"
+            },
+            "g": {
+                "name": "g",
+                "type": "int"
+            },
+            "b": {
+                "name": "b",
+                "type": "int"
+            }
+        }
+    },
+    "ColourCMYK": {
+        "type": "\\MooPhp\\MooInterface\\Data\\Types\\ColourCMYK",
+        "properties": {
+            "c": {
+                "name": "c",
+                "type": "float"
+            },
+            "m": {
+                "name": "m",
+                "type": "float"
+            },
+            "y": {
+                "name": "y",
+                "type": "float"
+            },
+            "k": {
+                "name": "k",
+                "type": "float"
+            }
+        }
+    },
+    "BoundingBox": {
+        "type": "\\MooPhp\\MooInterface\\Data\\Types\\BoundingBox",
+        "properties": {
+            "centre": {
+                "name": "center",
+                "type": ["ref", "Point"]
+            },
+            "width": {
+                "name": "width",
+                "type": "float"
+            },
+            "height": {
+                "name": "height",
+                "type": "float"
+            },
+            "angle": {
+                "name": "angle",
+                "type": "float"
+            }
+
+        }
+    },
+    "Request": {
+        "type": "\\MooPhp\\MooInterface\\Request\\Request",
+        "discriminator": {
+            "name": "method",
+            "property": "method",
+            "values": {
+                "moo.pack.createPack": "CreatePackRequest",
+                "moo.pack.updatePack": "UpdatePackRequest",
+                "moo.pack.getPack": "GetPackRequest",
+                "moo.pack.addToCart": "AddToCartRequest",
+                "moo.template.getTemplate": "GetTemplateRequest",
+                "moo.image.importImage": "ImportImageRequest",
+                "moo.image.uploadImage": "UploadImageRequest"
+            }
+        }
+    },
+    "CreatePackRequest": {
+        "type": "\\MooPhp\\MooInterface\\Request\\CreatePack",
+        "properties": {
+            "product": {
+                "name": "product",
+                "type": "string"
+            },
+            "pack": {
+                "name": "pack",
+                "type": [
+                    "json",
+                    "Pack"
+                ]
+            },
+            "trackingId": {
+                "name": "trackingId",
+                "type": "string"
+            }
+        }
+    },
+    "UpdatePackRequest": {
+        "type": "\\MooPhp\\MooInterface\\Request\\UpdatePack",
+        "properties": {
+            "pack": {
+                "name": "pack",
+                "type": [
+                    "json",
+                    "Pack"
+                ]
+            },
+            "packId": {
+                "name": "packId",
+                "type": "string"
+            }
+        }
+    },
+    "GetPackRequest": {
+        "type": "\\MooPhp\\MooInterface\\Request\\GetPack",
+        "properties": {
+            "packId": {
+                "name": "packId",
+                "type": "string"
+            }
+        }
+    },
+    "GetTemplateRequest": {
+        "type": "\\MooPhp\\MooInterface\\Request\\GetTemplateRequest",
+        "properties": {
+            "templateCode": {
+                "name": "templateCode",
+                "type": "string"
+            }
+        }
+    },
+    "UploadImageRequest": {
+        "type": "\\MooPhp\\MooInterface\\Request\\UploadImageRequest",
+        "properties": {
+            "imageType": {
+                "name": "imageType",
+                "type": "string"
+            },
+            "imageFile": {
+                "name": "imageFile",
+                "type": "string"
+            }
+        }
+    },
+    "ImportImageRequest": {
+        "type": "\\MooPhp\\MooInterface\\Request\\ImportImageRequest",
+        "properties": {
+            "imageType": {
+                "name": "imageType",
+                "type": "string"
+            },
+            "imageUrl": {
+                "name": "imageUrl",
+                "type": "string"
+            }
+        }
+    },
+    "AddToCartRequest": {
+        "type": "\\MooPhp\\MooInterface\\Request\\AddToCartRequest",
+        "properties": {
+            "packId": {
+                "name": "packId",
+                "type": "string"
+            },
+            "quantity": {
+                "name": "quantity",
+                "type": "int"
+            }
+        }
+    },
+    "CreatePackResponse": {
+        "type": "\\MooPhp\\MooInterface\\Response\\CreatePack",
+        "properties": {
+            "packId": {
+                "name": "packId",
+                "type": "string"
+            },
+            "pack": {
+                "name": "pack",
+                "type": [
+                    "ref",
+                    "Pack"
+                ]
+            },
+            "warnings": {
+                "name": "warnings",
+                "type": [
+                    "array",
+                    {
+                        "key": "string",
+                        "value": [
+                            "ref",
+                            "Warning"
+                        ]
+                    }
+                ]
+            },
+            "dropIns": {
+                "name": "dropIns",
+                "type": [
+                    "array",
+                    {
+                        "key": "string",
+                        "value": "string"
+                    }
+                ]
+            }
+        }
+    },
+    "UpdatePackResponse": {
+        "type": "\\MooPhp\\MooInterface\\Response\\UpdatePack",
+        "properties": {
+            "packId": {
+                "name": "packId",
+                "type": "string"
+            },
+            "pack": {
+                "name": "pack",
+                "type": [
+                    "ref",
+                    "Pack"
+                ]
+            },
+            "warnings": {
+                "name": "warnings",
+                "type": [
+                    "array",
+                    {
+                        "key": "string",
+                        "value": [
+                            "ref",
+                            "Warning"
+                        ]
+                    }
+                ]
+            },
+            "dropIns": {
+                "name": "dropIns",
+                "type": [
+                    "array",
+                    {
+                        "key": "string",
+                        "value": "string"
+                    }
+                ]
+            }
+        }
+    },
+    "GetPackResponse": {
+        "type": "\\MooPhp\\MooInterface\\Response\\GetPack",
+        "properties": {
+            "packId": {
+                "name": "packId",
+                "type": "string"
+            },
+            "pack": {
+                "name": "pack",
+                "type": [
+                    "ref",
+                    "Pack"
+                ]
+            },
+            "warnings": {
+                "name": "warnings",
+                "type": [
+                    "array",
+                    {
+                        "key": "string",
+                        "value": [
+                            "ref",
+                            "Warning"
+                        ]
+                    }
+                ]
+            },
+            "dropIns": {
+                "name": "dropIns",
+                "type": [
+                    "array",
+                    {
+                        "key": "string",
+                        "value": "string"
+                    }
+                ]
+            }
+        }
+    },
+    "UploadImageResponse": {
+        "type": "\\MooPhp\\MooInterface\\Response\\UploadImage",
+        "properties": {
+            "imageBasketItem": {
+                "name": "imageBasketItem",
+                "type": [
+                    "ref",
+                    "ImageBasketItem"
+                ]
+            }
+        }
+    },
+    "ImportImageResponse": {
+        "type": "\\MooPhp\\MooInterface\\Response\\ImportImage",
+        "properties": {
+            "imageBasketItem": {
+                "name": "imageBasketItem",
+                "type": [
+                    "ref",
+                    "ImageBasketItem"
+                ]
+            }
+        }
+    },
+    "AddToCartResponse": {
+        "type": "\\MooPhp\\MooInterface\\Response\\AddToCart",
+        "properties": {
+            "warnings": {
+                "name": "warnings",
+                "type": [
+                    "array",
+                    {
+                        "key": "string",
+                        "value": [
+                            "ref",
+                            "Warning"
+                        ]
+                    }
+                ]
+            },
+            "dropIns": {
+                "name": "dropIns",
+                "type": [
+                    "array",
+                    {
+                        "key": "string",
+                        "value": "string"
+                    }
+                ]
+            }
+        }
+    },
+    "Warning": {
+        "type": "\\MooPhp\\MooInterface\\Response\\Warning",
+        "properties": {
+            "element": {
+                "name": "element",
+                "type": "string"
+            },
+            "code": {
+                "name": "code",
+                "type": "string"
+            },
+            "message": {
+                "name": "message",
+                "type": "string"
+            }
+        }
+    },
+    "MooException": {
+        "type": "\\MooPhp\\MooInterface\\Response\\MooException",
+        "properties": {
+            "message": {
+                "name": "message",
+                "type": "string"
+            }
+        },
+        "constructorArgs": [
+            "message"
+        ]
+    }
+
+}
+

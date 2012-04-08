@@ -1,0 +1,434 @@
+{
+    "Template": {
+        "type": "\\MooPhp\\MooInterface\\Data\\Template\\Template",
+        "properties": {
+            "templateCode": {
+                "element": "Code",
+                "type": "string"
+            },
+            "templateVersion": {
+                "element": "Version",
+                "type": "string"
+            },
+            "settings": {
+                "element": "Settings",
+                "type": ["ref", "TemplateSettings"]
+            },
+            "items": {
+                "element": "Items",
+                "type": [
+                    "array",
+                    ["ref", "TemplateItem"]
+                ]
+            }
+        }
+    },
+    "TemplateItem": {
+        "type": "\\MooPhp\\MooInterface\\Data\\Template\\Item",
+        "properties": {
+            "linkId": {
+                "element": "LinkId",
+                "type": "string"
+            },
+            "layout": {
+                "element": "Layout",
+                "type": ["ref", "TemplateLayout"]
+            }
+        },
+        "discriminator": {
+            "type": "element",
+            "property": "type",
+            "values": {
+                "Box": "BoxItem",
+                "FixedImage": "FixedImageItem",
+                "Image": "ImageItem",
+                "MultiLineText": "MultiLineTextItem",
+                "Text": "TextItem"
+            }
+        }
+    },
+    "TemplateLayout": {
+        "type": "\\MooPhp\\MooInterface\\Data\\Template\\Layout",
+        "properties": {
+            "zIndex": {
+                "element": "ZIndex",
+                "type": "int"
+            }
+        }
+    },
+    "BoxItem": {
+        "type": "\\MooPhp\\MooInterface\\Data\\Template\\Items\\BoxItem",
+        "properties": {
+            "clippingBox": {
+                "element": "ClippingBox",
+                "type": ["ref", "BoundingBox"]
+            },
+            "colour": {
+                "element": "Colour",
+                "type": ["ref", "Colour"]
+            },
+            "filled": {
+                "element": "Filled",
+                "type": "bool"
+            }
+        }
+    },
+    "ImageItem": {
+        "type": "\\MooPhp\\MooInterface\\Data\\Template\\Items\\ImageItem",
+        "properties": {
+            "clippingBox": {
+                "element": "ClippingBox",
+                "type": ["ref", "BoundingBox"]
+            },
+            "constraints": {
+                "element": "Constraints",
+                "type": ["ref", "ImageConstraints"]
+            }
+        }
+    },
+    "FixedImageItem": {
+        "type": "\\MooPhp\\MooInterface\\Data\\Template\\Items\\FixedImageItem",
+        "properties": {
+            "clippingBox": {
+                "element": "ImageBox",
+                "type": ["ref", "BoundingBox"]
+            },
+            "constraints": {
+                "element": "Constraints",
+                "type": ["ref", "ImageConstraints"]
+            },
+            "imageBox": {
+                "element": "ImageBox",
+                "type": ["ref", "BoundingBox"]
+            },
+            "resourceUri": {
+                "element": "ResourceUri",
+                "type": "string"
+            },
+            "resourceUriChoiceList": {
+                "element": "ResourceUriChoiceList",
+                "type": ["array", "string"]
+            }
+        }
+    },
+    "ImageConstraints": {
+        "type": "\\MooPhp\\MooInterface\\Data\\Template\\Items\\ImageConstraints",
+        "properties": {
+            "leftEdge": {
+                "element": "LeftEdge",
+                "type": ["ref", "ImageEdgeConstraint"]
+            },
+            "rightEdge": {
+                "element": "RightEdge",
+                "type": ["ref", "ImageEdgeConstraint"]
+            },
+            "topEdge": {
+                "element": "TopEdge",
+                "type": ["ref", "ImageEdgeConstraint"]
+            },
+            "bottomEdge": {
+                "element": "BottomEdge",
+                "type": ["ref", "ImageEdgeConstraint"]
+            }
+        }
+    },
+    "ImageEdgeConstraint": {
+        "type": "\\MooPhp\\MooInterface\\Data\\Template\\Items\\ImageEdgeConstraint",
+        "properties": {
+            "betweenBleedAndCut": {
+                "attribute": "betweenBleedAndCut",
+                "type": "bool"
+            },
+            "outside": {
+                "attribute": "outside",
+                "type": "bool"
+            },
+            "betweenCutAndSafe": {
+                "attribute": "betweenCutAndSafe",
+                "type": "bool"
+            },
+            "insideSafe": {
+                "attribute": "insideSafe",
+                "type": "bool"
+            }
+        }
+    },
+    "TextItem": {
+        "type": "\\MooPhp\\MooInterface\\Data\\Template\\Items\\TextItem",
+        "properties": {
+            "clippingBox": {
+                "element": "ClippingBox",
+                "type": ["ref", "BoundingBox"]
+            },
+            "font": {
+                "element": "Font",
+                "type": ["ref", "Font"]
+            },
+            "pointSize": {
+                "element": "PointSize",
+                "type": "float"
+            },
+            "alignment": {
+                "element": "Alignment",
+                "type": "string"
+            },
+            "colour": {
+                "element": "Colour",
+                "type": ["ref", "Colour"]
+            },
+            "text": {
+                "element": "Text",
+                "type": "string"
+            },
+            "constraints": {
+                "element": "Constraints",
+                "type": ["ref", "TextConstraints"]
+            }
+        }
+    },
+    "MultiLineTextItem": {
+        "type": "\\MooPhp\\MooInterface\\Data\\Template\\Items\\MultiLineTextItem",
+        "properties": {
+            "clippingBox": {
+                "element": "ClippingBox",
+                "type": ["ref", "BoundingBox"]
+            },
+            "font": {
+                "element": "Font",
+                "type": ["ref", "Font"]
+            },
+            "pointSize": {
+                "element": "PointSize",
+                "type": "float"
+            },
+            "alignment": {
+                "element": "Alignment",
+                "type": "string"
+            },
+            "colour": {
+                "element": "Colour",
+                "type": ["ref", "Colour"]
+            },
+            "text": {
+                "element": "Text",
+                "type": "string"
+            },
+            "constraints": {
+                "element": "Constraints",
+                "type": ["ref", "TextConstraints"]
+            },
+            "baseLineOffset": {
+                "element": "BaseLineOffset",
+                "type": "float"
+            },
+            "leading": {
+                "element": "Leading",
+                "type": "float"
+            },
+            "verticalAlignment": {
+                "element": "VerticalAlignment",
+                "type": "string"
+            }
+        }
+    },
+    "TextConstraints": {
+        "type": "\\MooPhp\\MooInterface\\Data\\Template\\Items\\TextConstraints",
+        "properties": {
+            "alignmentFixed": {
+                "attribute": "alignmentFixed",
+                "type": "bool"
+            },
+            "colourFixed": {
+                "attribute": "colourFixed",
+                "type": "bool"
+            },
+            "pointSizeFixed": {
+                "attribute": "pointSizeFixed",
+                "type": "bool"
+            },
+            "fontFixed": {
+                "attribute": "fontFixed",
+                "type": "bool"
+            }
+        }
+    },
+    "TemplateSettings": {
+        "type": "\\MooPhp\\MooInterface\\Data\\Template\\Settings",
+        "properties": {
+            "units": {
+                "element": "Units",
+                "type": ["ref", "TemplateUnits"]
+            },
+            "origin": {
+                "element": "Origin",
+                "type": ["ref", "TemplateOrigin"]
+            },
+            "printArea": {
+                "element": "PrintArea",
+                "type": ["ref", "PrintArea"]
+            },
+            "bleedBox": {
+                "element": "BleedBox",
+                "type": ["ref", "BoundingBox"]
+            },
+            "cutBox": {
+                "element": "CutBox",
+                "type": ["ref", "BoundingBox"]
+            },
+            "safeAreaBox": {
+                "element": "SafeAreaBox",
+                "type": ["ref", "BoundingBox"]
+            },
+            "rotationAngle": {
+                "element": "RotationAngle",
+                "type": "float"
+            },
+            "fontSubstitutionStrategy": {
+                "element": "FontSubstitutionStrategy",
+                "type": "string"
+            }
+        }
+    },
+    "TemplateUnits": {
+        "type": "\\MooPhp\\MooInterface\\Data\\Template\\Units",
+        "properties": {
+            "type": {
+                "attribute": "type",
+                "type": "string"
+            }
+        }
+    },
+    "TemplateOrigin": {
+        "type": "\\MooPhp\\MooInterface\\Data\\Template\\Origin",
+        "properties": {
+            "orientation": {
+                "attribute": "orientation",
+                "type": "string"
+            },
+            "offsetX": {
+                "attribute": "offsetX",
+                "type": "float"
+            },
+            "offsetY": {
+                "attribute": "offsetY",
+                "type": "float"
+            }
+        }
+    },
+    "PrintArea": {
+        "type": "\\MooPhp\\MooInterface\\Data\\Template\\PrintArea",
+        "properties": {
+            "width": {
+                "element": "Width",
+                "type": "float"
+            },
+            "height": {
+                "element": "Height",
+                "type": "float"
+            }
+        }
+    },
+    "Point": {
+        "type": "\\MooPhp\\MooInterface\\Data\\Types\\Point",
+        "properties": {
+            "x": {
+                "attribute": "x",
+                "type": "float"
+            },
+            "y": {
+                "attribute": "y",
+                "type": "float"
+            }
+        }
+    },
+    "Font": {
+        "type": "\\MooPhp\\MooInterface\\Data\\Types\\Font",
+        "properties": {
+            "family": {
+                "element": "Family",
+                "type": "string"
+            },
+            "bold": {
+                "element": "Bold",
+                "type": "bool"
+            },
+            "italic": {
+                "element": "Italic",
+                "type": "bool"
+            }
+        }
+    },
+    "Colour": {
+        "type": "\\MooPhp\\MooInterface\\Data\\Types\\Colour",
+        "discriminator": {
+            "type": "attribute",
+            "name": "type",
+            "property": "type",
+            "values": {
+                "RGB": "ColourRGB",
+                "CMYK": "ColourCMYK"
+            }
+        }
+    },
+    "ColourRGB": {
+        "type": "\\MooPhp\\MooInterface\\Data\\Types\\ColourRGB",
+        "properties": {
+            "r": {
+                "element": "Red",
+                "type": "int"
+            },
+            "g": {
+                "element": "Green",
+                "type": "int"
+            },
+            "b": {
+                "element": "Blue",
+                "type": "int"
+            }
+        }
+    },
+    "ColourCMYK": {
+        "type": "\\MooPhp\\MooInterface\\Data\\Types\\ColourCMYK",
+        "properties": {
+            "c": {
+                "element": "Cyan",
+                "type": "float"
+            },
+            "m": {
+                "element": "Magenta",
+                "type": "float"
+            },
+            "y": {
+                "element": "Yellow",
+                "type": "float"
+            },
+            "k": {
+                "element": "Black",
+                "type": "float"
+            }
+        }
+    },
+    "BoundingBox": {
+        "type": "\\MooPhp\\MooInterface\\Data\\Types\\BoundingBox",
+        "properties": {
+            "centre": {
+                "element": "Centre",
+                "type": ["ref", "Point"]
+            },
+            "width": {
+                "element": "Width",
+                "type": "float"
+            },
+            "height": {
+                "element": "Height",
+                "type": "float"
+            },
+            "angle": {
+                "element": "Angle",
+                "type": "float"
+            }
+
+        }
+    }
+}
+
