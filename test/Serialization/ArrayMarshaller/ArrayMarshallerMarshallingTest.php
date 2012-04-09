@@ -4,16 +4,17 @@
  * @author Jonathan Oddy <jonathan at woaf.net>
  * @copyright Copyright (c) 2011, Jonathan Oddy
  */
-namespace ArrayMarshallerTests;
+namespace ArrayMarshallerTests\Marshalling;
 
-require_once(__DIR__ . "/../../MooPhp/autoloader.php");
+require_once(__DIR__ . "/../../../MooPhp/autoloader.php");
 
-class ArrayMarshallerTest extends \PHPUnit_Framework_TestCase {
+class ArrayMarshallerMarshallingTest extends \PHPUnit_Framework_TestCase {
 
 
 	/**
 	 * @covers \MooPhp\Serialization\ArrayMarshaller::__construct
 	 * @covers \MooPhp\Serialization\ArrayMarshaller::marshall
+	 * @covers \MooPhp\Serialization\Marshaller
 	 * @expectedException \InvalidArgumentException
 	 */
 	public function testMarshalNonObject() {

@@ -161,7 +161,13 @@ class ArrayMarshaller implements Marshaller {
 	}
 
 	public function unmarshall($data, $ref) {
+		if (!is_array($data)) {
+			throw new \InvalidArgumentException("Got passed non array for unmarshalling of $ref");
+		}
 
+		if (!isset($this->_config[$ref])) {
+			throw new \RuntimeException("Cannot find config entry for $ref");
+		}
 		$entry = $this->_config[$ref];
 
 		$object = null;
@@ -195,8 +201,19 @@ class ArrayMarshaller implements Marshaller {
 				throw new \RuntimeException("Failed to create instance of " . $entry["type"] . " for $ref", 0, $e);
 			}
 		}
-
-		$objectReflector = new \ReflectionObject($object);
+		if (isset($entry["discriminator"])) {
+			$discriminatorConfig = $entry["discriminator"];
+			$subTypeKey = $discriminatorConfig["name"];
+			if (isset($data[$subTypeKey])) {
+				$subTypeName = $data[$subTypeKey];
+				$setter = "set" . ucfirst($discriminatorConfig["property"]);
+				try {
+					$this->_callSetter($object, $setter, $subTypeName);
+				} catch (\RuntimeException $e) {
+					throw new \RuntimeException("Error calling $setter while processing $ref");
+				}
+			}
+		}
 
 
 		if (!isset($entry["properties"])) {
@@ -217,12 +234,24 @@ class ArrayMarshaller implements Marshaller {
 				$unknownProperties[$key] = $value;
 			} else {
 				$setter = "set" . ucfirst($propertiesConfigNameTypeMap[$key][0]);
-				$refSetter = $objectReflector->getMethod($setter);
-				$refSetter->invoke($object, $this->_valueAsType($value, $propertiesConfigNameTypeMap[$key][1]));
+				try {
+					$this->_callSetter($object, $setter, $this->_valueAsType($value, $propertiesConfigNameTypeMap[$key][1]));
+				} catch (\RuntimeException $e) {
+					throw new \RuntimeException("Error calling $setter while processing $ref");
+				}
 			}
 		}
 
 		return $object;
 	}
-}
 
+	private function _callSetter($object, $setter, $value) {
+		if (is_callable(array($object, $setter))) {
+			// Might be a __call function. Try it and see what happens.
+			call_user_method($setter, $object, $value);
+		} else {
+			throw new \RuntimeException("Unable to call $setter on object");
+		}
+	}
+
+}
