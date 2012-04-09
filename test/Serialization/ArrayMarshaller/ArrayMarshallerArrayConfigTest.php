@@ -12,6 +12,10 @@ require_once(__DIR__ . "/../../TestInit.php");
  */
 
 class ArrayMarshallerArrayConfigTest extends \PHPUnit_Framework_TestCase {
+
+	/**
+	 * @covers \MooPhp\Serialization\ArrayConfigBaseConfig
+	 */
 	public function testUnmarshallSimpleConfig() {
 
 		$config = array("config" => array(

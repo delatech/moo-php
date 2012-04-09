@@ -20,6 +20,11 @@ require_once(__DIR__ . "/../../TestInit.php");
 
 class ArrayMarshallerUnmarshallingTest extends \PHPUnit_Framework_TestCase {
 
+	/**
+	 * @param $config
+	 * @return \MooPhp\Serialization\ArrayMarshaller
+	 * @covers
+	 */
 	protected function _getMarshaller($config) {
 		$configurator = new \MooPhp\Serialization\ArrayConfigBaseConfig();
 		$marshaller = new \MooPhp\Serialization\ArrayMarshaller($configurator->getConfig());
@@ -768,19 +773,29 @@ class ArrayMarshallerUnmarshallingTest extends \PHPUnit_Framework_TestCase {
 				"type" => __NAMESPACE__ . '\DummyConstructor',
 				"properties" => array(
 					"goats" => array(
-						"name" => "geets",
+						"options" => array(
+							"array" => array(
+								"options" => array(
+									"name" => "geets"
+								)
+							)
+						),
 						"type" => "string"
 					),
 					"stoats" => array(
-						"name" => "stoats",
 						"type" => "int"
 					),
 					"boats" => array(
-						"name" => "boats",
 						"type" => "float"
 					),
 					"groats" => array(
-						"name" => "goats",
+						"options" => array(
+							"array" => array(
+								"options" => array(
+									"name" => "goats"
+								)
+							)
+						),
 						"type" => "bool"
 					),
 				),

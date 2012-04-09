@@ -21,7 +21,13 @@ class ConfigElement extends ConfigBaseType {
 	/**
 	 * @var \MooPhp\Serialization\Config\ElementDiscriminator
 	 */
-	protected $_discriminator = array();
+	protected $_discriminator;
+
+
+	/**
+	 * @var string[]
+	 */
+	protected $_constructorArgs = array();
 
 
 	public function setProperties($properties) {
@@ -81,5 +87,14 @@ class ConfigElement extends ConfigBaseType {
 	 */
 	public function getDiscriminator() {
 		return $this->_discriminator;
+	}
+
+	public function setConstructorArgs($constructorArgs) {
+		$this->_constructorArgs = $constructorArgs;
+		return $this;
+	}
+
+	public function getConstructorArgs() {
+		return $this->_constructorArgs;
 	}
 }

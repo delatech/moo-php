@@ -188,14 +188,20 @@ class ArrayMarshaller implements Marshaller {
 		$constructorArgConfig = array();
 		if (!isset($object)) {
 			$args = array();
-		/*	if (isset($entry["constructorArgs"])) {
-				foreach ($entry["constructorArgs"] as $argName) {
-					$argConfig = $entry["properties"][$argName];
-					$constructorArgConfig[$argName] = $argConfig;
-					$value = isset($data[$argConfig["name"]]) ? $data[$argConfig["name"]] : null;
-					$args[] = $this->_valueAsType($value, $argConfig["type"]);
+			foreach ($entry->getConstructorArgs() as $argName) {
+				$argConfig = $entry->getProperty($argName);
+				$constructorArgConfig[$argName] = $argConfig;
+
+				$name = $argName;
+				if ($options = $argConfig->getOption("array")) {
+					if ($options->getOption("name")) {
+						$name = $options->getOption("name");
+					}
 				}
-			}*/
+
+				$value = isset($data[$name]) ? $data[$name] : null;
+				$args[] = $this->_valueAsType($value, $argConfig);
+			}
 			try {
 				$classReflector = new \ReflectionClass($entry->getType());
 				$object = $classReflector->newInstanceArgs($args);

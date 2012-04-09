@@ -54,6 +54,7 @@ class ArrayConfigBaseConfig {
 		$root->setProperty("properties", new Types\ArrayType(new Types\StringType(), new Types\RefType("PropertyType")));
 		$root->setProperty("discriminator", (new Types\RefType("ElementDiscriminator")));
 		$root->setProperty("options", (new Types\ArrayType(new Types\StringType(), new Types\RefType("SerializerSpecificOptions"))));
+		$root->setProperty("constructorArgs", new Types\ArrayType(new Types\IntType(), new Types\StringType()));
 
 		return $root;
 	}
