@@ -21,7 +21,7 @@ class Api implements MooInterface\MooApi {
 	public function __construct(Client\Client $client) {
 		$this->_client = $client;
 		// TODO: caching of the configs
-		$this->_marshaller = new Serialization\ArrayMarshaller(json_decode(file_get_contents(__DIR__ . "/Serialization/ArrayMarshallingConfig.json"), true));
+		$this->_marshaller = new Serialization\ArrayMarshaller(Serialization\ArrayConfigBaseConfig::getParsedConfig(__DIR__ . "/Serialization/MarshallingConfig.json"));
 		$this->_templateMarshaller = new Serialization\XmlMarshaller(json_decode(file_get_contents(__DIR__ . "/Serialization/XmlMarshallingConfig.json"), true));
 	}
 

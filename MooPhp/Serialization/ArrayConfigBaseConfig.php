@@ -145,4 +145,10 @@ class ArrayConfigBaseConfig {
 	}
 
 
+	public static function getParsedConfig($configFile) {
+		$configuration = new ArrayConfigBaseConfig();
+		$marshaller = new ArrayMarshaller($configuration->getConfig());
+		return $marshaller->unmarshall(json_decode(file_get_contents($configFile), true), "Root");
+	}
+
 }

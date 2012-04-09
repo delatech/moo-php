@@ -11,7 +11,7 @@ class ConfigBaseType {
 	/**
 	 * @var \MooPhp\Serialization\Config\SerializerSpecificOptions[]
 	 */
-	protected $_options = array();
+	protected $_options = null;
 
 	public function setOptions($serializerSpecificOptions) {
 		$this->_options = $serializerSpecificOptions;
@@ -27,7 +27,7 @@ class ConfigBaseType {
 	 * @return \MooPhp\Serialization\Config\SerializerSpecificOptions
 	 */
 	public function getOption($name) {
-		if (!isset($this->_options[$name])) {
+		if (!isset($this->_options) || !isset($this->_options[$name])) {
 			return null;
 		}
 		return $this->_options[$name];
@@ -40,6 +40,9 @@ class ConfigBaseType {
 	 * @return \MooPhp\Serialization\Config\ConfigBaseType
 	 */
 	public function setOption($name, $options) {
+		if (!isset($this->_options)) {
+			$this->_options = array();
+		}
 		$this->_options[$name] = $options;
 		return $this;
 	}

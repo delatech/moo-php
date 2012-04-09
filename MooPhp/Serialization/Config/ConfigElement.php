@@ -16,7 +16,7 @@ class ConfigElement extends ConfigBaseType {
 	/**
 	 * @var \MooPhp\Serialization\Config\Types\PropertyType[]
 	 */
-	protected $_properties = array();
+	protected $_properties;
 
 	/**
 	 * @var \MooPhp\Serialization\Config\ElementDiscriminator
@@ -27,7 +27,7 @@ class ConfigElement extends ConfigBaseType {
 	/**
 	 * @var string[]
 	 */
-	protected $_constructorArgs = array();
+	protected $_constructorArgs;
 
 
 	public function setProperties($properties) {
@@ -45,6 +45,9 @@ class ConfigElement extends ConfigBaseType {
 	 * @return \MooPhp\Serialization\Config\ConfigElement
 	 */
 	public function setProperty($name, $property) {
+		if (!isset($this->_properties)) {
+			$this->_properties = array();
+		}
 		$this->_properties[$name] = $property;
 		return $this;
 	}
@@ -54,6 +57,9 @@ class ConfigElement extends ConfigBaseType {
 	 * @return \MooPhp\Serialization\Config\Types\PropertyType
 	 */
 	public function getProperty($name) {
+		if (!isset($this->_properties) || !isset($this->_properties[$name])) {
+			return null;
+		}
 		return $this->_properties[$name];
 	}
 

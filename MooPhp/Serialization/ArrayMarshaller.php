@@ -108,23 +108,25 @@ class ArrayMarshaller implements Marshaller {
 		}
 		*/
 		$marshalled = array();
-		foreach ($entry->getProperties() as $property => $details) {
-			$getter = "get" . ucfirst($property);
-			try {
-				$refGetter = $reflector->getMethod($getter);
-				$propertyValue = $refGetter->invoke($object);
-			} catch (\Exception $e) {
-				throw new \RuntimeException("Unable to call getter $getter for $ref", 0, $e);
-			}
-			$outputName = $property;
-			if ($options = $details->getOption("array")) {
-				if ($options->getOption("name")) {
-					$outputName = $options->getOption("name");
+		if ($entry->getProperties()) {
+			foreach ($entry->getProperties() as $property => $details) {
+				$getter = "get" . ucfirst($property);
+				try {
+					$refGetter = $reflector->getMethod($getter);
+					$propertyValue = $refGetter->invoke($object);
+				} catch (\Exception $e) {
+					throw new \RuntimeException("Unable to call getter $getter for $ref", 0, $e);
 				}
-			}
-			$value = $this->_propertyAsType($propertyValue, $details);
-			if (isset($value)) {
-				$marshalled[$outputName] = $value;
+				$outputName = $property;
+				if ($options = $details->getOption("array")) {
+					if ($options->getOption("name")) {
+						$outputName = $options->getOption("name");
+					}
+				}
+				$value = $this->_propertyAsType($propertyValue, $details);
+				if (isset($value)) {
+					$marshalled[$outputName] = $value;
+				}
 			}
 		}
 
@@ -190,19 +192,21 @@ class ArrayMarshaller implements Marshaller {
 		$constructorArgConfig = array();
 		if (!isset($object)) {
 			$args = array();
-			foreach ($entry->getConstructorArgs() as $argName) {
-				$argConfig = $entry->getProperty($argName);
-				$constructorArgConfig[$argName] = $argConfig;
+			if ($entry->getConstructorArgs()) {
+				foreach ($entry->getConstructorArgs() as $argName) {
+					$argConfig = $entry->getProperty($argName);
+					$constructorArgConfig[$argName] = $argConfig;
 
-				$name = $argName;
-				if ($options = $argConfig->getOption("array")) {
-					if ($options->getOption("name")) {
-						$name = $options->getOption("name");
+					$name = $argName;
+					if ($options = $argConfig->getOption("array")) {
+						if ($options->getOption("name")) {
+							$name = $options->getOption("name");
+						}
 					}
-				}
 
-				$value = isset($data[$name]) ? $data[$name] : null;
-				$args[] = $this->_valueAsType($value, $argConfig);
+					$value = isset($data[$name]) ? $data[$name] : null;
+					$args[] = $this->_valueAsType($value, $argConfig);
+				}
 			}
 			try {
 				$classReflector = new \ReflectionClass($entry->getType());
@@ -231,18 +235,20 @@ class ArrayMarshaller implements Marshaller {
 
 
 		$propertiesConfigNameTypeMap = array();
-		foreach ($entry->getProperties() as $property => $details) {
-			if (isset($constructorArgConfig[$property])) {
-				// No need to look it up if it was a constructor arg
-				continue;
-			}
-			$name = $property;
-			if ($options = $details->getOption("array")) {
-				if ($options->getOption("name")) {
-					$name = $options->getOption("name");
+		if ($entry->getProperties()) {
+			foreach ($entry->getProperties() as $property => $details) {
+				if (isset($constructorArgConfig[$property])) {
+					// No need to look it up if it was a constructor arg
+					continue;
 				}
+				$name = $property;
+				if ($options = $details->getOption("array")) {
+					if ($options->getOption("name")) {
+						$name = $options->getOption("name");
+					}
+				}
+				$propertiesConfigNameTypeMap[$name] = array($property, $details);
 			}
-			$propertiesConfigNameTypeMap[$name] = array($property, $details);
 		}
 
 		$unknownProperties = array();
