@@ -7,6 +7,10 @@ and template models.
 This is a very early stage implementation, I've released it because I've got to the point where I feel it's usable, and
 could do with more eyes on it.
 
+This is one developer's crazed thrashings after consuming one too many cups of tea over a long weekend. It is in no way,
+shape, or form derived from any internal stuff at Moo, or representative of anything that might happen at Moo. It is not
+supported by Moo. Blah, blah, etc. Basically, if it explodes, don't contact Moo.
+
 Usage
 -----
 There's an example called packManipulator.php in the examples directory. It sets up the API client and creates a
@@ -34,7 +38,7 @@ The implementations currently provided are \MooPhp\Client\OAuthSigningClient, an
 The methods on Api will return the relevant MooInterface\Response objects, except getTemplate which is magical and
 speshul: that'll return a Template object.
 
-The above example makes use of 2-legged OAuth, which should be fine for most usecases. If you need 3-legged you need
+The above example makes use of 2-legged OAuth, which should be fine for most use-cases. If you need 3-legged you need
 to jump through a load of hoops which are documented in the packManipulator.
 
 Design
@@ -106,7 +110,7 @@ But what about TDD? How could you do such a thing? OH THE HUMANITY!
 Will there be tests?
 > Yes. Yes there will. They'll almost certainly find this is a buggy heap of s**t.
 
-All these questions are about tests. Are you embarassed about the lack of them?
+All these questions are about tests. Are you embarrassed about the lack of them?
 > Yes. Very. You know how, as a sysadmin, you'd never consider not having working off-site backups of every machine
 > you're responsible for... but your machines at home have never been backed up. It's a lot like that.
 
