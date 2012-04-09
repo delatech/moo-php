@@ -248,7 +248,7 @@ class ArrayMarshaller implements Marshaller {
 	private function _callSetter($object, $setter, $value) {
 		if (is_callable(array($object, $setter))) {
 			// Might be a __call function. Try it and see what happens.
-			call_user_method($setter, $object, $value);
+			call_user_func(array($object, $setter), $value);
 		} else {
 			throw new \RuntimeException("Unable to call $setter on object");
 		}

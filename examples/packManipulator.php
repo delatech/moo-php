@@ -10,6 +10,10 @@ use \MooPhp\MooInterface\Data as Data;
  * @copyright Copyright (c) 2011, Jonathan Oddy
  */
 
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 require(dirname(__FILE__) . '/../MooPhp/autoloader.php');
 
 $opts = getopt("k:s:");
@@ -21,7 +25,10 @@ if (!isset($opts["k"]) || !isset($opts['s'])) {
 $key = $opts['k'];
 $secret = $opts['s'];
 
-$client = new \MooPhp\Client\OAuthSigningClient($key, $secret, new \MooPhp\Client\FileLogger());
+$logger = new \MooPhp\Client\FileLogger();
+$logger->setLogLevel(\MooPhp\Client\Logger::LOG_LEVEL_DEBUG);
+
+$client = new \MooPhp\Client\OAuthSigningClient($key, $secret, $logger);
 
 /*
 // If we want to do three legged we'd need to jump about a bit
@@ -38,9 +45,6 @@ fgets(STDIN);
 // Then get an access token and you're done:
 $client->getAccessToken();
 */
-
-error_reporting(E_ALL);
-ini_set('display.errors', 1);
 
 $api = new \MooPhp\Api($client);
 

@@ -6,7 +6,7 @@
  */
 namespace ArrayMarshallerTests\Marshalling;
 
-require_once(__DIR__ . "/../../../MooPhp/autoloader.php");
+require_once(__DIR__ . "/../../TestInit.php");
 
 class ArrayMarshallerMarshallingTest extends \PHPUnit_Framework_TestCase {
 

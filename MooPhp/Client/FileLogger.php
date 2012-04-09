@@ -13,7 +13,7 @@ class FileLogger implements Logger {
 
 	public function __construct($logFile = null) {
 		if (!isset($logFile)) {
-			$this->_logFile = STDERR;
+			$this->_logFile = 'php://stderr';
 		} else {
 			$this->_logFile = $logFile;
 		}
@@ -25,7 +25,7 @@ class FileLogger implements Logger {
 
 	public function logDebug($entry) {
 		if ($this->_logLevel >= self::LOG_LEVEL_DEBUG) {
-			error_log($entry, $this->_logFile);
+			error_log($entry . "\n", 3, $this->_logFile);
 		}
 	}
 
