@@ -8,51 +8,47 @@ namespace MooPhp\Serialization;
 
 class XmlMarshaller implements Marshaller {
 
+	/**
+	 * @var \MooPhp\Serialization\Config\MarshallerConfig
+	 */
 	private $_config;
 
-	public function __construct(array $configArray) {
-		$this->_config = $configArray;
+	public function __construct(Config\MarshallerConfig $config) {
+		$this->_config = $config;
 	}
 
-	protected function _simpleValueAsType($value, $type) {
+	protected function _simpleValueAsType($value, Config\Types\PropertyType $type) {
 		if (!isset($value)) {
 			return null;
 		}
 
-		if (is_array($type)) {
-			throw new \RuntimeException("Complex types not supported for simple values");
-		} else {
-			switch ($type) {
-				case "string":
-					return (string)$value;
-					break;
-				case "int":
-					return (int)$value;
-					break;
-				case "bool":
-					return (bool)$value;
-					break;
-				case "float":
-					return (float)$value;
-					break;
-			}
+		switch ($type->getType()) {
+			case "string":
+				return (string)$value;
+			case "int":
+				return (int)$value;
+			case "bool":
+				return (bool)$value;
+			case "float":
+				return (float)$value;
+			case "array":
+			case "ref":
+				throw new \RuntimeException("Complex types not supported for simple values");
+			default:
+				throw new \RuntimeException("Unknown type " . $type->getType());
 		}
-		throw new \RuntimeException("Failed");
 	}
 
-	protected function _elementAsType(\XMLReader $xmlReader, $type) {
-		if (is_array($type)) {
-			// Complex type
-			list($realType, $typeConfig) = $type;
-
-			if ($realType == "ref") {
-				return $this->_unmarshall($xmlReader, $typeConfig);
-			} elseif ($realType == "array") {
+	protected function _elementAsType(\XMLReader $xmlReader, Config\Types\PropertyType $type) {
+		switch ($type->getType()) {
+			case "ref":
+				return $this->_unmarshall($xmlReader, $type->getRef());
+			case "array":
 				$data = array();
 				while ($xmlReader->read()) {
 					switch ($xmlReader->nodeType) {
 						case \XMLReader::ELEMENT:
-							$data[] = $this->_elementAsType($xmlReader, $typeConfig);
+							$data[] = $this->_elementAsType($xmlReader, $type->getValue());
 							break;
 						case \XMLReader::END_ELEMENT:
 							$xmlReader->next();
@@ -65,16 +61,18 @@ class XmlMarshaller implements Marshaller {
 							throw new \RuntimeException("Found node of type " . $xmlReader->nodeType . " named " . $xmlReader->name . " of value " . $xmlReader->readString());
 					}
 				}
-				throw new \RuntimeException("Array never ended");
-			} else {
-				throw new \RuntimeException("I do not understand configured type $realType");
-			}
+				throw new \RuntimeException("Array processing readed an END_ELEMENT");
 
-		} else {
-			$data = $xmlReader->readInnerXml();
-			$ret = $this->_simpleValueAsType($data, $type);
-			$xmlReader->next();
-			return $ret;
+			case "string":
+			case "int":
+			case "float":
+			case "bool":
+				$data = $xmlReader->readInnerXml();
+				$ret = $this->_simpleValueAsType($data, $type);
+				$xmlReader->next();
+				return $ret;
+			default:
+				throw new \RuntimeException("Unknown type " . $type->getType());
 		}
 	}
 
@@ -95,10 +93,20 @@ class XmlMarshaller implements Marshaller {
 	public function unmarshall($data, $ref) {
 		$xmlReader = new \XMLReader();
 		$xmlReader->XML($data);
-		$xmlReader->read();
+
+		$ignoreNodeTypes = array(
+			\XMLReader::WHITESPACE,
+			\XMLReader::SIGNIFICANT_WHITESPACE,
+			\XMLReader::COMMENT
+		);
+
+		do {
+			$read = $xmlReader->read();
+		} while ($read && in_array($xmlReader->nodeType, $ignoreNodeTypes));
+
 		if($xmlReader->nodeType != \XMLReader::ELEMENT) {
 			$xmlReader->close();
-			throw new \RuntimeException("It has all gone horribly wrong");
+			throw new \RuntimeException("First thing I read was not an element.");
 		}
 		$retval = $this->_unmarshall($xmlReader, $ref);
 		$xmlReader->close();
@@ -107,51 +115,76 @@ class XmlMarshaller implements Marshaller {
 
 	protected function _unmarshall(\XMLReader $xmlReader, $ref) {
 
+		$currentConfig = $this->_config->getConfigElement($ref);
+		if (!isset($currentConfig)) {
+			throw new \RuntimeException("Cannot find config entry for $ref");
+		}
 
 		$attributes = array();
 		$elements = array();
 
-		$currentConfig = $this->_config[$ref];
 		do {
 			// We need to build up the full properties list, and our actual type, from the children.
-			$type = $currentConfig["type"];
-			if (isset($currentConfig["properties"])) {
-				$properties = $currentConfig["properties"];
-			} else {
-				$properties = array();
-			}
-			if (!isset($type)) {
+			$objectType = $currentConfig->getType();
+			if (!isset($objectType)) {
 				throw new \RuntimeException("Config file error for $ref");
 			}
 
-			foreach ($properties as $property => $details) {
-				if (isset($details["element"])) {
-					$elements[$details["element"]] = array($property, $details["type"]);
-				} elseif (isset($details["attribute"])) {
-					$attributes[$details["attribute"]] = array($property, $details["type"]);
-				} else {
-					throw new \RuntimeException("Invalid config for $property");
+			if ($currentConfig->getProperties()) {
+				foreach ($currentConfig->getProperties() as $property => $details) {
+					$type = "element";
+					$name = $property;
+					if ($options = $details->getOption("xml")) {
+						if ($altType = $options->getOption("type")) {
+							$type = $altType;
+						}
+						if ($altName = $options->getOption("name")) {
+							$name = $altName;
+						}
+					}
+					switch ($type) {
+						case "element":
+							$elements[$name] = array($property, $details);
+							break;
+						case "attribute":
+							$attributes[$name] = array($property, $details);
+							break;
+						default:
+							throw new \RuntimeException("Invalid config for $property");
+					}
 				}
 			}
 
-			if (isset($currentConfig["discriminator"])) {
-				$discriminatorConfig = $currentConfig["discriminator"];
+			if ($currentConfig->getDiscriminator()) {
+				$discriminatorConfig = $currentConfig->getDiscriminator();
 
-				if ($discriminatorConfig["type"] == "attribute") {
-					$subTypeKey = $discriminatorConfig["name"];
-					$subTypeName = $xmlReader->getAttribute($subTypeKey);
-				} elseif ($discriminatorConfig["type"] == "element") {
-					$subTypeName = $xmlReader->name;
-				} else {
-					throw new \RuntimeException("Invalid discriminator type");
+				$type = "element";
+				$name = $discriminatorConfig->getProperty();
+				if ($options = $discriminatorConfig->getOption("xml")) {
+					if ($altType = $options->getOption("type")) {
+						$type = $altType;
+					}
+					if ($altName = $options->getOption("name")) {
+						$name = $altName;
+					}
+				}
+				switch ($type) {
+					case "attribute":
+						$subTypeName = $xmlReader->getAttribute($name);
+						break;
+					case "element":
+						$subTypeName = $xmlReader->name;
+						break;
+					default:
+						throw new \RuntimeException("Invalid config for discriminator in $ref");
 				}
 				if (!isset($subTypeName)) {
 					throw new \RuntimeException("Unable to find discriminator value");
 				}
-				if (isset($discriminatorConfig["values"][$subTypeName])) {
+				if ($discriminatorConfig->getValue($subTypeName)) {
 					// OK, there's a more specific type for us.
-					$ref = $discriminatorConfig["values"][$subTypeName];
-					$currentConfig = $this->_config[$ref];
+					$ref = $discriminatorConfig->getValue($subTypeName);
+					$currentConfig = $this->_config->getConfigElement($ref);
 				}
 
 			} else {
@@ -161,7 +194,7 @@ class XmlMarshaller implements Marshaller {
 		} while (isset($currentConfig));
 
 		try {
-			$classReflector = new \ReflectionClass($type);
+			$classReflector = new \ReflectionClass($objectType);
 		} catch (\Exception $e) {
 			throw new \RuntimeException("Unable to instantiate class of " . $type ." for " . $ref, 0, $e);
 		}

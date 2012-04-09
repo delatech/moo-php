@@ -10,6 +10,15 @@ require_once(__DIR__ . "/../../TestInit.php");
 
 class ArrayMarshallerMarshallingTest extends \PHPUnit_Framework_TestCase {
 
+	/**
+	 * @param $config
+	 * @return \MooPhp\Serialization\ArrayMarshaller
+	 */
+	protected function _getMarshaller($config) {
+		$configurator = new \MooPhp\Serialization\ArrayConfigBaseConfig();
+		$marshaller = new \MooPhp\Serialization\ArrayMarshaller($configurator->getConfig());
+		return new \MooPhp\Serialization\ArrayMarshaller($marshaller->unmarshall(array("config" => $config), "Root"));
+	}
 
 	/**
 	 * @covers \MooPhp\Serialization\ArrayMarshaller::__construct
@@ -22,7 +31,7 @@ class ArrayMarshallerMarshallingTest extends \PHPUnit_Framework_TestCase {
 
 		);
 
-		$marshaller = new \MooPhp\Serialization\ArrayMarshaller($config);
+		$marshaller = $this->_getMarshaller($config);
 		$marshaller->marshall("hello", "Test");
 
 	}
@@ -37,7 +46,7 @@ class ArrayMarshallerMarshallingTest extends \PHPUnit_Framework_TestCase {
 
 		);
 
-		$marshaller = new \MooPhp\Serialization\ArrayMarshaller($config);
+		$marshaller = $this->_getMarshaller($config);
 		$marshaller->marshall(new DummyClassA(), "Test");
 
 	}
@@ -55,7 +64,6 @@ class ArrayMarshallerMarshallingTest extends \PHPUnit_Framework_TestCase {
 				"type" => 'DummyClassA',
 				"properties" => array(
 					"goats" => array(
-						"name" => "geets",
 						"type" => "giraffe"
 					)
 				)
@@ -66,40 +74,7 @@ class ArrayMarshallerMarshallingTest extends \PHPUnit_Framework_TestCase {
 
 		$mock->expects($this->once())->method('getGoats')->will($this->returnValue("baa"));
 
-		$marshaller = new \MooPhp\Serialization\ArrayMarshaller($config);
-
-		$marshaller->marshall($mock, "DummyClassA");
-
-	}
-
-	/**
-	 * @covers \MooPhp\Serialization\ArrayMarshaller::__construct
-	 * @covers \MooPhp\Serialization\ArrayMarshaller::marshall
-	 * @covers \MooPhp\Serialization\ArrayMarshaller::_propertyAsType
-	 * @expectedException \RuntimeException
-	 */
-	public function testMarshallBadComplexTypeConfig() {
-
-		$config = array(
-			"DummyClassA" => array(
-				"type" => 'DummyClassA',
-				"properties" => array(
-					"goats" => array(
-						"name" => "geets",
-						"type" => array(
-							"giraffe",
-							"hrhr"
-						)
-					)
-				)
-			)
-		);
-
-		$mock = $this->getMock('DummyClassA', array('getGoats'));
-
-		$mock->expects($this->once())->method('getGoats')->will($this->returnValue("baa"));
-
-		$marshaller = new \MooPhp\Serialization\ArrayMarshaller($config);
+		$marshaller = $this->_getMarshaller($config);
 
 		$marshaller->marshall($mock, "DummyClassA");
 
@@ -118,7 +93,6 @@ class ArrayMarshallerMarshallingTest extends \PHPUnit_Framework_TestCase {
 				"type" => 'DummyClassA',
 				"properties" => array(
 					"goats" => array(
-						"name" => "geets",
 						"type" => "string"
 					)
 				)
@@ -127,7 +101,7 @@ class ArrayMarshallerMarshallingTest extends \PHPUnit_Framework_TestCase {
 
 		$mock = $this->getMock('DummyClassA', array());
 
-		$marshaller = new \MooPhp\Serialization\ArrayMarshaller($config);
+		$marshaller = $this->_getMarshaller($config);
 
 		$marshaller->marshall($mock, "DummyClassA");
 
@@ -145,19 +119,29 @@ class ArrayMarshallerMarshallingTest extends \PHPUnit_Framework_TestCase {
 				"type" => 'DummyClassA',
 				"properties" => array(
 					"goats" => array(
-						"name" => "geets",
+						"options" => array(
+							"array" => array(
+								"options" => array(
+									"name" => "geets"
+								)
+							)
+						),
 						"type" => "string"
 					),
 					"stoats" => array(
-						"name" => "stoats",
 						"type" => "int"
 					),
 					"boats" => array(
-						"name" => "boats",
 						"type" => "float"
 					),
 					"groats" => array(
-						"name" => "goats",
+						"options" => array(
+							"array" => array(
+								"options" => array(
+									"name" => "goats"
+								)
+							)
+						),
 						"type" => "bool"
 					),
 				)
@@ -171,7 +155,7 @@ class ArrayMarshallerMarshallingTest extends \PHPUnit_Framework_TestCase {
 		$mock->expects($this->once())->method('getBoats')->will($this->returnValue(5.1));
 		$mock->expects($this->once())->method('getGroats')->will($this->returnValue(false));
 
-		$marshaller = new \MooPhp\Serialization\ArrayMarshaller($config);
+		$marshaller = $this->_getMarshaller($config);
 
 		$marshalled = $marshaller->marshall($mock, "DummyClassA");
 
@@ -198,44 +182,24 @@ class ArrayMarshallerMarshallingTest extends \PHPUnit_Framework_TestCase {
 				"type" => 'DummyClassA',
 				"properties" => array(
 					"goats" => array(
-						"name" => "geets",
-						"type" => array(
-							"array",
-							array(
-								"key" => "int",
-								"value" => "string"
-							)
-						)
+						"type" => "array",
+						"key" => array("type" => "int"),
+						"value" => array("type" => "string")
 					),
 					"stoats" => array(
-						"name" => "stoats",
-						"type" => array(
-							"array",
-							array(
-								"key" => "int",
-								"value" => "int"
-							)
-						)
+						"type" => "array",
+						"key" => array("type" => "int"),
+						"value" => array("type" => "int")
 					),
 					"boats" => array(
-						"name" => "boats",
-						"type" => array(
-							"array",
-							array(
-								"key" => "string",
-								"value" => "float"
-							)
-						)
+						"type" => "array",
+						"key" => array("type" => "string"),
+						"value" => array("type" => "float")
 					),
 					"groats" => array(
-						"name" => "goats",
-						"type" => array(
-							"array",
-							array(
-								"key" => "int",
-								"value" => "bool"
-							)
-						)
+						"type" => "array",
+						"key" => array("type" => "int"),
+						"value" => array("type" => "bool")
 					)
 				)
 			)
@@ -248,15 +212,15 @@ class ArrayMarshallerMarshallingTest extends \PHPUnit_Framework_TestCase {
 		$mock->expects($this->once())->method('getBoats')->will($this->returnValue(array("arr" => 1.1, "pirates" => 6.1)));
 		$mock->expects($this->once())->method('getGroats')->will($this->returnValue(array(true, false, true, true, false)));
 
-		$marshaller = new \MooPhp\Serialization\ArrayMarshaller($config);
+		$marshaller = $this->_getMarshaller($config);
 
 		$marshalled = $marshaller->marshall($mock, "DummyClassA");
 
 		$expected = array(
-			"geets" => array(0 => "baa", 1 => "bar", 2 => "fishpaste wobble"),
+			"goats" => array(0 => "baa", 1 => "bar", 2 => "fishpaste wobble"),
 			"stoats" => array(9 => 1, 2 => 7, 378 => 9, 44 => 8),
 			"boats" => array("arr" => 1.1, "pirates" => 6.1),
-			"goats" => array(0 => true, 1 => false, 2 => true, 3 => true, 4 => false),
+			"groats" => array(0 => true, 1 => false, 2 => true, 3 => true, 4 => false),
 		);
 
 
@@ -276,56 +240,34 @@ class ArrayMarshallerMarshallingTest extends \PHPUnit_Framework_TestCase {
 				"type" => 'DummyClassA',
 				"properties" => array(
 					"goats" => array(
-						"name" => "geets",
-						"type" => array(
-							"array",
-							array(
-								"key" => "int",
-								"value" => array(
-									"array",
-									array(
-										"key" => "string",
-										"value" => "string"
-									)
-								)
-							)
+						"type" => "array",
+						"key" => array("type" => "int"),
+						"value" => array(
+							"type" => "array",
+							"key" => array("type" => "string"),
+							"value" => array("type" => "string")
 						)
 					),
 					"stoats" => array(
-						"name" => "stoats",
-						"type" => array(
-							"array",
-							array(
-								"key" => "string",
-								"value" => array(
-									"array",
-									array(
-										"key" => "string",
-										"value" => array(
-											"array",
-											array (
-												"key" => "int",
-												"value" => "string"
-											)
-										)
-									)
-								)
+						"type" => "array",
+						"key" => array("type" => "string"),
+						"value" => array(
+							"type" => "array",
+							"key" => array("type" => "string"),
+							"value" => array(
+								"type" => "array",
+								"key" => array("type" => "int"),
+								"value" => array("type" => "string")
 							)
 						)
 					),
 					"boats" => array(
-						"name" => "boats",
 						"type" => "string"
 					),
 					"groats" => array(
-						"name" => "goats",
-						"type" => array(
-							"array",
-							array(
-								"key" => "int",
-								"value" => "bool"
-							)
-						)
+						"type" => "array",
+						"key" => array("type" => "int"),
+						"value" => array("type" => "bool")
 					)
 				)
 			)
@@ -350,12 +292,12 @@ class ArrayMarshallerMarshallingTest extends \PHPUnit_Framework_TestCase {
 		$mock->expects($this->once())->method('getBoats')->will($this->returnValue("bloop"));
 		$mock->expects($this->once())->method('getGroats')->will($this->returnValue(array(true, false, true, true, false)));
 
-		$marshaller = new \MooPhp\Serialization\ArrayMarshaller($config);
+		$marshaller = $this->_getMarshaller($config);
 
 		$marshalled = $marshaller->marshall($mock, "DummyClassA");
 
 		$expected = array(
-			"geets" =>
+			"goats" =>
 				array(
 					0 => array("baa" => "moo", "fish" => "wobble"),
 					1 => array("florp" => "stoat", "goat" => "fork")
@@ -366,7 +308,7 @@ class ArrayMarshallerMarshallingTest extends \PHPUnit_Framework_TestCase {
 					"oof" => array("blap" => array(0 => "woo"), "barp" => array(6 => "oof"))
 				),
 			"boats" => "bloop",
-			"goats" => array(0 => true, 1 => false, 2 => true, 3 => true, 4 => false),
+			"groats" => array(0 => true, 1 => false, 2 => true, 3 => true, 4 => false),
 		);
 
 
@@ -386,25 +328,17 @@ class ArrayMarshallerMarshallingTest extends \PHPUnit_Framework_TestCase {
 				"type" => 'DummyClassA',
 				"properties" => array(
 					"goats" => array(
-						"name" => "goats",
 						"type" => "string"
 					),
 					"snorks" => array(
-						"name" => "snorks",
-						"type" => array(
-							"ref",
-							"DummyClassC"
-						)
+						"type" => "ref",
+						"ref" => "DummyClassC"
 					),
 					"notes" => array(
-						"name" => "notes",
-						"type" => array(
-							"ref",
-							"DummyClassB"
-						)
+						"type" => "ref",
+						"ref" => "DummyClassB"
 					),
 					"groats" => array(
-						"name" => "groats",
 						"type" => "bool"
 					),
 				)
@@ -413,15 +347,11 @@ class ArrayMarshallerMarshallingTest extends \PHPUnit_Framework_TestCase {
 				"type" => "DummyClassB",
 				"properties" => array(
 					"flibble" => array(
-						"name" => "flibble",
 						"type" => "string"
 					),
 					"flobble" => array(
-						"name" => "flobble",
-						"type" => array(
-							"ref",
-							"DummyClassD"
-						)
+						"type" => "ref",
+						"ref" => "DummyClassD"
 					)
 				)
 			),
@@ -432,7 +362,6 @@ class ArrayMarshallerMarshallingTest extends \PHPUnit_Framework_TestCase {
 				"type" => "DummyClassD",
 				"properties" => array(
 					"arfArf" => array(
-						"name" => "arfArf",
 						"type" => "string"
 					)
 				)
@@ -454,7 +383,7 @@ class ArrayMarshallerMarshallingTest extends \PHPUnit_Framework_TestCase {
 		$mock->expects($this->once())->method('getNotes')->will($this->returnValue($mockB));
 		$mock->expects($this->once())->method('getGroats')->will($this->returnValue(false));
 
-		$marshaller = new \MooPhp\Serialization\ArrayMarshaller($config);
+		$marshaller = $this->_getMarshaller($config);
 
 		$marshalled = $marshaller->marshall($mock, "DummyClassA");
 
@@ -486,25 +415,17 @@ class ArrayMarshallerMarshallingTest extends \PHPUnit_Framework_TestCase {
 				"type" => 'DummyClassA',
 				"properties" => array(
 					"goats" => array(
-						"name" => "geets",
 						"type" => "string"
 					),
 					"stoats" => array(
-						"name" => "stoats",
-						"type" => array(
-							"array",
-							array(
-								"key" => "int",
-								"value" => "string"
-							)
-						)
+						"type" => "array",
+						"key" => array("type" => "int"),
+						"value" => array("type" => "string")
 					),
 					"boats" => array(
-						"name" => "boats",
 						"type" => "float"
 					),
 					"groats" => array(
-						"name" => "goats",
 						"type" => "bool"
 					),
 				)
@@ -518,7 +439,7 @@ class ArrayMarshallerMarshallingTest extends \PHPUnit_Framework_TestCase {
 		$mock->expects($this->once())->method('getBoats')->will($this->returnValue(5.1));
 		$mock->expects($this->once())->method('getGroats')->will($this->returnValue(null));
 
-		$marshaller = new \MooPhp\Serialization\ArrayMarshaller($config);
+		$marshaller = $this->_getMarshaller($config);
 
 		$marshalled = $marshaller->marshall($mock, "DummyClassA");
 
@@ -543,15 +464,11 @@ class ArrayMarshallerMarshallingTest extends \PHPUnit_Framework_TestCase {
 				"type" => 'DummyClassA',
 				"properties" => array(
 					"goats" => array(
-						"name" => "goats",
 						"type" => "string"
 					),
 					"stoats" => array(
-						"name" => "stoats",
-						"type" => array(
-							"json",
-							"DummyClassB"
-						)
+						"type" => "json",
+						"value" => array("type" => "ref", "ref" => "DummyClassB")
 					)
 				)
 			),
@@ -559,15 +476,11 @@ class ArrayMarshallerMarshallingTest extends \PHPUnit_Framework_TestCase {
 				"type" => "DummyClassB",
 				"properties" => array(
 					"flibble" => array(
-						"name" => "flibble",
 						"type" => "string"
 					),
 					"flobble" => array(
-						"name" => "flobble",
-						"type" => array(
-							"ref",
-							"DummyClassD"
-						)
+						"type" => "ref",
+						"ref" => "DummyClassD"
 					)
 				),
 			),
@@ -575,7 +488,6 @@ class ArrayMarshallerMarshallingTest extends \PHPUnit_Framework_TestCase {
 				"type" => "DummyClassD",
 				"properties" => array(
 					"arfArf" => array(
-						"name" => "arfArf",
 						"type" => "string"
 					)
 				)
@@ -593,7 +505,7 @@ class ArrayMarshallerMarshallingTest extends \PHPUnit_Framework_TestCase {
 		$mock->expects($this->once())->method('getGoats')->will($this->returnValue("foo"));
 		$mock->expects($this->once())->method('getStoats')->will($this->returnValue($mockB));
 
-		$marshaller = new \MooPhp\Serialization\ArrayMarshaller($config);
+		$marshaller = $this->_getMarshaller($config);
 
 		$marshalled = $marshaller->marshall($mock, "DummyClassA");
 
@@ -621,7 +533,13 @@ class ArrayMarshallerMarshallingTest extends \PHPUnit_Framework_TestCase {
 			"DummyClassA" => array(
 				"type" => 'DummyClassA',
 				"discriminator" => array(
-					"name" => "tipe",
+					"options" => array(
+						"array" => array(
+							"options" => array(
+								"name" => "tipe"
+							)
+						)
+					),
 					"property" => "tripe",
 					"values" => array(
 						"Flork" => "DummyClassAA",
@@ -633,7 +551,6 @@ class ArrayMarshallerMarshallingTest extends \PHPUnit_Framework_TestCase {
 				"type" => "DummyClassAA",
 				"properties" => array(
 					"foo" => array(
-						"name" => "foo",
 						"type" => "string"
 					)
 				)
@@ -653,7 +570,7 @@ class ArrayMarshallerMarshallingTest extends \PHPUnit_Framework_TestCase {
 		$mock = $this->getMock('DummyClassA', array('getTripe'));
 		$mock->expects($this->once())->method('getTripe')->will($this->returnValue("dunno"));
 
-		$marshaller = new \MooPhp\Serialization\ArrayMarshaller($config);
+		$marshaller = $this->_getMarshaller($config);
 
 		$marshalled = $marshaller->marshall($mockAA, "DummyClassA");
 		$expected = array(
@@ -687,7 +604,6 @@ class ArrayMarshallerMarshallingTest extends \PHPUnit_Framework_TestCase {
 			"DummyClassA" => array(
 				"type" => 'DummyClassA',
 				"discriminator" => array(
-					"name" => "tipe",
 					"property" => "tripe",
 					"values" => array(
 						"fLark" => "DummyClassAB"
@@ -701,7 +617,7 @@ class ArrayMarshallerMarshallingTest extends \PHPUnit_Framework_TestCase {
 
 		$mockAB = $this->getMock('DummyClassAB', array());
 
-		$marshaller = new \MooPhp\Serialization\ArrayMarshaller($config);
+		$marshaller = $this->_getMarshaller($config);
 
 		$marshaller->marshall($mockAB, "DummyClassA");
 	}

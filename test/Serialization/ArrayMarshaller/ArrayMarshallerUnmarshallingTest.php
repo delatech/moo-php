@@ -20,6 +20,15 @@ require_once(__DIR__ . "/../../TestInit.php");
 
 class ArrayMarshallerUnmarshallingTest extends \PHPUnit_Framework_TestCase {
 
+	/**
+	 * @param $config
+	 * @return \MooPhp\Serialization\ArrayMarshaller
+	 */
+	protected function _getMarshaller($config) {
+		$configurator = new \MooPhp\Serialization\ArrayConfigBaseConfig();
+		$marshaller = new \MooPhp\Serialization\ArrayMarshaller($configurator->getConfig());
+		return new \MooPhp\Serialization\ArrayMarshaller($marshaller->unmarshall(array("config" => $config), "Root"));
+	}
 
 	/**
 	 * @covers \MooPhp\Serialization\ArrayMarshaller::__construct
@@ -32,7 +41,7 @@ class ArrayMarshallerUnmarshallingTest extends \PHPUnit_Framework_TestCase {
 
 		);
 
-		$marshaller = new \MooPhp\Serialization\ArrayMarshaller($config);
+		$marshaller = $this->_getMarshaller($config);
 		$marshaller->unmarshall("hello", "Test");
 
 	}
@@ -47,7 +56,7 @@ class ArrayMarshallerUnmarshallingTest extends \PHPUnit_Framework_TestCase {
 
 		);
 
-		$marshaller = new \MooPhp\Serialization\ArrayMarshaller($config);
+		$marshaller = $this->_getMarshaller($config);
 		$marshaller->unmarshall(array("groat" => "bloat"), "Test");
 
 	}
@@ -65,7 +74,13 @@ class ArrayMarshallerUnmarshallingTest extends \PHPUnit_Framework_TestCase {
 				"type" => __NAMESPACE__ . '\DummyClassA',
 				"properties" => array(
 					"goats" => array(
-						"name" => "geets",
+						"options" => array(
+							"array" => array(
+								"options" => array(
+									"name" => "geets"
+								)
+							)
+						),
 						"type" => "giraffe"
 					)
 				)
@@ -77,7 +92,7 @@ class ArrayMarshallerUnmarshallingTest extends \PHPUnit_Framework_TestCase {
 		$mock = $this->getMock(__NAMESPACE__ . '\DummyClassA', array('setGoats'));
 		DummyClassA::$mockery = $mock;
 
-		$marshaller = new \MooPhp\Serialization\ArrayMarshaller($config);
+		$marshaller = $this->_getMarshaller($config);
 
 		$marshaller->unmarshall($input, "DummyClassA");
 
@@ -95,7 +110,13 @@ class ArrayMarshallerUnmarshallingTest extends \PHPUnit_Framework_TestCase {
 				"type" => __NAMESPACE__ . '\AmFailLots',
 				"properties" => array(
 					"goats" => array(
-						"name" => "geets",
+						"options" => array(
+							"array" => array(
+								"options" => array(
+									"name" => "geets"
+								)
+							)
+						),
 						"type" => "giraffe"
 					)
 				)
@@ -104,7 +125,7 @@ class ArrayMarshallerUnmarshallingTest extends \PHPUnit_Framework_TestCase {
 
 		$input = array("geets" => "baa");
 
-		$marshaller = new \MooPhp\Serialization\ArrayMarshaller($config);
+		$marshaller = $this->_getMarshaller($config);
 		$marshaller->unmarshall($input, "DummyClassA");
 
 	}
@@ -122,11 +143,14 @@ class ArrayMarshallerUnmarshallingTest extends \PHPUnit_Framework_TestCase {
 				"type" => __NAMESPACE__ . '\DummyClassA',
 				"properties" => array(
 					"goats" => array(
-						"name" => "geets",
-						"type" => array(
-							"giraffe",
-							"hrhr"
-						)
+						"options" => array(
+							"array" => array(
+								"options" => array(
+									"name" => "geets"
+								)
+							)
+						),
+						"type" => "giraffe",
 					)
 				)
 			)
@@ -136,7 +160,7 @@ class ArrayMarshallerUnmarshallingTest extends \PHPUnit_Framework_TestCase {
 		$mock = $this->getMock(__NAMESPACE__ . '\DummyClassA', array('setGoats'));
 		DummyClassA::$mockery = $mock;
 
-		$marshaller = new \MooPhp\Serialization\ArrayMarshaller($config);
+		$marshaller = $this->_getMarshaller($config);
 
 		$marshaller->unmarshall($input, "DummyClassA");
 
@@ -156,19 +180,18 @@ class ArrayMarshallerUnmarshallingTest extends \PHPUnit_Framework_TestCase {
 				"type" => __NAMESPACE__ . '\DummyNoCall',
 				"properties" => array(
 					"noexisty" => array(
-						"name" => "geets",
 						"type" => "string"
 					)
 				)
 			)
 		);
 
-		$input = array("geets" => "wheeeee");
+		$input = array("noexisty" => "wheeeee");
 
 		$mock = $this->getMock(__NAMESPACE__ . '\DummyNoCall', array());
 		DummyNoCall::$mockery = $mock;
 
-		$marshaller = new \MooPhp\Serialization\ArrayMarshaller($config);
+		$marshaller = $this->_getMarshaller($config);
 
 		$marshaller->unmarshall($input, "DummyNoCall");
 
@@ -187,19 +210,29 @@ class ArrayMarshallerUnmarshallingTest extends \PHPUnit_Framework_TestCase {
 				"type" => __NAMESPACE__ . '\DummyClassA',
 				"properties" => array(
 					"goats" => array(
-						"name" => "geets",
+						"options" => array(
+							"array" => array(
+								"options" => array(
+									"name" => "geets"
+								)
+							)
+						),
 						"type" => "string"
 					),
 					"stoats" => array(
-						"name" => "stoats",
 						"type" => "int"
 					),
 					"boats" => array(
-						"name" => "boats",
 						"type" => "float"
 					),
 					"groats" => array(
-						"name" => "goats",
+						"options" => array(
+							"array" => array(
+								"options" => array(
+									"name" => "goats"
+								)
+							)
+						),
 						"type" => "bool"
 					),
 				)
@@ -222,7 +255,7 @@ class ArrayMarshallerUnmarshallingTest extends \PHPUnit_Framework_TestCase {
 
 		DummyClassA::$mockery = $mock;
 
-		$marshaller = new \MooPhp\Serialization\ArrayMarshaller($config);
+		$marshaller = $this->_getMarshaller($config);
 
 		$marshalled = $marshaller->unmarshall($input, "DummyClassA");
 
@@ -243,44 +276,38 @@ class ArrayMarshallerUnmarshallingTest extends \PHPUnit_Framework_TestCase {
 				"type" => __NAMESPACE__ . '\DummyNoCall',
 				"properties" => array(
 					"goats" => array(
-						"name" => "geets",
-						"type" => array(
-							"array",
-							array(
-								"key" => "int",
-								"value" => "string"
+						"options" => array(
+							"array" => array(
+								"options" => array(
+									"name" => "geets"
+								)
 							)
-						)
+						),
+						"type" => "array",
+						"key" => array("type" => "int"),
+						"value" => array("type" => "string")
 					),
 					"stoats" => array(
-						"name" => "stoats",
-						"type" => array(
-							"array",
-							array(
-								"key" => "int",
-								"value" => "int"
-							)
-						)
+						"type" => "array",
+						"key" => array("type" => "int"),
+						"value" => array("type" => "int"),
 					),
 					"boats" => array(
-						"name" => "boats",
-						"type" => array(
-							"array",
-							array(
-								"key" => "string",
-								"value" => "float"
-							)
-						)
+						"type" => "array",
+						"key" => array("type" => "string"),
+						"value" => array("type" => "float")
 					),
 					"groats" => array(
-						"name" => "goats",
-						"type" => array(
-							"array",
-							array(
-								"key" => "int",
-								"value" => "bool"
+						"options" => array(
+							"array" => array(
+								"options" => array(
+									"name" => "goats"
+								)
 							)
-						)
+						),
+						"type" => "array",
+						"key" => array("type" => "int"),
+						"value" => array("type" => "bool")
 					)
 				)
 			)
@@ -295,7 +322,7 @@ class ArrayMarshallerUnmarshallingTest extends \PHPUnit_Framework_TestCase {
 
 		DummyNoCall::$mockery = $mock;
 
-		$marshaller = new \MooPhp\Serialization\ArrayMarshaller($config);
+		$marshaller = $this->_getMarshaller($config);
 
 		$input = array(
 			"geets" => array(0 => "baa", 1 => "bar", 2 => "fishpaste wobble"),
@@ -323,56 +350,34 @@ class ArrayMarshallerUnmarshallingTest extends \PHPUnit_Framework_TestCase {
 				"type" => __NAMESPACE__ . '\DummyClassA',
 				"properties" => array(
 					"goats" => array(
-						"name" => "geets",
-						"type" => array(
-							"array",
-							array(
-								"key" => "int",
-								"value" => array(
-									"array",
-									array(
-										"key" => "string",
-										"value" => "string"
-									)
-								)
-							)
+						"type" => "array",
+						"key" => array( "type" => "int" ),
+						"value" => array(
+							"type" => "array",
+							"key" => array( "type" => "string"),
+							"value" => array("type" => "string")
 						)
 					),
 					"stoats" => array(
-						"name" => "stoats",
-						"type" => array(
-							"array",
-							array(
-								"key" => "string",
-								"value" => array(
-									"array",
-									array(
-										"key" => "string",
-										"value" => array(
-											"array",
-											array (
-												"key" => "int",
-												"value" => "string"
-											)
-										)
-									)
-								)
+						"type" => "array",
+						"key" => array("type" => "string"),
+						"value" => array(
+							"type" => "array",
+							"key" => array("type" => "string"),
+							"value" => array(
+								"type" => "array",
+								"key" => array("type" => "int"),
+								"value" => array("type" => "string")
 							)
 						)
 					),
 					"boats" => array(
-						"name" => "boats",
 						"type" => "string"
 					),
 					"groats" => array(
-						"name" => "goats",
-						"type" => array(
-							"array",
-							array(
-								"key" => "int",
-								"value" => "bool"
-							)
-						)
+						"type" => "array",
+						"key" => array("type" => "int"),
+						"value" => array("type" => "bool")
 					)
 				)
 			)
@@ -399,11 +404,11 @@ class ArrayMarshallerUnmarshallingTest extends \PHPUnit_Framework_TestCase {
 
 		DummyClassA::$mockery = $mock;
 
-		$marshaller = new \MooPhp\Serialization\ArrayMarshaller($config);
+		$marshaller = $this->_getMarshaller($config);
 
 
 		$input = array(
-			"geets" =>
+			"goats" =>
 				array(
 					0 => array("baa" => "moo", "fish" => "wobble"),
 					1 => array("florp" => "stoat", "goat" => "fork")
@@ -414,7 +419,7 @@ class ArrayMarshallerUnmarshallingTest extends \PHPUnit_Framework_TestCase {
 					"oof" => array("blap" => array(0 => "woo"), "barp" => array(6 => "oof"))
 				),
 			"boats" => "bloop",
-			"goats" => array(0 => true, 1 => false, 2 => true, 3 => true, 4 => false),
+			"groats" => array(0 => true, 1 => false, 2 => true, 3 => true, 4 => false),
 		);
 
 		$marshalled = $marshaller->unmarshall($input, "DummyClassA");
@@ -436,25 +441,17 @@ class ArrayMarshallerUnmarshallingTest extends \PHPUnit_Framework_TestCase {
 				"type" => __NAMESPACE__ . '\DummyClassA',
 				"properties" => array(
 					"goats" => array(
-						"name" => "goats",
 						"type" => "string"
 					),
 					"snorks" => array(
-						"name" => "snorks",
-						"type" => array(
-							"ref",
-							"DummyClassC"
-						)
+						"type" => "ref",
+						"ref" => "DummyClassC"
 					),
 					"notes" => array(
-						"name" => "notes",
-						"type" => array(
-							"ref",
-							"DummyClassB"
-						)
+						"type" => "ref",
+						"ref" => "DummyClassB"
 					),
 					"groats" => array(
-						"name" => "groats",
 						"type" => "bool"
 					),
 				)
@@ -463,15 +460,11 @@ class ArrayMarshallerUnmarshallingTest extends \PHPUnit_Framework_TestCase {
 				"type" => __NAMESPACE__ . "\\DummyClassB",
 				"properties" => array(
 					"flibble" => array(
-						"name" => "flibble",
 						"type" => "string"
 					),
 					"flobble" => array(
-						"name" => "flobble",
-						"type" => array(
-							"ref",
-							"DummyClassD"
-						)
+						"type" => "ref",
+						"ref" => "DummyClassD"
 					)
 				)
 			),
@@ -510,7 +503,7 @@ class ArrayMarshallerUnmarshallingTest extends \PHPUnit_Framework_TestCase {
 		DummyClassC::$mockery = $mockC;
 		DummyClassD::$mockery = $mockD;
 
-		$marshaller = new \MooPhp\Serialization\ArrayMarshaller($config);
+		$marshaller = $this->_getMarshaller($config);
 
 
 		$input = array(
@@ -543,25 +536,17 @@ class ArrayMarshallerUnmarshallingTest extends \PHPUnit_Framework_TestCase {
 				"type" => __NAMESPACE__ . '\DummyClassA',
 				"properties" => array(
 					"goats" => array(
-						"name" => "geets",
 						"type" => "string"
 					),
 					"stoats" => array(
-						"name" => "stoats",
-						"type" => array(
-							"array",
-							array(
-								"key" => "int",
-								"value" => "string"
-							)
-						)
+						"type" => "array",
+						"key" => array("type" => "int"),
+						"value" => array("type" => "string")
 					),
 					"boats" => array(
-						"name" => "boats",
 						"type" => "float"
 					),
 					"groats" => array(
-						"name" => "goats",
 						"type" => "bool"
 					),
 				)
@@ -577,7 +562,7 @@ class ArrayMarshallerUnmarshallingTest extends \PHPUnit_Framework_TestCase {
 
 		DummyClassA::$mockery = $mock;
 
-		$marshaller = new \MooPhp\Serialization\ArrayMarshaller($config);
+		$marshaller = $this->_getMarshaller($config);
 
 		$input = array(
 			"stoats" => array(2 => null),
@@ -602,15 +587,11 @@ class ArrayMarshallerUnmarshallingTest extends \PHPUnit_Framework_TestCase {
 				"type" => __NAMESPACE__ . '\DummyClassA',
 				"properties" => array(
 					"goats" => array(
-						"name" => "goats",
 						"type" => "string"
 					),
 					"stoats" => array(
-						"name" => "stoats",
-						"type" => array(
-							"json",
-							"DummyClassB"
-						)
+						"type" => "json",
+						"value" => array("type" => "ref", "ref" => "DummyClassB")
 					)
 				)
 			),
@@ -618,15 +599,11 @@ class ArrayMarshallerUnmarshallingTest extends \PHPUnit_Framework_TestCase {
 				"type" => __NAMESPACE__ . "\\DummyClassB",
 				"properties" => array(
 					"flibble" => array(
-						"name" => "flibble",
 						"type" => "string"
 					),
 					"flobble" => array(
-						"name" => "flobble",
-						"type" => array(
-							"ref",
-							"DummyClassD"
-						)
+						"type" => "ref",
+						"ref" => "DummyClassD"
 					)
 				),
 			),
@@ -634,7 +611,6 @@ class ArrayMarshallerUnmarshallingTest extends \PHPUnit_Framework_TestCase {
 				"type" => __NAMESPACE__ . "\\DummyClassD",
 				"properties" => array(
 					"arfArf" => array(
-						"name" => "arfArf",
 						"type" => "string"
 					)
 				)
@@ -656,7 +632,7 @@ class ArrayMarshallerUnmarshallingTest extends \PHPUnit_Framework_TestCase {
 		DummyClassB::$mockery = $mockB;
 		DummyClassD::$mockery = $mockD;
 
-		$marshaller = new \MooPhp\Serialization\ArrayMarshaller($config);
+		$marshaller = $this->_getMarshaller($config);
 
 		$input = array(
 			"goats" => "foo",
@@ -684,7 +660,13 @@ class ArrayMarshallerUnmarshallingTest extends \PHPUnit_Framework_TestCase {
 			"DummyClassA" => array(
 				"type" => __NAMESPACE__ . '\DummyClassA',
 				"discriminator" => array(
-					"name" => "tipe",
+					"options" => array(
+						"array" => array(
+							"options" => array(
+								"name" => "tipe"
+							)
+						)
+					),
 					"property" => "tripe",
 					"values" => array(
 						"Flork" => "DummyClassAA",
@@ -720,7 +702,7 @@ class ArrayMarshallerUnmarshallingTest extends \PHPUnit_Framework_TestCase {
 		DummyClassAA::$mockery = $mockAA;
 		DummyClassAB::$mockery = $mockAB;
 
-		$marshaller = new \MooPhp\Serialization\ArrayMarshaller($config);
+		$marshaller = $this->_getMarshaller($config);
 
 		$input = array(
 			"tipe" => "Flork",
@@ -754,7 +736,6 @@ class ArrayMarshallerUnmarshallingTest extends \PHPUnit_Framework_TestCase {
 			"DummyClassA" => array(
 				"type" => __NAMESPACE__ . '\DummyNoCall',
 				"discriminator" => array(
-					"name" => "tipe",
 					"property" => "tripe",
 					"values" => array(
 						"fLark" => "DummyClassAB"
@@ -769,10 +750,10 @@ class ArrayMarshallerUnmarshallingTest extends \PHPUnit_Framework_TestCase {
 		$mockAB = $this->getMock(__NAMESPACE__ . '\DummyNoCallB', array());
 		DummyClassAB::$mockery = $mockAB;
 
-		$marshaller = new \MooPhp\Serialization\ArrayMarshaller($config);
+		$marshaller = $this->_getMarshaller($config);
 
 		$input = array(
-			"tipe" => "fLark"
+			"tripe" => "fLark"
 		);
 
 		$marshaller->unmarshall($input, "DummyClassA");
@@ -791,19 +772,29 @@ class ArrayMarshallerUnmarshallingTest extends \PHPUnit_Framework_TestCase {
 				"type" => __NAMESPACE__ . '\DummyConstructor',
 				"properties" => array(
 					"goats" => array(
-						"name" => "geets",
+						"options" => array(
+							"array" => array(
+								"options" => array(
+									"name" => "geets"
+								)
+							)
+						),
 						"type" => "string"
 					),
 					"stoats" => array(
-						"name" => "stoats",
 						"type" => "int"
 					),
 					"boats" => array(
-						"name" => "boats",
 						"type" => "float"
 					),
 					"groats" => array(
-						"name" => "goats",
+						"options" => array(
+							"array" => array(
+								"options" => array(
+									"name" => "goats"
+								)
+							)
+						),
 						"type" => "bool"
 					),
 				),
@@ -831,7 +822,7 @@ class ArrayMarshallerUnmarshallingTest extends \PHPUnit_Framework_TestCase {
 
 		DummyConstructor::$mockery = $mock;
 
-		$marshaller = new \MooPhp\Serialization\ArrayMarshaller($config);
+		$marshaller = $this->_getMarshaller($config);
 
 		$marshalled = $marshaller->unmarshall($input, "DummyClassA");
 
