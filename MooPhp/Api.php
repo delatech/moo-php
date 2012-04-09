@@ -73,8 +73,10 @@ class Api implements MooInterface\MooApi {
 	}
 
 	/**
-	 * Get a Moo pack from the session.
-	 * Note that you don't have the ability to do this by default as it requires the read permission.
+	 * Get a Moo pack from the builder store.
+	 * This requires read permissions, which you ought to have.
+	 * Note that once you've handed off the user to a dropIn URL the pack becomes "owned" and you cannot read it anymore.
+	 * This may change in a future API version.
 	 * @param string $packId The pack ID to get
 	 * @return MooInterface\Response\GetPack
 	 */
@@ -85,8 +87,9 @@ class Api implements MooInterface\MooApi {
 	}
 
 	/**
-	 * Update a Moo pack on the session.
-	 * Note that you don't have the ability to do this by default as it requires the update permission.
+	 * Update a Moo pack on the builder store.
+	 * This requires update permissions, which you ought to have.
+	 * Note that once you've handed off the user to a dropIn URL the pack becomes "owned" and you cannot update it anymore.
 	 * @param string $packId The pack to update
 	 * @param MooInterface\Data\Pack $pack The new pack data
 	 * @return MooInterface\Response\UpdatePack
@@ -99,8 +102,9 @@ class Api implements MooInterface\MooApi {
 	}
 
 	/**
-	 * Add a Moo pack from the session to the cart.
+	 * Add a Moo pack from the builder store to the cart.
 	 * Note that you don't have the ability to do this by default as it requires the cart permission.
+	 * If 2 legged OAuth is used this applies to the session of the client making the HTTP request, i.e. this API client
 	 * @param string $packId The pack ID to add
 	 * @param int $quantity
 	 * @return MooInterface\Response\AddToCart
