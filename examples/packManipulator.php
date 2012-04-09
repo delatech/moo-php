@@ -92,8 +92,7 @@ $imageData->setImageBox($item->calculateDefaultImageBox($printImage->getWidth(),
 
 // OK, so you may wonder where these numbers came from... well I had to use the Moo flash canvas to make it look right,
 // and then pull the data out of the pack data that wrote.
-// Except it's now coming out completely wrong in the canvas... hrmm
-$imageData->setImageBox(new Data\Types\BoundingBox(new Data\Types\Point(29.85, 78.09), 81.81, 61.36));
+$imageData->setImageBox(new Data\Types\BoundingBox(new Data\Types\Point(78.09, 29.85), 81.81, 61.36));
 $imageData->setResourceUri($uploadImageResp->getImageBasketItem()->getResourceUri());
 $detailsSide->addDatum($imageData);
 
