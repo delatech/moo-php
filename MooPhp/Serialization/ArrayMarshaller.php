@@ -8,10 +8,13 @@ namespace MooPhp\Serialization;
 
 class ArrayMarshaller implements Marshaller {
 
+	/**
+	 * @var \MooPhp\Serialization\Config\MarshallerConfig
+	 */
 	private $_config;
 
-	public function __construct(array $configArray) {
-		$this->_config = $configArray;
+	public function __construct(Config\MarshallerConfig $config) {
+		$this->_config = $config;
 	}
 
 	protected function _propertyAsType($data, $type) {
@@ -56,32 +59,19 @@ class ArrayMarshaller implements Marshaller {
 		throw new \RuntimeException("Unknown type $type");
 	}
 
+	/**
+	 * @param $data
+	 * @param \MooPhp\Serialization\Config\Types\PropertyType $type
+	 * @return array|bool|float|int|null|object|string
+	 * @throws \RuntimeException
+	 */
 	protected function _valueAsType($data, $type) {
 		if (!isset($data)) {
 			return null;
 		}
 
-		if (is_array($type)) {
-			// Complex type
-			list($realType, $typeConfig) = $type;
 
-			if ($realType == "ref") {
-				return $this->unmarshall($data, $typeConfig);
-			} elseif ($realType == "json") {
-				return $this->unmarshall(json_decode($data, true), $typeConfig);
-			} elseif ($realType == "array") {
-				$converted = array();
-				foreach ($data as $key => $value) {
-					$convertedKey = $this->_valueAsType($key, $typeConfig["key"]);
-					$convertedValue = $this->_valueAsType($value, $typeConfig["value"]);
-					$converted[$convertedKey] = $convertedValue;
-				}
-				return $converted;
-			}
-			throw new \RuntimeException("Unknown complex type $realType");
-
-		}
-		switch ($type) {
+		switch ($type->getType()) {
 			case "string":
 				return (string)$data;
 				break;
@@ -94,6 +84,18 @@ class ArrayMarshaller implements Marshaller {
 			case "float":
 				return (float)$data;
 				break;
+			case "ref":
+				return $this->unmarshall($data, $type->getRef());
+			case "json":
+				return $this->unmarshall(json_decode($data, true), $type->getRef());
+			case "array":
+				$converted = array();
+				foreach ($data as $key => $value) {
+					$convertedKey = $this->_valueAsType($key, $type->getKey());
+					$convertedValue = $this->_valueAsType($value, $type->getValue());
+					$converted[$convertedKey] = $convertedValue;
+				}
+				return $converted;
 		}
 		throw new \RuntimeException("Unknown type $type");
 	}
@@ -104,12 +106,9 @@ class ArrayMarshaller implements Marshaller {
 		}
 
 		$reflector = new \ReflectionObject($object);
-		if (!isset($this->_config[$ref])) {
+		$entry = $this->_config->getConfigElement($ref);
+		if (!isset($entry)) {
 			throw new \RuntimeException("Cannot find config entry for $ref working on " . $reflector->getName());
-		}
-		$entry = $this->_config[$ref];
-		if (!isset($entry["properties"])) {
-			$entry["properties"] = array();
 		}
 		/*
 		TODO: Work out what to do re implementation type vs base type
@@ -118,7 +117,7 @@ class ArrayMarshaller implements Marshaller {
 		}
 		*/
 		$marshalled = array();
-		foreach ($entry["properties"] as $property => $details) {
+		foreach ($entry->getProperties() as $property => $details) {
 			$getter = "get" . ucfirst($property);
 			try {
 				$refGetter = $reflector->getMethod($getter);
@@ -165,48 +164,56 @@ class ArrayMarshaller implements Marshaller {
 			throw new \InvalidArgumentException("Got passed non array for unmarshalling of $ref");
 		}
 
-		if (!isset($this->_config[$ref])) {
+		$entry = $this->_config->getConfigElement($ref);
+		if (!isset($entry)) {
 			throw new \RuntimeException("Cannot find config entry for $ref");
 		}
-		$entry = $this->_config[$ref];
 
 		$object = null;
-		if (isset($entry["discriminator"])) {
+		if ($discriminatorConfig = $entry->getDiscriminator()) {
 			// We might not be the real class!
-			$discriminatorConfig = $entry["discriminator"];
-			$subTypeKey = $discriminatorConfig["name"];
+			$subTypeKey = $discriminatorConfig->getProperty();
+			if ($discrimOptions = $discriminatorConfig->getOption("array")) {
+				if (isset($discrimOptions["name"])) {
+					$subTypeKey = $discrimOptions["name"];
+				}
+			}
 			if (isset($data[$subTypeKey])) {
 				$subTypeName = $data[$subTypeKey];
-				if (isset($discriminatorConfig["values"][$subTypeName])) {
+				if ($subType = $discriminatorConfig->getValue($subTypeName)) {
 					// OK, lets start populating from the top down
-					$object = $this->unmarshall($data, $discriminatorConfig["values"][$subTypeName]);
+					$object = $this->unmarshall($data, $subType);
 				}
 			}
 		}
 		$constructorArgConfig = array();
 		if (!isset($object)) {
 			$args = array();
-			if (isset($entry["constructorArgs"])) {
+		/*	if (isset($entry["constructorArgs"])) {
 				foreach ($entry["constructorArgs"] as $argName) {
 					$argConfig = $entry["properties"][$argName];
 					$constructorArgConfig[$argName] = $argConfig;
 					$value = isset($data[$argConfig["name"]]) ? $data[$argConfig["name"]] : null;
 					$args[] = $this->_valueAsType($value, $argConfig["type"]);
 				}
-			}
+			}*/
 			try {
-				$classReflector = new \ReflectionClass($entry["type"]);
+				$classReflector = new \ReflectionClass($entry->getType());
 				$object = $classReflector->newInstanceArgs($args);
 			} catch (\Exception $e) {
-				throw new \RuntimeException("Failed to create instance of " . $entry["type"] . " for $ref", 0, $e);
+				throw new \RuntimeException("Failed to create instance of " . $entry->getType() . " for $ref", 0, $e);
 			}
 		}
-		if (isset($entry["discriminator"])) {
-			$discriminatorConfig = $entry["discriminator"];
-			$subTypeKey = $discriminatorConfig["name"];
+		if ($discriminatorConfig = $entry->getDiscriminator()) {
+			$subTypeKey = $discriminatorConfig->getProperty();
+			if ($discrimOptions = $discriminatorConfig->getOption("array")) {
+				if (isset($discrimOptions["name"])) {
+					$subTypeKey = $discrimOptions["name"];
+				}
+			}
 			if (isset($data[$subTypeKey])) {
 				$subTypeName = $data[$subTypeKey];
-				$setter = "set" . ucfirst($discriminatorConfig["property"]);
+				$setter = "set" . ucfirst($discriminatorConfig->getProperty());
 				try {
 					$this->_callSetter($object, $setter, $subTypeName);
 				} catch (\RuntimeException $e) {
@@ -216,16 +223,19 @@ class ArrayMarshaller implements Marshaller {
 		}
 
 
-		if (!isset($entry["properties"])) {
-			$entry["properties"] = array();
-		}
 		$propertiesConfigNameTypeMap = array();
-		foreach ($entry["properties"] as $property => $details) {
+		foreach ($entry->getProperties() as $property => $details) {
 			if (isset($constructorArgConfig[$property])) {
 				// No need to look it up if it was a constructor arg
 				continue;
 			}
-			$propertiesConfigNameTypeMap[$details["name"]] = array($property, $details["type"]);
+			$name = $property;
+			if ($options = $details->getOption("array")) {
+				if (isset($options["name"])) {
+					$name = $options["name"];
+				}
+			}
+			$propertiesConfigNameTypeMap[$name] = array($property, $details->getType());
 		}
 
 		$unknownProperties = array();
@@ -234,8 +244,9 @@ class ArrayMarshaller implements Marshaller {
 				$unknownProperties[$key] = $value;
 			} else {
 				$setter = "set" . ucfirst($propertiesConfigNameTypeMap[$key][0]);
+				$setValue = $this->_valueAsType($value, $propertiesConfigNameTypeMap[$key][1]);
 				try {
-					$this->_callSetter($object, $setter, $this->_valueAsType($value, $propertiesConfigNameTypeMap[$key][1]));
+					$this->_callSetter($object, $setter, $setValue);
 				} catch (\RuntimeException $e) {
 					throw new \RuntimeException("Error calling $setter while processing $ref");
 				}

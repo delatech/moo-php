@@ -8,8 +8,9 @@ namespace MooPhp\Serialization\Config\Types;
 
 class RefType extends PropertyType {
 
-	public function __construct() {
+	public function __construct($ref = null) {
 		$this->setType("ref");
+		$this->setRef($ref);
 	}
 	/**
 	 * @var string

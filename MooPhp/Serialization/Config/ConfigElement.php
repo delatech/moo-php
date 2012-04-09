@@ -6,7 +6,7 @@ namespace MooPhp\Serialization\Config;
  * @copyright Copyright (c) 2011, Jonathan Oddy
  */
 
-class ConfigElement {
+class ConfigElement extends ConfigBaseType {
 
 	/**
 	 * @var string
@@ -16,7 +16,12 @@ class ConfigElement {
 	/**
 	 * @var \MooPhp\Serialization\Config\ConfigProperty[]
 	 */
-	protected $_properties;
+	protected $_properties = array();
+
+	/**
+	 * @var \MooPhp\Serialization\Config\ElementDiscriminator
+	 */
+	protected $_discriminator = array();
 
 
 	public function setProperties($properties) {
@@ -31,6 +36,7 @@ class ConfigElement {
 	/**
 	 * @param string $name
 	 * @param \MooPhp\Serialization\Config\ConfigProperty $property
+	 * @return \MooPhp\Serialization\Config\ConfigElement
 	 */
 	public function setProperty($name, $property) {
 		$this->_properties[$name] = $property;
@@ -47,6 +53,7 @@ class ConfigElement {
 
 	/**
 	 * @param string $type
+	 * @return \MooPhp\Serialization\Config\ConfigElement
 	 */
 	public function setType($type) {
 		$this->_type = $type;
@@ -58,5 +65,21 @@ class ConfigElement {
 	 */
 	public function getType() {
 		return $this->_type;
+	}
+
+	/**
+	 * @param \MooPhp\Serialization\Config\ElementDiscriminator $discriminator
+	 * @return \MooPhp\Serialization\Config\ConfigElement
+	 */
+	public function setDiscriminator($discriminator) {
+		$this->_discriminator = $discriminator;
+		return $this;
+	}
+
+	/**
+	 * @return \MooPhp\Serialization\Config\ElementDiscriminator
+	 */
+	public function getDiscriminator() {
+		return $this->_discriminator;
 	}
 }

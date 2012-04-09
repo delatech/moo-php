@@ -8,7 +8,13 @@ namespace MooPhp\Serialization\Config\Types;
 
 class ArrayType extends PropertyType {
 
-	public function __construct() {
+	/**
+	 * @param \MooPhp\Serialization\Config\Types\PropertyType $key
+	 * @param \MooPhp\Serialization\Config\Types\PropertyType $value
+	 */
+	public function __construct($key = null, $value = null) {
+		$this->setKey($key);
+		$this->setValue($value);
 		$this->setType("array");
 	}
 
@@ -24,6 +30,7 @@ class ArrayType extends PropertyType {
 
 	/**
 	 * @param \MooPhp\Serialization\Config\Types\PropertyType $key
+	 * @return \MooPhp\Serialization\Config\Types\ArrayType
 	 */
 	public function setKey($key) {
 		$this->_key = $key;

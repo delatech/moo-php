@@ -6,7 +6,7 @@ namespace MooPhp\Serialization\Config\Types;
  * @copyright Copyright (c) 2011, Jonathan Oddy
  */
 
-class PropertyType {
+class PropertyType extends \MooPhp\Serialization\Config\ConfigBaseType {
 
 	/**
 	 * @var string
@@ -23,6 +23,7 @@ class PropertyType {
 
 	/**
 	 * @param string $type
+	 * @return \MooPhp\Serialization\Config\Types\PropertyType
 	 */
 	public function setType($type) {
 		$this->_type = $type;

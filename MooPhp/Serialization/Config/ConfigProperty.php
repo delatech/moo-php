@@ -6,7 +6,7 @@ namespace MooPhp\Serialization\Config;
  * @copyright Copyright (c) 2011, Jonathan Oddy
  */
 
-class ConfigProperty {
+class ConfigProperty extends ConfigBaseType {
 
 	/**
 	 * @var \MooPhp\Serialization\Config\Types\PropertyType
