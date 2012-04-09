@@ -117,15 +117,4 @@ All these questions are about tests. Are you embarrassed about the lack of them?
 So is this safe to use?
 > Probably, but expect to find interesting bugs in the features I don't use.
 
-TODO
-----
-* Refactor Serializers: the Xml one's pattern is better...
-* Greatly improve error handling, especially in the serializers
-* Handling of unknowns in the serializers
-* Tests.
-* Allow serialization config from multiple files.
-* Split out serialization framework.
-* Serialization config from annotations?
-* Implement the product model.
-* Performance.
 
