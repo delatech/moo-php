@@ -17,46 +17,42 @@ class ArrayMarshaller implements Marshaller {
 		$this->_config = $config;
 	}
 
-	protected function _propertyAsType($data, $type) {
+
+	/**
+	 * @param $data
+	 * @param \MooPhp\Serialization\Config\Types\PropertyType $type
+	 * @return array|bool|float|int|null|string
+	 * @throws \RuntimeException
+	 */
+	protected function _propertyAsType($data, \MooPhp\Serialization\Config\Types\PropertyType $type) {
 		if (!isset($data)) {
 			return null;
 		}
 
-		if (is_array($type)) {
-			// Complex type
-			list($realType, $typeConfig) = $type;
-
-			if ($realType == "ref") {
-				return $this->marshall($data, $typeConfig);
-			} elseif ($realType == "json") {
-				return "".json_encode($this->marshall($data, $typeConfig), JSON_FORCE_OBJECT);
-			} elseif ($realType == "array") {
+		switch ($type->getType()) {
+			case "string":
+				return (string)$data;
+			case "int":
+				return (int)$data;
+			case "bool":
+				return (bool)$data;
+			case "float":
+				return (float)$data;
+			case "ref":
+				return $this->marshall($data, $type->getRef());
+			case "json":
+				return "".json_encode($this->_propertyAsType($data, $type->getValue()), JSON_FORCE_OBJECT);
+			case "array":
 				$converted = array();
 				foreach ($data as $key => $value) {
-					$convertedKey = $this->_propertyAsType($key, $typeConfig["key"]);
-					$convertedValue = $this->_propertyAsType($value, $typeConfig["value"]);
+					$convertedKey = $this->_propertyAsType($key, $type->getKey());
+					$convertedValue = $this->_propertyAsType($value, $type->getValue());
 					$converted[$convertedKey] = $convertedValue;
 				}
 				return $converted;
-			}
-			throw new \RuntimeException("Unknown complex type $realType");
 		}
 
-		switch ($type) {
-			case "string":
-				return (string)$data;
-				break;
-			case "int":
-				return (int)$data;
-				break;
-			case "bool":
-				return (bool)$data;
-				break;
-			case "float":
-				return (float)$data;
-				break;
-		}
-		throw new \RuntimeException("Unknown type $type");
+		throw new \RuntimeException("Unknown type " . $type->getType());
 	}
 
 	/**
@@ -73,16 +69,12 @@ class ArrayMarshaller implements Marshaller {
 		switch ($type->getType()) {
 			case "string":
 				return (string)$data;
-				break;
 			case "int":
 				return (int)$data;
-				break;
 			case "bool":
 				return (bool)$data;
-				break;
 			case "float":
 				return (float)$data;
-				break;
 			case "ref":
 				return $this->unmarshall($data, $type->getRef());
 			case "json":
@@ -124,17 +116,21 @@ class ArrayMarshaller implements Marshaller {
 			} catch (\Exception $e) {
 				throw new \RuntimeException("Unable to call getter $getter for $ref", 0, $e);
 			}
-			$outputName = $details["name"];
-			$value = $this->_propertyAsType($propertyValue, $details["type"]);
+			$outputName = $property;
+			if ($options = $details->getOption("array")) {
+				if ($options->getOption("name")) {
+					$outputName = $options->getOption("name");
+				}
+			}
+			$value = $this->_propertyAsType($propertyValue, $details);
 			if (isset($value)) {
 				$marshalled[$outputName] = $value;
 			}
 		}
 
-		if (isset($entry["discriminator"])) {
-			$discriminatorConfig = $entry["discriminator"];
+		if ($discriminatorConfig = $entry->getDiscriminator()) {
 			// OK, this is just a base type...
-			$getter = "get" . ucfirst($discriminatorConfig["property"]);
+			$getter = "get" . ucfirst($discriminatorConfig->getProperty());
 			try {
 				$refGetter = $reflector->getMethod($getter);
 				$subType = $refGetter->invoke($object);
@@ -142,15 +138,21 @@ class ArrayMarshaller implements Marshaller {
 				throw new \RuntimeException("Unable to call getter $getter for $ref", 0, $e);
 			}
 
-			if (isset($discriminatorConfig["values"][$subType])) {
-				$ref = $discriminatorConfig["values"][$subType];
+			$discrimName = $discriminatorConfig->getProperty();
+			if ($discrimOptions = $discriminatorConfig->getOption("array")) {
+				if ($discrimOptions->getOption("name")) {
+					$discrimName = $discrimOptions->getOption("name");
+				}
+			}
+			if ($discriminatorConfig->getValue($subType)) {
+				$ref = $discriminatorConfig->getValue($subType);
 				// We also need to add the discriminator to the serialized data
-				$marshalled[$discriminatorConfig["name"]] = $subType;
+				$marshalled[$discrimName] = $subType;
 				$marshalled += $this->marshall($object, $ref);
 			} else {
 				// Otherwise we have no idea... serialize as the base type and add
 				// the discriminator value
-				$marshalled[$discriminatorConfig["name"]] = $subType;
+				$marshalled[$discrimName] = $subType;
 			}
 
 		}

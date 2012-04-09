@@ -23,7 +23,6 @@ class ArrayMarshallerUnmarshallingTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @param $config
 	 * @return \MooPhp\Serialization\ArrayMarshaller
-	 * @covers
 	 */
 	protected function _getMarshaller($config) {
 		$configurator = new \MooPhp\Serialization\ArrayConfigBaseConfig();
