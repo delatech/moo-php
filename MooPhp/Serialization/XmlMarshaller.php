@@ -32,7 +32,7 @@ class XmlMarshaller implements Marshaller {
 			case "float":
 				return (float)$value;
 			case "stringbool":
-				return ($value && $data != "false") ? true : false;
+				return ($value && $value != "false") ? true : false;
 			case "array":
 			case "ref":
 				throw new \RuntimeException("Complex types not supported for simple values");
