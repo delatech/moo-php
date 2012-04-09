@@ -235,7 +235,7 @@ class ArrayMarshaller implements Marshaller {
 					$name = $options["name"];
 				}
 			}
-			$propertiesConfigNameTypeMap[$name] = array($property, $details->getType());
+			$propertiesConfigNameTypeMap[$name] = array($property, $details);
 		}
 
 		$unknownProperties = array();

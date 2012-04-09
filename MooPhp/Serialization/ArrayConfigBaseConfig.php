@@ -19,7 +19,6 @@ class ArrayConfigBaseConfig {
 		$config = new Config\MarshallerConfig();
 		$config->setConfigElement("Root", $this->_getMarshallerConfig($ns));
 		$config->setConfigElement("ConfigElement", $this->_getConfigElement($ns));
-		$config->setConfigElement("PropertyElement", $this->_getPropertyElement($ns));
 		$config->setConfigElement("ElementDiscriminator", $this->_getElementDiscriminator($ns));
 		$config->setConfigElement("PropertyType", $this->_getPropertyType($ns));
 		$config->setConfigElement("StringType", $this->_getStringType($ns));
@@ -39,41 +38,21 @@ class ArrayConfigBaseConfig {
 	 * @return \MooPhp\Serialization\Config\ConfigElement
 	 */
 	protected function _getMarshallerConfig($ns) {
-		$elementRefType = new Types\RefType();
-		$elementRefType->setRef('ConfigElement');
-
-		$rootType = new Types\ArrayType();
-		$rootType->setKey(new Types\StringType())->setValue($elementRefType);
-
-		$rootProperty = new Config\ConfigProperty();
-		$rootProperty->setType($rootType);
-
 		$root = new Config\ConfigElement();
 		$root->setType($ns . '\MarshallerConfig');
-		$root->setProperty("config", $rootProperty);
+		$root->setProperty("config", new Types\ArrayType(new Types\StringType(), new Types\RefType('ConfigElement')));
 
 		return $root;
 	}
 
 	protected function _getConfigElement($ns) {
-		$propertyRefType = new Types\RefType();
-		$propertyRefType->setRef('PropertyElement');
-
-		$propertyArrayType = new Types\ArrayType();
-		$propertyArrayType->setKey(new Types\StringType())->setValue($propertyRefType);
-
-		$propertiesProperty = new Config\ConfigProperty();
-		$propertiesProperty->setType($propertyArrayType);
-
-		$typeProperty = new Config\ConfigProperty();
-		$typeProperty->setType(new Types\StringType());
 
 		$root = new Config\ConfigElement();
 		$root->setType($ns . '\ConfigElement');
-		$root->setProperty("type", $typeProperty);
-		$root->setProperty("properties", $propertiesProperty);
-		$root->setProperty("discriminator", new Config\ConfigProperty(new Types\RefType("ElementDiscriminator")));
-		$root->setProperty("options", new Config\ConfigProperty(new Types\RefType("SerializerSpecificOptions")));
+		$root->setProperty("type", new Types\StringType());
+		$root->setProperty("properties", new Types\ArrayType(new Types\StringType(), new Types\RefType("PropertyType")));
+		$root->setProperty("discriminator", (new Types\RefType("ElementDiscriminator")));
+		$root->setProperty("options", (new Types\RefType("SerializerSpecificOptions")));
 
 		return $root;
 	}
@@ -82,23 +61,9 @@ class ArrayConfigBaseConfig {
 
 		$root = new Config\ConfigElement();
 		$root->setType($ns . '\ElementDiscriminator');
-		$root->setProperty("property", new Config\ConfigProperty(new Types\StringType()));
-		$root->setProperty("values", new Config\ConfigProperty(new Types\ArrayType(new Types\StringType(), new Types\StringType())));
-		$root->setProperty("options", new Config\ConfigProperty(new Types\RefType("SerializerSpecificOptions")));
-
-		return $root;
-	}
-
-	protected function _getPropertyElement($ns) {
-		$propertyTypeRefType = new Types\RefType('PropertyType');
-
-		$propertyTypeType = new Config\ConfigProperty();
-		$propertyTypeType->setType($propertyTypeRefType);
-
-		$root = new Config\ConfigElement();
-		$root->setType($ns . '\ConfigProperty');
-		$root->setProperty("type", $propertyTypeType);
-		$root->setProperty("options", new Config\ConfigProperty(new Types\RefType("SerializerSpecificOptions")));
+		$root->setProperty("property", (new Types\StringType()));
+		$root->setProperty("values", (new Types\ArrayType(new Types\StringType(), new Types\StringType())));
+		$root->setProperty("options", (new Types\RefType("SerializerSpecificOptions")));
 
 		return $root;
 	}
@@ -114,14 +79,11 @@ class ArrayConfigBaseConfig {
 		$discriminator->setValue("ref", "RefType");
 		$discriminator->setValue("array", "ArrayType");
 
-		$propertyTypeType = new Config\ConfigProperty();
-		$propertyTypeType->setType(new Types\StringType());
-
 		$root = new Config\ConfigElement();
 		$root->setType($ns . '\Types\PropertyType');
-		$root->setProperty("type", $propertyTypeType);
+		$root->setProperty("type", new Types\StringType());
 		$root->setDiscriminator($discriminator);
-		$root->setProperty("options", new Config\ConfigProperty(new Types\RefType("SerializerSpecificOptions")));
+		$root->setProperty("options", new Types\RefType("SerializerSpecificOptions"));
 
 		return $root;
 	}
@@ -153,23 +115,23 @@ class ArrayConfigBaseConfig {
 	protected function _getRefType($ns) {
 		$root = new Config\ConfigElement();
 		$root->setType($ns . '\Types\RefType');
-		$root->setProperty("ref", new Config\ConfigProperty(new Types\StringType()));
+		$root->setProperty("ref", new Types\StringType());
 		return $root;
 	}
 
 	protected function _getArrayType($ns) {
 		$root = new Config\ConfigElement();
 		$root->setType($ns . '\Types\ArrayType');
-		$root->setProperty("key", new Config\ConfigProperty(new Types\PropertyType()));
-		$root->setProperty("value", new Config\ConfigProperty(new Types\PropertyType()));
+		$root->setProperty("key", new Types\PropertyType());
+		$root->setProperty("value", new Types\PropertyType());
 		return $root;
 	}
 
 	protected function _getSerializerSpecificOptions($ns) {
 		$root = new Config\ConfigElement();
 		$root->setType($ns . '\SerializerSpecificOptions');
-		$root->setProperty("type", new Config\ConfigProperty(new Types\StringType()));
-		$root->setProperty("options", new Config\ConfigProperty(new Types\ArrayType(new Types\StringType(), new Types\StringType())));
+		$root->setProperty("type", new Types\StringType());
+		$root->setProperty("options", new Types\ArrayType(new Types\StringType(), new Types\StringType()));
 		return $root;
 	}
 

@@ -25,13 +25,13 @@ class ArrayMarshallerArrayConfigTest extends \PHPUnit_Framework_TestCase {
 								)
 							)
 						),
-						"type" => array( "type" => "string" )
+						"type" => "string"
 					),
 					"stoats" => array(
-						"type" => array( "type" => "int" )
+						"type" => "int"
 					),
 					"boats" => array(
-						"type" => array ("type" => "float" )
+						"type" => "float",
 					),
 					"groats" => array(
 						"options" => array(
@@ -42,7 +42,7 @@ class ArrayMarshallerArrayConfigTest extends \PHPUnit_Framework_TestCase {
 								)
 							)
 						),
-						"type" => array ("type" => "bool")
+						"type" => "bool"
 					),
 				)
 			)
