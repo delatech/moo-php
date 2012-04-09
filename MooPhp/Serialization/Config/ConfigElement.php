@@ -35,6 +35,9 @@ class ConfigElement extends ConfigBaseType {
 		return $this;
 	}
 
+	/**
+	 * @return \MooPhp\Serialization\Config\Types\PropertyType[]
+	 */
 	public function getProperties() {
 		return $this->_properties;
 	}

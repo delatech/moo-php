@@ -21,6 +21,9 @@ class SerializerSpecificOptions {
 	}
 
 	public function getOption($name) {
+		if (!isset($this->_options) || !isset($this->_options[$name])) {
+			return null;
+		}
 		return $this->_options[$name];
 	}
 
