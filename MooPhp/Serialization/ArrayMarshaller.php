@@ -36,6 +36,8 @@ class ArrayMarshaller implements Marshaller {
 				return (int)$data;
 			case "bool":
 				return (bool)$data;
+			case "stringbool":
+				return $data ? "true" : "false";
 			case "float":
 				return (float)$data;
 			case "ref":
@@ -73,6 +75,8 @@ class ArrayMarshaller implements Marshaller {
 				return (int)$data;
 			case "bool":
 				return (bool)$data;
+			case "stringbool":
+				return ($data && $data != "false") ? true : false;
 			case "float":
 				return (float)$data;
 			case "ref":

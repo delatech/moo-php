@@ -60,12 +60,14 @@ interface MooApi {
 	 * This will actually create a pack of a given type on the server.
 	 * Requires create permissions which everyone should have.
 	 * @abstract
-	 * @param string $productType A product type to create. This should use one of the PRODUCT_TYPE_ constants.
+	 * @param \MooPhp\MooInterface\Data\PhysicalSpec $physicalSpec The physical spec to build the pack with
 	 * @param Data\Pack $pack An optional initial pack to use.
+	 * @param string $friendlyName A friendly name to give the pack in the cart (and I think default save names?)
 	 * @param string $trackingId Optional tracking ID to use for tracking callbacks
+	 * @param string $startAgainUrl Absolute URL to send the user to if they hit the start again button
 	 * @return Response\CreatePack
 	 */
-	public function packCreatePack($productType = self::PRODUCT_TYPE_BUSINESSCARD, Data\Pack $pack = null, $trackingId = null);
+	public function packCreatePack(\MooPhp\MooInterface\Data\PhysicalSpec $physicalSpec, Data\Pack $pack = null, $friendlyName = null, $trackingId = null, $startAgainUrl = null);
 
 	/**
 	 * Get a Moo pack from the builder store.
@@ -129,4 +131,13 @@ interface MooApi {
 	 * @return \MooPhp\MooInterface\Data\Template\Template
 	 */
 	public function templateGetTemplate($templateCode);
+
+	/**
+	 * Update the physical spec on a pack.
+	 * @abstract
+	 * @param string $packId
+	 * @param Data\PhysicalSpec $physicalSpec
+	 */
+	public function updatePhysicalSpec($packId, \MooPhp\MooInterface\Data\PhysicalSpec $physicalSpec);
+
 }

@@ -31,6 +31,8 @@ class XmlMarshaller implements Marshaller {
 				return (bool)$value;
 			case "float":
 				return (float)$value;
+			case "stringbool":
+				return ($value && $data != "false") ? true : false;
 			case "array":
 			case "ref":
 				throw new \RuntimeException("Complex types not supported for simple values");
@@ -66,6 +68,7 @@ class XmlMarshaller implements Marshaller {
 			case "string":
 			case "int":
 			case "float":
+			case "stringbool":
 			case "bool":
 				$data = $xmlReader->readInnerXml();
 				$ret = $this->_simpleValueAsType($data, $type);

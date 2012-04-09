@@ -8,9 +8,40 @@ namespace MooPhp\MooInterface\Request;
 
 class CreatePack extends Request {
 
+	/**
+	 * @var string
+	 */
 	private $_product;
+
+	/**
+	 * @var \MooPhp\MooInterface\Data\Pack
+	 */
 	private $_pack;
+
+	/**
+	 * @var string
+	 */
 	private $_trackingId = null;
+
+	/**
+	 * @var string
+	 */
+	private $_friendlyName = null;
+
+	/**
+	 * @var string
+	 */
+	private $_startAgainUrl = null;
+
+	/**
+	 * @var \MooPhp\MooInterface\Data\PhysicalSpec
+	 */
+	private $_physicalSpec;
+
+	/**
+	 * @var bool
+	 */
+	private $_includePhysicalSpec = true;
 
 	public function __construct() {
 		$this->_method = "moo.pack.createPack";
@@ -60,6 +91,66 @@ class CreatePack extends Request {
 	 */
 	public function setTrackingId($trackingId) {
 		$this->_trackingId = $trackingId;
+	}
+
+	/**
+	 * @param string $friendlyName
+	 */
+	public function setFriendlyName($friendlyName) {
+		$this->_friendlyName = $friendlyName;
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getFriendlyName() {
+		return $this->_friendlyName;
+	}
+
+	/**
+	 * @param boolean $includePhysicalSpec
+	 */
+	public function setIncludePhysicalSpec($includePhysicalSpec) {
+		$this->_includePhysicalSpec = $includePhysicalSpec;
+		return $this;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function getIncludePhysicalSpec() {
+		return $this->_includePhysicalSpec;
+	}
+
+	/**
+	 * @param \MooPhp\MooInterface\Data\PhysicalSpec $physicalSpec
+	 */
+	public function setPhysicalSpec($physicalSpec) {
+		$this->_physicalSpec = $physicalSpec;
+		return $this;
+	}
+
+	/**
+	 * @return \MooPhp\MooInterface\Data\PhysicalSpec
+	 */
+	public function getPhysicalSpec() {
+		return $this->_physicalSpec;
+	}
+
+	/**
+	 * @param string $startAgainUrl
+	 */
+	public function setStartAgainUrl($startAgainUrl) {
+		$this->_startAgainUrl = $startAgainUrl;
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getStartAgainUrl() {
+		return $this->_startAgainUrl;
 	}
 
 }

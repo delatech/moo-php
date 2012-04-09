@@ -49,7 +49,7 @@ $client->getAccessToken();
 $api = new \MooPhp\Api($client);
 
 
-$packResp = $api->packCreatePack();
+$packResp = $api->packCreatePack(new \MooPhp\MooInterface\Data\PhysicalSpec());
 $packId = $packResp->getPackId();
 $pack = $packResp->getPack();
 

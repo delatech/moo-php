@@ -60,16 +60,21 @@ class Api implements MooInterface\MooApi {
 	 * Create a new Moo pack.
 	 * This will actually create a pack of a given type on the server.
 	 * Requires create permissions which everyone should have.
-	 * @param string $productType A product type to create. This should use one of the PRODUCT_TYPE_ constants.
-	 * @param MooInterface\Data\Pack $pack An optional initial pack to use.
+	 * @abstract
+	 * @param \MooPhp\MooInterface\Data\PhysicalSpec $physicalSpec The physical spec to build the pack with
+	 * @param \MooPhp\MooInterface\Data\Pack|null $pack An optional initial pack to use.
+	 * @param string $friendlyName A friendly name to give the pack in the cart (and I think default save names?)
 	 * @param string $trackingId Optional tracking ID to use for tracking callbacks
-	 * @return MooInterface\Response\CreatePack
+	 * @param string $startAgainUrl Absolute URL to send the user to if they hit the start again button
+	 * @return \MooPhp\MooInterface\Response\CreatePack
 	 */
-	public function packCreatePack($productType = self::PRODUCT_TYPE_BUSINESSCARD, MooInterface\Data\Pack $pack = null, $trackingId = null) {
+	public function packCreatePack(\MooPhp\MooInterface\Data\PhysicalSpec $physicalSpec, MooInterface\Data\Pack $pack = null, $friendlyName = null, $trackingId = null, $startAgainUrl = null) {
 		$request = new MooInterface\Request\CreatePack();
 		$request->setPack($pack);
-		$request->setProduct($productType);
+		$request->setPhysicalSpec($physicalSpec);
 		$request->setTrackingId($trackingId);
+		$request->setFriendlyName($friendlyName);
+		$request->setStartAgainUrl($startAgainUrl);
 		return $this->makeRequest($request, "CreatePackResponse");
 	}
 
@@ -166,5 +171,17 @@ class Api implements MooInterface\MooApi {
 		return $this->makeRequest($request, "ImportImageResponse");
 	}
 
+	/**
+	 * Update the physical spec on a pack.
+	 * @param string $packId
+	 * @param \MooPhp\MooInterface\Data\PhysicalSpec $physicalSpec
+	 * @return MooInterface\Response\UpdatePhysicalSpec
+	 */
+	public function updatePhysicalSpec($packId, \MooPhp\MooInterface\Data\PhysicalSpec $physicalSpec) {
+		$request = new MooInterface\Request\UpdatePhysicalSpec();
+		$request->setPackId($packId);
+		$request->setPhysicalSpec($physicalSpec);
+		return $this->makeRequest($request, "UpdatePhsyicalSpecResponse");
+	}
 }
 

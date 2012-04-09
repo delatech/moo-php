@@ -492,6 +492,23 @@
             }
         }
     },
+    "PhysicalSpec":{
+        "type":"\\MooPhp\\MooInterface\\Data\\PhysicalSpec",
+        "properties": {
+            "productType": {
+                "type": "string"
+            },
+            "paperClassName": {
+                "type": "string"
+            },
+            "finishingOptionName": {
+                "type": "string"
+            },
+            "packSize": {
+                "type": "int"
+            }
+        }
+    },
     "Request":{
         "type":"\\MooPhp\\MooInterface\\Request\\Request",
         "discriminator":{
@@ -500,6 +517,7 @@
                 "moo.pack.createPack":"CreatePackRequest",
                 "moo.pack.updatePack":"UpdatePackRequest",
                 "moo.pack.getPack":"GetPackRequest",
+                "moo.pack.updatePhysicalSpec":"UpdatePhysicalSpecRequest",
                 "moo.pack.addToCart":"AddToCartRequest",
                 "moo.template.getTemplate":"GetTemplateRequest",
                 "moo.image.importImage":"ImportImageRequest",
@@ -522,6 +540,37 @@
             },
             "trackingId":{
                 "type":"string"
+            },
+            "physicalSpec":{
+                "type":"json",
+                "value": {
+                    "type":"ref",
+                    "ref":"PhysicalSpec"
+                }
+            },
+            "friendlyName":{
+                "type": "string"
+            },
+            "startAgainUrl": {
+                "type": "string"
+            },
+            "includePhysicalSpec": {
+                "type": "stringbool"
+            }
+        }
+    },
+    "UpdatePhysicalSpecRequest":{
+        "type":"\\MooPhp\\MooInterface\\Request\\UpdatePhysicalSpec",
+        "properties":{
+            "physicalSpec": {
+                "type":"json",
+                "value": {
+                    "type":"ref",
+                    "ref":"PhysicalSpec"
+                }
+            },
+            "packId":{
+                "type":"string"
             }
         }
     },
@@ -537,6 +586,9 @@
             },
             "packId":{
                 "type":"string"
+            },
+            "includePhysicalSpec": {
+                "type": "stringbool"
             }
         }
     },
@@ -545,6 +597,9 @@
         "properties":{
             "packId":{
                 "type":"string"
+            },
+            "includePhysicalSpec": {
+                "type": "stringbool"
             }
         }
     },
@@ -599,6 +654,10 @@
                 "type":"ref",
                 "ref":"Pack"
             },
+            "physicalSpec":{
+                "type":"ref",
+                "ref":"PhysicalSpec"
+            },
             "warnings":{
                 "type":"array",
                 "key":{
@@ -629,6 +688,10 @@
             "pack":{
                 "type":"ref",
                 "ref":"Pack"
+            },
+            "physicalSpec":{
+                "type":"ref",
+                "ref":"PhysicalSpec"
             },
             "warnings":{
                 "type":"array",
@@ -661,6 +724,10 @@
                 "type":"ref",
                 "ref":"Pack"
             },
+            "physicalSpec":{
+                "type":"ref",
+                "ref":"PhysicalSpec"
+            },
             "warnings":{
                 "type":"array",
                 "key":{
@@ -679,6 +746,18 @@
                 "value":{
                     "type":"string"
                 }
+            }
+        }
+    },
+    "UpdatePhysicalSpecResponse":{
+        "type":"\\MooPhp\\MooInterface\\Response\\UpdatePhysicalSpec",
+        "properties":{
+            "packId":{
+                "type":"string"
+            },
+            "physicalSpec":{
+                "type":"ref",
+                "ref":"PhysicalSpec"
             }
         }
     },
