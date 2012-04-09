@@ -8,32 +8,7 @@ namespace MooPhp\Serialization\Config;
 
 class SerializerSpecificOptions {
 
-	/**
-	 * @var string
-	 */
-	protected $_type;
-
-	/**
-	 * @return string
-	 */
-	public function getType() {
-		return $this->_type;
-	}
-
-	/**
-	 * @param string $type
-	 * @return \MooPhp\Serialization\Config\Types\PropertyType
-	 */
-	public function setType($type) {
-		$this->_type = $type;
-		return $this;
-	}
-
 	protected $_options;
-
-	public function __construct() {
-		$this->setType("array");
-	}
 
 
 	public function setOptions($options) {

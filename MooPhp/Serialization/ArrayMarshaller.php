@@ -65,11 +65,10 @@ class ArrayMarshaller implements Marshaller {
 	 * @return array|bool|float|int|null|object|string
 	 * @throws \RuntimeException
 	 */
-	protected function _valueAsType($data, $type) {
+	protected function _valueAsType($data, \MooPhp\Serialization\Config\Types\PropertyType $type) {
 		if (!isset($data)) {
 			return null;
 		}
-
 
 		switch ($type->getType()) {
 			case "string":
@@ -87,7 +86,7 @@ class ArrayMarshaller implements Marshaller {
 			case "ref":
 				return $this->unmarshall($data, $type->getRef());
 			case "json":
-				return $this->unmarshall(json_decode($data, true), $type->getRef());
+				return $this->_valueAsType(json_decode($data, true), $type->getValue());
 			case "array":
 				$converted = array();
 				foreach ($data as $key => $value) {
@@ -97,7 +96,7 @@ class ArrayMarshaller implements Marshaller {
 				}
 				return $converted;
 		}
-		throw new \RuntimeException("Unknown type $type");
+		throw new \RuntimeException("Unknown type " . $type->getType());
 	}
 
 	public function marshall($object, $ref) {
@@ -174,8 +173,8 @@ class ArrayMarshaller implements Marshaller {
 			// We might not be the real class!
 			$subTypeKey = $discriminatorConfig->getProperty();
 			if ($discrimOptions = $discriminatorConfig->getOption("array")) {
-				if (isset($discrimOptions["name"])) {
-					$subTypeKey = $discrimOptions["name"];
+				if ($discrimOptions->getOption("name")) {
+					$subTypeKey = $discrimOptions->getOption("name");
 				}
 			}
 			if (isset($data[$subTypeKey])) {
@@ -207,8 +206,8 @@ class ArrayMarshaller implements Marshaller {
 		if ($discriminatorConfig = $entry->getDiscriminator()) {
 			$subTypeKey = $discriminatorConfig->getProperty();
 			if ($discrimOptions = $discriminatorConfig->getOption("array")) {
-				if (isset($discrimOptions["name"])) {
-					$subTypeKey = $discrimOptions["name"];
+				if ($discrimOptions->getOption("name")) {
+					$subTypeKey = $discrimOptions->getOption("name");
 				}
 			}
 			if (isset($data[$subTypeKey])) {
@@ -231,8 +230,8 @@ class ArrayMarshaller implements Marshaller {
 			}
 			$name = $property;
 			if ($options = $details->getOption("array")) {
-				if (isset($options["name"])) {
-					$name = $options["name"];
+				if ($options->getOption("name")) {
+					$name = $options->getOption("name");
 				}
 			}
 			$propertiesConfigNameTypeMap[$name] = array($property, $details);

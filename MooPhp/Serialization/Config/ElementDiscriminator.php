@@ -47,6 +47,9 @@ class ElementDiscriminator extends ConfigBaseType {
 	 * @return string
 	 */
 	public function getValue($name) {
+		if (!isset($this->_values[$name])) {
+			return null;
+		}
 		return $this->_values[$name];
 	}
 

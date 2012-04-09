@@ -27,6 +27,7 @@ class ArrayConfigBaseConfig {
 		$config->setConfigElement("BoolType", $this->_getBoolType($ns));
 		$config->setConfigElement("RefType", $this->_getRefType($ns));
 		$config->setConfigElement("ArrayType", $this->_getArrayType($ns));
+		$config->setConfigElement("JsonType", $this->_getJsonType($ns));
 		$config->setConfigElement("SerializerSpecificOptions", $this->_getSerializerSpecificOptions($ns));
 
 		return $config;
@@ -52,7 +53,7 @@ class ArrayConfigBaseConfig {
 		$root->setProperty("type", new Types\StringType());
 		$root->setProperty("properties", new Types\ArrayType(new Types\StringType(), new Types\RefType("PropertyType")));
 		$root->setProperty("discriminator", (new Types\RefType("ElementDiscriminator")));
-		$root->setProperty("options", (new Types\RefType("SerializerSpecificOptions")));
+		$root->setProperty("options", (new Types\ArrayType(new Types\StringType(), new Types\RefType("SerializerSpecificOptions"))));
 
 		return $root;
 	}
@@ -63,7 +64,7 @@ class ArrayConfigBaseConfig {
 		$root->setType($ns . '\ElementDiscriminator');
 		$root->setProperty("property", (new Types\StringType()));
 		$root->setProperty("values", (new Types\ArrayType(new Types\StringType(), new Types\StringType())));
-		$root->setProperty("options", (new Types\RefType("SerializerSpecificOptions")));
+		$root->setProperty("options", (new Types\ArrayType(new Types\StringType(), new Types\RefType("SerializerSpecificOptions"))));
 
 		return $root;
 	}
@@ -78,12 +79,13 @@ class ArrayConfigBaseConfig {
 		$discriminator->setValue("bool", "BoolType");
 		$discriminator->setValue("ref", "RefType");
 		$discriminator->setValue("array", "ArrayType");
+		$discriminator->setValue("json", "JsonType");
 
 		$root = new Config\ConfigElement();
 		$root->setType($ns . '\Types\PropertyType');
 		$root->setProperty("type", new Types\StringType());
 		$root->setDiscriminator($discriminator);
-		$root->setProperty("options", new Types\RefType("SerializerSpecificOptions"));
+		$root->setProperty("options", (new Types\ArrayType(new Types\StringType(), new Types\RefType("SerializerSpecificOptions"))));
 
 		return $root;
 	}
@@ -122,15 +124,21 @@ class ArrayConfigBaseConfig {
 	protected function _getArrayType($ns) {
 		$root = new Config\ConfigElement();
 		$root->setType($ns . '\Types\ArrayType');
-		$root->setProperty("key", new Types\PropertyType());
-		$root->setProperty("value", new Types\PropertyType());
+		$root->setProperty("key", new Types\RefType("PropertyType"));
+		$root->setProperty("value", new Types\RefType("PropertyType"));
+		return $root;
+	}
+
+	protected function _getJsonType($ns) {
+		$root = new Config\ConfigElement();
+		$root->setType($ns . '\Types\JsonType');
+		$root->setProperty("value", new Types\RefType("PropertyType"));
 		return $root;
 	}
 
 	protected function _getSerializerSpecificOptions($ns) {
 		$root = new Config\ConfigElement();
 		$root->setType($ns . '\SerializerSpecificOptions');
-		$root->setProperty("type", new Types\StringType());
 		$root->setProperty("options", new Types\ArrayType(new Types\StringType(), new Types\StringType()));
 		return $root;
 	}
