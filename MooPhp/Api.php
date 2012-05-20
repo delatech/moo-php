@@ -22,8 +22,8 @@ class Api implements MooInterface\MooApi {
 		$this->_client = $client;
 		// TODO: caching of the configs
 		$marshallerConfigs = Serialization\ArrayConfigBaseConfig::getParsedConfig(__DIR__ . "/Serialization/MarshallingConfig.json");
-		$this->_marshaller = new Serialization\ArrayMarshaller($marshallerConfigs);
 		$this->_templateMarshaller = new Serialization\XmlMarshaller($marshallerConfigs);
+        $this->_marshaller = new \PhpMarshaller\JsonMarshaller(new \PhpMarshaller\Config\AnnotationDriver());
 	}
 
 	public function getClient() {
@@ -43,7 +43,7 @@ class Api implements MooInterface\MooApi {
 	protected function _handleResponse($rawResponse, $type) {
 		$arrayResponse = json_decode($rawResponse, true);
 		if (isset($arrayResponse["exception"])) {
-			$e = $this->_marshaller->unmarshall($arrayResponse["exception"], "MooException");
+			$e = $this->_marshaller->readString($rawResponse, "MooException");
 			/**
 			 * @var \Exception $e
 			 */
@@ -52,7 +52,7 @@ class Api implements MooInterface\MooApi {
 		/**
 		 * @var MooInterface\Response\Response $object
 		 */
-		$object = $this->_marshaller->unmarshall($arrayResponse, $type);
+		$object = $this->_marshaller->readString($rawResponse, $type);
 		return $object;
 	}
 
@@ -69,6 +69,11 @@ class Api implements MooInterface\MooApi {
 	 * @return \MooPhp\MooInterface\Response\CreatePack
 	 */
 	public function packCreatePack(\MooPhp\MooInterface\Data\PhysicalSpec $physicalSpec, MooInterface\Data\Pack $pack = null, $friendlyName = null, $trackingId = null, $startAgainUrl = null) {
+
+
+        var_dump($this->_marshaller->writeString($physicalSpec));
+        exit;
+
 		$request = new MooInterface\Request\CreatePack();
 		$request->setPack($pack);
 		$request->setPhysicalSpec($physicalSpec);

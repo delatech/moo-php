@@ -20,6 +20,7 @@ class Extra {
 
 	/**
 	 * @return string
+     * @JsonProperty(type="string")
 	 */
 	public function getKey() {
 		return $this->_key;
@@ -27,6 +28,7 @@ class Extra {
 
 	/**
 	 * @return string
+     * @JsonProperty(type="string")
 	 */
 	public function getValue() {
 		return $this->_value;
@@ -34,6 +36,7 @@ class Extra {
 
 	/**
 	 * @param string $key
+     * @JsonProperty(type="string")
 	 */
 	public function setKey($key) {
 		$this->_key = $key;
@@ -41,6 +44,7 @@ class Extra {
 
 	/**
 	 * @param string $value
+     * @JsonProperty(type="string")
 	 */
 	public function setValue($value) {
 		$this->_value = $value;

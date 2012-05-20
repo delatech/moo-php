@@ -8,5 +8,5 @@
 ini_set("display_errors", true);
 error_reporting(E_ALL);
 
-require_once(__DIR__ . "/../MooPhp/autoloader.php");
+require_once(__DIR__ . "/../MooPhp/MooPhpAutoloader.php");
 

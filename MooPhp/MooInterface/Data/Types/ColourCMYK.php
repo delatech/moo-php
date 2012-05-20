@@ -4,8 +4,8 @@ namespace MooPhp\MooInterface\Data\Types;
  * @package MooPhp
  * @author Jonathan Oddy <jonathan at woaf.net>
  * @copyright Copyright (c) 2011, Jonathan Oddy
+ * @JsonTypeName("CMYK")
  */
-
 class ColourCMYK extends Colour {
 
 	public function __construct($c = 0, $m = 0, $y = 0, $k = 0) {
@@ -46,6 +46,7 @@ class ColourCMYK extends Colour {
 
 	/**
 	 * @param float $c
+     * @JsonProperty(type="float")
 	 */
 	public function setC($c) {
 		$this->_c = $c;
@@ -53,6 +54,7 @@ class ColourCMYK extends Colour {
 
 	/**
 	 * @param float $k
+     * @JsonProperty(type="float")
 	 */
 	public function setK($k) {
 		$this->_k = $k;
@@ -60,6 +62,7 @@ class ColourCMYK extends Colour {
 
 	/**
 	 * @param float $m
+     * @JsonProperty(type="float")
 	 */
 	public function setM($m) {
 		$this->_m = $m;
@@ -67,6 +70,7 @@ class ColourCMYK extends Colour {
 
 	/**
 	 * @param float $y
+     * @JsonProperty(type="float")
 	 */
 	public function setY($y) {
 		$this->_y = $y;
@@ -74,6 +78,7 @@ class ColourCMYK extends Colour {
 
 	/**
 	 * @return float
+     * @JsonProperty(type="float")
 	 */
 	public function getY() {
 		return $this->_y;
@@ -81,6 +86,7 @@ class ColourCMYK extends Colour {
 
 	/**
 	 * @return float
+     * @JsonProperty(type="float")
 	 */
 	public function getM() {
 		return $this->_m;
@@ -88,6 +94,7 @@ class ColourCMYK extends Colour {
 
 	/**
 	 * @return float
+     * @JsonProperty(type="float")
 	 */
 	public function getK() {
 		return $this->_k;
@@ -95,6 +102,7 @@ class ColourCMYK extends Colour {
 
 	/**
 	 * @return float
+     * @JsonProperty(type="float")
 	 */
 	public function getC() {
 		return $this->_c;

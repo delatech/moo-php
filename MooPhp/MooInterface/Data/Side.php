@@ -44,12 +44,17 @@ class Side {
 		$this->_dataByLinkId[$datum->getLinkId()] = $datum;
 	}
 
+    /**
+     * @JsonProperty(type="\MooPhp\MooInterface\Data\UserData\Datum[]")
+     * @return \MooPhp\MooInterface\Data\UserData\Datum[]
+     */
 	public function getData() {
 		return array_values($this->_dataByLinkId);
 	}
 
 	/**
 	 * @return int
+     * @JsonProperty(type="int")
 	 */
 	public function getSideNum() {
 		return $this->_sideNum;
@@ -57,6 +62,7 @@ class Side {
 
 	/**
 	 * @return string
+     * @JsonProperty(type="string")
 	 */
 	public function getTemplateCode() {
 		return $this->_templateCode;
@@ -64,6 +70,7 @@ class Side {
 
 	/**
 	 * @return string
+     * @JsonProperty(type="string")
 	 */
 	public function getType() {
 		return $this->_type;
@@ -71,6 +78,7 @@ class Side {
 
 	/**
 	 * @param \MooPhp\MooInterface\Data\UserData\Datum[] $data
+     * @JsonProperty(type="\MooPhp\MooInterface\Data\UserData\Datum[]")
 	 */
 	public function setData($data) {
 		foreach ($data as $datum) {
@@ -80,6 +88,7 @@ class Side {
 
 	/**
 	 * @param int $sideNum
+     * @JsonProperty(type="int")
 	 */
 	public function setSideNum($sideNum) {
 		$this->_sideNum = $sideNum;
@@ -87,6 +96,7 @@ class Side {
 
 	/**
 	 * @param string $templateCode
+     * @JsonProperty(type="string")
 	 */
 	public function setTemplateCode($templateCode) {
 		$this->_templateCode = $templateCode;
@@ -94,6 +104,7 @@ class Side {
 
 	/**
 	 * @param string $type
+     * @JsonProperty(type="int")
 	 */
 	public function setType($type) {
 		$this->_type = $type;

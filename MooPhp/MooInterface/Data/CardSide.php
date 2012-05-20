@@ -11,19 +11,35 @@ class CardSide {
 	protected $_sideNum;
 	protected $_sideType;
 
-	public function getSideType() {
+    /**
+     * @return string
+     * @JsonProperty(type="string")
+     */
+    public function getSideType() {
 		return $this->_sideType;
 	}
 
+    /**
+     * @return int
+     * @JsonProperty(type="int")
+     */
 	public function getSideNum() {
 		return $this->_sideNum;
 	}
 
-	public function setSideNum($sideNum) {
+    /**
+     * @param int $sideNum
+     * @JsonProperty(type="int")
+     */
+    public function setSideNum($sideNum) {
 		$this->_sideNum = $sideNum;
 	}
 
-	public function setSideType($sideType) {
+    /**
+     * @param string $sideType
+     * @JsonProperty(type="string")
+     */
+    public function setSideType($sideType) {
 		$this->_sideType = $sideType;
 	}
 

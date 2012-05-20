@@ -7,7 +7,7 @@ namespace MooPhp;
  */
 
 /**
- * @param $name Class to load
+ * @param string $name Class to load
  * @return void
  */
 function autoLoad($name) {
@@ -19,7 +19,7 @@ function autoLoad($name) {
 		return;
 	}
 	$path = implode('/', $exploded);
-	include(dirname(__FILE__) . '/' . $path . '.php');
+	include(__DIR__ . '/' . $path . '.php');
 	return;
 }
 

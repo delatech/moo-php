@@ -1,5 +1,7 @@
 <?php
 namespace MooPhp\MooInterface\Data;
+use PhpMarshaller\Config\Annotations\JsonProperty;
+
 /**
  * @package MooPhp
  * @author Jonathan Oddy <jonathan at woaf.net>
@@ -38,6 +40,7 @@ class PhysicalSpec {
 	/**
 	 * @param string $finishingOptionName
 	 * @return \MooPhp\MooInterface\Data\PhysicalSpec
+     * @JsonProperty(type="string")
 	 */
 	public function setFinishingOptionName($finishingOptionName) {
 		$this->_finishingOptionName = $finishingOptionName;
@@ -46,6 +49,7 @@ class PhysicalSpec {
 
 	/**
 	 * @return string
+     * @JsonProperty(type="string")
 	 */
 	public function getFinishingOptionName() {
 		return $this->_finishingOptionName;
@@ -54,6 +58,7 @@ class PhysicalSpec {
 	/**
 	 * @param int $packSize
 	 * @return \MooPhp\MooInterface\Data\PhysicalSpec
+     * @JsonProperty(type="int")
 	 */
 	public function setPackSize($packSize) {
 		$this->_packSize = $packSize;
@@ -62,6 +67,7 @@ class PhysicalSpec {
 
 	/**
 	 * @return int
+     * @JsonProperty(type="int")
 	 */
 	public function getPackSize() {
 		return $this->_packSize;
@@ -70,6 +76,7 @@ class PhysicalSpec {
 	/**
 	 * @param string $paperClassName
 	 * @return \MooPhp\MooInterface\Data\PhysicalSpec
+     * @JsonProperty(type="string")
 	 */
 	public function setPaperClassName($paperClassName) {
 		$this->_paperClassName = $paperClassName;
@@ -78,6 +85,7 @@ class PhysicalSpec {
 
 	/**
 	 * @return string
+     * @JsonProperty(type="string")
 	 */
 	public function getPaperClassName() {
 		return $this->_paperClassName;
@@ -86,6 +94,7 @@ class PhysicalSpec {
 	/**
 	 * @param string $productType
 	 * @return \MooPhp\MooInterface\Data\PhysicalSpec
+     * @JsonProperty(type="string")
 	 */
 	public function setProductType($productType) {
 		$this->_productType = $productType;
@@ -94,6 +103,7 @@ class PhysicalSpec {
 
 	/**
 	 * @return string
+     * @JsonProperty(type="string")
 	 */
 	public function getProductType() {
 		return $this->_productType;

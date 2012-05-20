@@ -32,6 +32,7 @@ class Font {
 
 	/**
 	 * @return boolean
+     * @JsonProperty(type="bool")
 	 */
 	public function getBold() {
 		return $this->_bold;
@@ -39,6 +40,7 @@ class Font {
 
 	/**
 	 * @return string
+     * @JsonProperty(type="string")
 	 */
 	public function getFamily() {
 		return $this->_family;
@@ -46,6 +48,7 @@ class Font {
 
 	/**
 	 * @return boolean
+     * @JsonProperty(type="bool")
 	 */
 	public function getItalic() {
 		return $this->_italic;
@@ -53,6 +56,7 @@ class Font {
 
 	/**
 	 * @param boolean $bold
+     * @JsonProperty(type="bool")
 	 */
 	public function setBold($bold) {
 		$this->_bold = $bold;
@@ -60,6 +64,7 @@ class Font {
 
 	/**
 	 * @param string $family
+     * @JsonProperty(type="string")
 	 */
 	public function setFamily($family) {
 		$this->_family = $family;
@@ -67,6 +72,7 @@ class Font {
 
 	/**
 	 * @param boolean $italic
+     * @JsonProperty(type="bool")
 	 */
 	public function setItalic($italic) {
 		$this->_italic = $italic;

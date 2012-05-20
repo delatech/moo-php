@@ -25,6 +25,7 @@ class Point {
 
 	/**
 	 * @return float
+     * @JsonProperty(type="float")
 	 */
 	public function getX() {
 		return $this->_x;
@@ -32,6 +33,7 @@ class Point {
 
 	/**
 	 * @return float
+     * @JsonProperty(type="float")
 	 */
 	public function getY() {
 		return $this->_y;
@@ -39,6 +41,7 @@ class Point {
 
 	/**
 	 * @param float $y
+     * @JsonProperty(type="float")
 	 */
 	public function setY($y) {
 		$this->_y = $y;
@@ -46,6 +49,7 @@ class Point {
 
 	/**
 	 * @param float $x
+     * @JsonProperty(type="float")
 	 */
 	public function setX($x) {
 		$this->_x = $x;

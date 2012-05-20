@@ -14,7 +14,8 @@ use \MooPhp\MooInterface\Data as Data;
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-require(dirname(__FILE__) . '/../MooPhp/autoloader.php');
+require __DIR__ . '/../MooPhp/MooPhpAutoloader.php';
+require_once "PhpMarshallerAutoloader.php";
 
 $opts = getopt("k:s:");
 

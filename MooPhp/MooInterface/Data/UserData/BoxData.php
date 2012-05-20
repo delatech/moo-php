@@ -4,6 +4,8 @@ namespace MooPhp\MooInterface\Data\UserData;
  * @package MooPhp
  * @author Jonathan Oddy <jonathan at woaf.net>
  * @copyright Copyright (c) 2011, Jonathan Oddy
+ *
+ * @JsonTypeName("boxData")
  */
 
 class BoxData extends Datum {
@@ -19,6 +21,7 @@ class BoxData extends Datum {
 
 	/**
 	 * @return \MooPhp\MooInterface\Data\Types\Colour
+     * @JsonProperty(type="\MooPhp\MooInterface\Data\Types\Colour")
 	 */
 	public function getColour() {
 		return $this->_colour;
@@ -26,6 +29,7 @@ class BoxData extends Datum {
 
 	/**
 	 * @param \MooPhp\MooInterface\Data\Types\Colour $colour
+     * @JsonProperty(type="\MooPhp\MooInterface\Data\Types\Colour")
 	 */
 	public function setColour($colour) {
 		$this->_colour = $colour;

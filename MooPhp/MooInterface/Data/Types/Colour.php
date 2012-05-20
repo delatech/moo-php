@@ -4,8 +4,10 @@ namespace MooPhp\MooInterface\Data\Types;
  * @package MooPhp
  * @author Jonathan Oddy <jonathan at woaf.net>
  * @copyright Copyright (c) 2011, Jonathan Oddy
+ *
+ * @JsonTypeInfo(use=JsonTypeInfo.Id.NAME, as=JsonTypeInfo.As.PROPERTY, property="type")
+ * @JsonSubTypes({@JsonSubTypes.Type("\MooPhp\MooInterface\Data\Types\ColourCMYK"), @JsonSubTypes.Type("\MooPhp\MooInterface\Data\Types\ColourRGB")})
  */
-
 class Colour {
 
 	const COLOUR_RGB = "RGB";
@@ -13,11 +15,19 @@ class Colour {
 
 	protected $_type;
 
-	public function getType() {
+    /**
+     * @return string
+     * @JsonProperty(type="string")
+     */
+    public function getType() {
 		return $this->_type;
 	}
 
-	public function setType($type) {
+    /**
+     * @param string $type
+     * @JsonProperty(type="string")
+     */
+    public function setType($type) {
 		$this->_type = $type;
 	}
 }

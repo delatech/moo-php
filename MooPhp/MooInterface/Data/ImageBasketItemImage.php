@@ -35,12 +35,14 @@ class ImageBasketItemImage {
 
 	/**
 	 * @return int
+     * @JsonProperty(type="int")
 	 */
 	public function getHeight() {
 		return $this->_height;
 	}
 
 	/**
+     * @JsonProperty(type="string")
 	 * @return string
 	 */
 	public function getResourceUri() {
@@ -48,6 +50,7 @@ class ImageBasketItemImage {
 	}
 
 	/**
+     * @JsonProperty(type="float")
 	 * @return float
 	 */
 	public function getRotation() {
@@ -55,6 +58,7 @@ class ImageBasketItemImage {
 	}
 
 	/**
+     * @JsonProperty(type="string")
 	 * @return string
 	 */
 	public function getType() {
@@ -62,6 +66,7 @@ class ImageBasketItemImage {
 	}
 
 	/**
+     * @JsonProperty(type="int")
 	 * @return int
 	 */
 	public function getWidth() {
@@ -69,6 +74,7 @@ class ImageBasketItemImage {
 	}
 
 	/**
+     * @JsonProperty(type="int")
 	 * @param int $height
 	 */
 	public function setHeight($height) {
@@ -76,6 +82,7 @@ class ImageBasketItemImage {
 	}
 
 	/**
+     * @JsonProperty(type="string")
 	 * @param string $resourceUri
 	 */
 	public function setResourceUri($resourceUri) {
@@ -83,6 +90,7 @@ class ImageBasketItemImage {
 	}
 
 	/**
+     * @JsonProperty(type="float")
 	 * @param float $rotation
 	 */
 	public function setRotation($rotation) {
@@ -90,6 +98,7 @@ class ImageBasketItemImage {
 	}
 
 	/**
+     * @JsonProperty(type="string")
 	 * @param string $type
 	 */
 	public function setType($type) {
@@ -97,6 +106,7 @@ class ImageBasketItemImage {
 	}
 
 	/**
+     * @JsonProperty(type="int")
 	 * @param int $width
 	 */
 	public function setWidth($width) {

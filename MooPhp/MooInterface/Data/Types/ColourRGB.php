@@ -4,8 +4,8 @@ namespace MooPhp\MooInterface\Data\Types;
  * @package MooPhp
  * @author Jonathan Oddy <jonathan at woaf.net>
  * @copyright Copyright (c) 2011, Jonathan Oddy
+ * @JsonTypeName("RGB")
  */
-
 class ColourRGB extends Colour {
 
 	public function __construct($r = 255, $g = 255, $b = 255) {
@@ -34,6 +34,7 @@ class ColourRGB extends Colour {
 
 	/**
 	 * @param int $b
+     * @JsonProperty(type="int")
 	 */
 	public function setB($b) {
 		$this->_b = $b;
@@ -41,6 +42,7 @@ class ColourRGB extends Colour {
 
 	/**
 	 * @param int $g
+     * @JsonProperty(type="int")
 	 */
 	public function setG($g) {
 		$this->_g = $g;
@@ -48,6 +50,7 @@ class ColourRGB extends Colour {
 
 	/**
 	 * @param int $r
+     * @JsonProperty(type="int")
 	 */
 	public function setR($r) {
 		$this->_r = $r;
@@ -55,6 +58,7 @@ class ColourRGB extends Colour {
 
 	/**
 	 * @return int
+     * @JsonProperty(type="int")
 	 */
 	public function getB() {
 		return $this->_b;
@@ -62,6 +66,7 @@ class ColourRGB extends Colour {
 
 	/**
 	 * @return int
+     * @JsonProperty(type="int")
 	 */
 	public function getG() {
 		return $this->_g;
@@ -69,6 +74,7 @@ class ColourRGB extends Colour {
 
 	/**
 	 * @return int
+     * @JsonProperty(type="int")
 	 */
 	public function getR() {
 		return $this->_r;

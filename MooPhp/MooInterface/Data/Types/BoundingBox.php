@@ -37,6 +37,7 @@ class BoundingBox {
 
 	/**
 	 * @return float
+     * @JsonProperty(type="float")
 	 */
 	public function getAngle() {
 		return $this->_angle;
@@ -44,6 +45,7 @@ class BoundingBox {
 
 	/**
 	 * @return \MooPhp\MooInterface\Data\Types\Point
+     * @JsonProperty(type="\MooPhp\MooInterface\Data\Types\Point")
 	 */
 	public function getCentre() {
 		return $this->_centre;
@@ -52,6 +54,7 @@ class BoundingBox {
 
 	/**
 	 * @return float
+     * @JsonProperty(type="float")
 	 */
 	public function getHeight() {
 		return $this->_height;
@@ -59,6 +62,7 @@ class BoundingBox {
 
 	/**
 	 * @return float
+     * @JsonProperty(type="float")
 	 */
 	public function getWidth() {
 		return $this->_width;
@@ -66,6 +70,7 @@ class BoundingBox {
 
 	/**
 	 * @param float $angle
+     * @JsonProperty(type="float")
 	 */
 	public function setAngle($angle) {
 		$this->_angle = $angle;
@@ -73,6 +78,7 @@ class BoundingBox {
 
 	/**
 	 * @param \MooPhp\MooInterface\Data\Types\Point $centre
+     * @JsonProperty(type="\MooPhp\MooInterface\Data\Types\Point")
 	 */
 	public function setCentre($centre) {
 		$this->_centre = $centre;
@@ -80,6 +86,7 @@ class BoundingBox {
 
 	/**
 	 * @param float $height
+     * @JsonProperty(type="float")
 	 */
 	public function setHeight($height) {
 		$this->_height = $height;
@@ -87,6 +94,7 @@ class BoundingBox {
 
 	/**
 	 * @param float $width
+     * @JsonProperty(type="float")
 	 */
 	public function setWidth($width) {
 		$this->_width = $width;

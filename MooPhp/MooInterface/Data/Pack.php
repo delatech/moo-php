@@ -1,5 +1,8 @@
 <?php
 namespace MooPhp\MooInterface\Data;
+
+use PhpMarshaller\Config\Annotations\JsonProperty;
+
 /**
  * @package MooPhp
  * @author Jonathan Oddy <jonathan at woaf.net>
@@ -56,6 +59,7 @@ class Pack {
 
 	/**
 	 * @return \MooPhp\MooInterface\Data\Card[] The array of Card in the pack.
+     * @JsonProperty(type="\MooPhp\MooInterface\Data\Card[]")
 	 */
 	public function getCards() {
 		return $this->_cards;
@@ -63,13 +67,15 @@ class Pack {
 
 	/**
 	 * @return \MooPhp\MooInterface\Data\Extra[] The array of extras
-	 */
+     * @JsonProperty(type="\MooPhp\MooInterface\Data\Extra[]")
+     */
 	public function getExtras() {
 		return $this->_extras;
 	}
 
 	/**
 	 * @return \MooPhp\MooInterface\Data\ImageBasket
+     * @JsonProperty(type="\MooPhp\MooInterface\Data\ImageBasket")
 	 */
 	public function getImageBasket() {
 		return $this->_imageBasket;
@@ -77,6 +83,7 @@ class Pack {
 
 	/**
 	 * @return int
+     * @JsonProperty(type="int")
 	 */
 	public function getNumCards() {
 		return $this->_numCards;
@@ -84,6 +91,7 @@ class Pack {
 
 	/**
 	 * @return string
+     * @JsonProperty(type="string")
 	 */
 	public function getProductCode() {
 		return $this->_productCode;
@@ -91,6 +99,7 @@ class Pack {
 
 	/**
 	 * @return int
+     * @JsonProperty(type="int")
 	 */
 	public function getProductVersion() {
 		return $this->_productVersion;
@@ -99,6 +108,7 @@ class Pack {
 	/**
 	 * If you modify the sides you are expected to call setSides()
 	 * @return \MooPhp\MooInterface\Data\Side[]
+     * @JsonProperty(type="\MooPhp\MooInterface\Data\Side[]")
 	 */
 	public function getSides() {
 		$retval = array();
@@ -110,6 +120,7 @@ class Pack {
 
 	/**
 	 * @param array|null $cards
+     * @JsonProperty(type="\MooPhp\MooInterface\Data\Cards[]")
 	 */
 	public function setCards($cards) {
 		$this->_cards = $cards;
@@ -117,6 +128,7 @@ class Pack {
 
 	/**
 	 * @param array $extras
+     * @JsonProperty(type="\MooPhp\MooInterface\Data\Extras[]")
 	 */
 	public function setExtras($extras) {
 		$this->_extras = $extras;
@@ -124,6 +136,7 @@ class Pack {
 
 	/**
 	 * @param \MooPhp\MooInterface\Data\ImageBasket $imageBasket
+     * @JsonProperty(type="\MooPhp\MooInterface\Data\ImageBasket")
 	 */
 	public function setImageBasket($imageBasket) {
 		$this->_imageBasket = $imageBasket;
@@ -131,6 +144,7 @@ class Pack {
 
 	/**
 	 * @param int $numCards
+     * @JsonProperty(type="int")
 	 */
 	public function setNumCards($numCards) {
 		$this->_numCards = $numCards;
@@ -138,6 +152,7 @@ class Pack {
 
 	/**
 	 * @param string $productCode
+     * @JsonProperty(type="string")
 	 */
 	public function setProductCode($productCode) {
 		$this->_productCode = $productCode;
@@ -145,6 +160,7 @@ class Pack {
 
 	/**
 	 * @param int $productVersion
+     * @JsonProperty(type="int")
 	 */
 	public function setProductVersion($productVersion) {
 		$this->_productVersion = $productVersion;
@@ -152,6 +168,7 @@ class Pack {
 
 	/**
 	 * @param Side[] $sides
+     * @JsonProperty(type="\MooPhp\MooInterface\Data\Side[]")
 	 */
 	public function setSides($sides) {
 		foreach ($sides as $side) {

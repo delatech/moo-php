@@ -4,6 +4,8 @@ namespace MooPhp\MooInterface\Data\UserData;
  * @package MooPhp
  * @author Jonathan Oddy <jonathan at woaf.net>
  * @copyright Copyright (c) 2011, Jonathan Oddy
+ *
+ * @JsonTypeName("multiLineTextData")
  */
 
 class MultiLineTextData extends Datum {
@@ -35,6 +37,7 @@ class MultiLineTextData extends Datum {
 
 	/**
 	 * @return string
+     * @JsonProperty(type="string")
 	 */
 	public function getAlignment() {
 		return $this->_alignment;
@@ -42,6 +45,7 @@ class MultiLineTextData extends Datum {
 
 	/**
 	 * @return \MooPhp\MooInterface\Data\Types\Colour
+     * @JsonProperty(type="\MooPhp\MooInterface\Data\Types\Colour")
 	 */
 	public function getColour() {
 		return $this->_colour;
@@ -49,6 +53,7 @@ class MultiLineTextData extends Datum {
 
 	/**
 	 * @return \MooPhp\MooInterface\Data\Types\Font
+     * @JsonProperty(type="\MooPhp\MooInterface\Data\Types\Font")
 	 */
 	public function getFont() {
 		return $this->_font;
@@ -56,6 +61,7 @@ class MultiLineTextData extends Datum {
 
 	/**
 	 * @return float
+     * @JsonProperty(type="float")
 	 */
 	public function getPointSize() {
 		return $this->_pointSize;
@@ -63,6 +69,7 @@ class MultiLineTextData extends Datum {
 
 	/**
 	 * @return string
+     * @JsonProperty(type="string")
 	 */
 	public function getText() {
 		return $this->_text;
@@ -74,6 +81,7 @@ class MultiLineTextData extends Datum {
 
 	/**
 	 * @param string $alignment
+     * @JsonProperty(type="string")
 	 */
 	public function setAlignment($alignment) {
 		$this->_alignment = $alignment;
@@ -81,12 +89,14 @@ class MultiLineTextData extends Datum {
 
 	/**
 	 * @param \MooPhp\MooInterface\Data\Types\Colour $colour
+     * @JsonProperty(type="\MooPhp\MooInterface\Data\Types\Colour")
 	 */
 	public function setColour($colour) {
 		$this->_colour = $colour;
 	}
 
 	/**
+     * @JsonProperty(type="\MooPhp\MooInterface\Data\Types\Font")
 	 * @param \MooPhp\MooInterface\Data\Types\Font $font
 	 */
 	public function setFont($font) {
@@ -95,6 +105,7 @@ class MultiLineTextData extends Datum {
 
 	/**
 	 * @param float $pointSize
+     * @JsonProperty(type="float")
 	 */
 	public function setPointSize($pointSize) {
 		$this->_pointSize = $pointSize;
@@ -102,6 +113,7 @@ class MultiLineTextData extends Datum {
 
 	/**
 	 * @param string $text
+     * @JsonProperty(type="string")
 	 */
 	public function setText($text) {
 		$this->_text = $text;

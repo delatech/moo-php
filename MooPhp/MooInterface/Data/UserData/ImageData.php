@@ -4,6 +4,8 @@ namespace MooPhp\MooInterface\Data\UserData;
  * @package MooPhp
  * @author Jonathan Oddy <jonathan at woaf.net>
  * @copyright Copyright (c) 2011, Jonathan Oddy
+ *
+ * @JsonTypeName("imageData")
  */
 
 class ImageData extends Datum {
@@ -34,6 +36,7 @@ class ImageData extends Datum {
 
 	/**
 	 * @return boolean
+     * @JsonProperty(type="bool")
 	 */
 	public function getEnhance() {
 		return $this->_enhance;
@@ -41,6 +44,7 @@ class ImageData extends Datum {
 
 	/**
 	 * @return \MooPhp\MooInterface\Data\Types\BoundingBox
+     * @JsonProperty(type="\MooPhp\MooInterface\Data\Types\BoundingBox")
 	 */
 	public function getImageBox() {
 		return $this->_imageBox;
@@ -48,6 +52,7 @@ class ImageData extends Datum {
 
 	/**
 	 * @return string
+     * @JsonProperty(type="string")
 	 */
 	public function getImageStoreFileId() {
 		return $this->_imageStoreFileId;
@@ -55,6 +60,7 @@ class ImageData extends Datum {
 
 	/**
 	 * @return string
+     * @JsonProperty(type="string")
 	 */
 	public function getResourceUri() {
 		return $this->_resourceUri;
@@ -62,6 +68,7 @@ class ImageData extends Datum {
 
 	/**
 	 * @param boolean $enhance
+     * @JsonProperty(type="bool")
 	 */
 	public function setEnhance($enhance) {
 		$this->_enhance = $enhance;
@@ -69,6 +76,7 @@ class ImageData extends Datum {
 
 	/**
 	 * @param \MooPhp\MooInterface\Data\Types\BoundingBox $imageBox
+     * @JsonProperty(type="\MooPhp\MooInterface\Data\Types\BoundingBox")
 	 */
 	public function setImageBox($imageBox) {
 		$this->_imageBox = $imageBox;
@@ -76,6 +84,7 @@ class ImageData extends Datum {
 
 	/**
 	 * @param string $imageStoreFileId
+     * @JsonProperty(type="string")
 	 */
 	public function setImageStoreFileId($imageStoreFileId) {
 		$this->_imageStoreFileId = $imageStoreFileId;
@@ -83,6 +92,7 @@ class ImageData extends Datum {
 
 	/**
 	 * @param string $resourceUri
+     * @JsonProperty(type="string")
 	 */
 	public function setResourceUri($resourceUri) {
 		$this->_resourceUri = $resourceUri;

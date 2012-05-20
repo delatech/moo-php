@@ -61,6 +61,7 @@ class ImageBasketItem {
 
 	/**
 	 * @return string
+     * @JsonProperty(type="string")
 	 */
 	public function getCopyrightOwner() {
 		return $this->_copyrightOwner;
@@ -68,17 +69,23 @@ class ImageBasketItem {
 
 	/**
 	 * @return boolean
+     * @JsonProperty(type="bool")
 	 */
 	public function getCroppable() {
 		return $this->_croppable;
 	}
 
-	public function getImageItems() {
+    /**
+     * @return array
+     * @JsonProperty(type="\MooPhp\MooInterface\Data\ImageBasketItemImage[]")
+     */
+    public function getImageItems() {
 		return array_values($this->_imageItemsByType);
 	}
 
 	/**
 	 * @return boolean
+     * @JsonProperty(type="bool")
 	 */
 	public function getRemovable() {
 		return $this->_removable;
@@ -86,6 +93,7 @@ class ImageBasketItem {
 
 	/**
 	 * @return string
+     * @JsonProperty(type="string")
 	 */
 	public function getResourceUri() {
 		return $this->_resourceUri;
@@ -93,6 +101,7 @@ class ImageBasketItem {
 
 	/**
 	 * @return boolean
+     * @JsonProperty(type="bool")
 	 */
 	public function getShouldEnhance() {
 		return $this->_shouldEnhance;
@@ -100,6 +109,7 @@ class ImageBasketItem {
 
 	/**
 	 * @return string
+     * @JsonProperty(type="string")
 	 */
 	public function getType() {
 		return $this->_type;
@@ -107,6 +117,7 @@ class ImageBasketItem {
 
 	/**
 	 * @return string
+     * @JsonProperty(type="string")
 	 */
 	public function getCacheId() {
 		return $this->_cacheId;
@@ -114,6 +125,7 @@ class ImageBasketItem {
 
 	/**
 	 * @param string $cacheId
+     * @JsonProperty(type="string")
 	 */
 	public function setCacheId($cacheId) {
 		$this->_cacheId = $cacheId;
@@ -121,6 +133,7 @@ class ImageBasketItem {
 
 	/**
 	 * @param string $copyrightOwner
+     * @JsonProperty(type="string")
 	 */
 	public function setCopyrightOwner($copyrightOwner) {
 		$this->_copyrightOwner = $copyrightOwner;
@@ -128,6 +141,7 @@ class ImageBasketItem {
 
 	/**
 	 * @param boolean $croppable
+     * @JsonProperty(type="bool")
 	 */
 	public function setCroppable($croppable) {
 		$this->_croppable = $croppable;
@@ -135,6 +149,7 @@ class ImageBasketItem {
 
 	/**
 	 * @param \MooPhp\MooInterface\Data\ImageBasketItemImage[] $imageItems
+     * @JsonProperty(type="\MooPhp\MooInterface\Data\ImageBasketItemImage[]")
 	 */
 	public function setImageItems($imageItems) {
 		foreach ($imageItems as $imageItem) {
@@ -144,6 +159,7 @@ class ImageBasketItem {
 
 	/**
 	 * @param boolean $removable
+     * @JsonProperty(type="bool")
 	 */
 	public function setRemovable($removable) {
 		$this->_removable = $removable;
@@ -151,6 +167,7 @@ class ImageBasketItem {
 
 	/**
 	 * @param string $resourceUri
+     * @JsonProperty(type="string")
 	 */
 	public function setResourceUri($resourceUri) {
 		$this->_resourceUri = $resourceUri;
@@ -158,6 +175,7 @@ class ImageBasketItem {
 
 	/**
 	 * @param boolean $shouldEnhance
+     * @JsonProperty(type="bool")
 	 */
 	public function setShouldEnhance($shouldEnhance) {
 		$this->_shouldEnhance = $shouldEnhance;
@@ -165,6 +183,7 @@ class ImageBasketItem {
 
 	/**
 	 * @param string $type
+     * @JsonProperty(type="string")
 	 */
 	public function setType($type) {
 		$this->_type = $type;

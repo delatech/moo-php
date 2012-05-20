@@ -20,23 +20,33 @@ class Card {
 
 	/**
 	 * @return int
+     * @JsonProperty(type="int")
 	 */
 	public function getCardNum() {
 		return $this->_cardNum;
 	}
 
-	public function getCardSides() {
+    /**
+     * @return CardSide[]
+     * @JsonProperty(type="\MooPhp\MooInterface\Data\CardSide[]")
+     */
+    public function getCardSides() {
 		return $this->_cardSides;
 	}
 
 	/**
 	 * @param int $cardNum
+     * @JsonProperty(type="int")
 	 */
 	public function setCardNum($cardNum) {
 		$this->_cardNum = $cardNum;
 	}
 
-	public function setCardSides($cardSides) {
+    /**
+     * @JsonProperty(type="\MooPhp\MooInterface\Data\CardSide[]")
+     * @param $cardSides
+     */
+    public function setCardSides($cardSides) {
 		$this->_cardSides = $cardSides;
 	}
 
