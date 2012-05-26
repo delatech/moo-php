@@ -69,11 +69,6 @@ class Api implements MooInterface\MooApi {
 	 * @return \MooPhp\MooInterface\Response\CreatePack
 	 */
 	public function packCreatePack(\MooPhp\MooInterface\Data\PhysicalSpec $physicalSpec, MooInterface\Data\Pack $pack = null, $friendlyName = null, $trackingId = null, $startAgainUrl = null) {
-
-
-        var_dump($this->_marshaller->writeString($physicalSpec));
-        exit;
-
 		$request = new MooInterface\Request\CreatePack();
 		$request->setPack($pack);
 		$request->setPhysicalSpec($physicalSpec);
