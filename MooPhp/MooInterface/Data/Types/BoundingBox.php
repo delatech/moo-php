@@ -46,7 +46,7 @@ class BoundingBox {
 
 	/**
 	 * @return \MooPhp\MooInterface\Data\Types\Point
-     * @JsonProperty(type="\MooPhp\MooInterface\Data\Types\Point")
+     * @JsonProperty(name="center", type="\MooPhp\MooInterface\Data\Types\Point")
 	 */
 	public function getCentre() {
 		return $this->_centre;
@@ -79,7 +79,7 @@ class BoundingBox {
 
 	/**
 	 * @param \MooPhp\MooInterface\Data\Types\Point $centre
-     * @JsonProperty(type="\MooPhp\MooInterface\Data\Types\Point")
+     * @JsonProperty(name="center", type="\MooPhp\MooInterface\Data\Types\Point")
 	 */
 	public function setCentre($centre) {
 		$this->_centre = $centre;

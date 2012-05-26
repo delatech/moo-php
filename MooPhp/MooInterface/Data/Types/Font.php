@@ -43,7 +43,7 @@ class Font {
 
 	/**
 	 * @return string
-     * @JsonProperty(type="string")
+     * @JsonProperty(name="fontFamily", type="string")
 	 */
 	public function getFamily() {
 		return $this->_family;
@@ -67,7 +67,7 @@ class Font {
 
 	/**
 	 * @param string $family
-     * @JsonProperty(type="string")
+     * @JsonProperty(name="fontFamily", type="string")
 	 */
 	public function setFamily($family) {
 		$this->_family = $family;

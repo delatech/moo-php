@@ -9,10 +9,10 @@ use PhpMarshaller\Config\Annotations\JsonSubTypes;
  * @copyright Copyright (c) 2011, Jonathan Oddy
  *
  * @JsonTypeInfo(use=JsonTypeInfo.Id.NAME, as=JsonTypeInfo.As.PROPERTY, property="type")
- * @JsonSubTypes({@JsonSubTypes.Type("\MooPhp\MooInterface\Data\UserData\BoxData"),
-                  @JsonSubTypes.Type("\MooPhp\MooInterface\Data\UserData\ImageData")
-                  @JsonSubTypes.Type("\MooPhp\MooInterface\Data\UserData\MultiLineTextData")
-                  @JsonSubTypes.Type("\MooPhp\MooInterface\Data\UserData\TextData")
+ * @JsonSubTypes({@JsonSubTypes\Type("\MooPhp\MooInterface\Data\UserData\BoxData"),
+                  @JsonSubTypes\Type("\MooPhp\MooInterface\Data\UserData\ImageData"),
+                  @JsonSubTypes\Type("\MooPhp\MooInterface\Data\UserData\MultiLineTextData"),
+                  @JsonSubTypes\Type("\MooPhp\MooInterface\Data\UserData\TextData"),
                 })
  */
 

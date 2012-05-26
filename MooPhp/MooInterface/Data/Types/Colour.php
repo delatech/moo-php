@@ -9,7 +9,7 @@ use PhpMarshaller\Config\Annotations\JsonSubTypes;
  * @copyright Copyright (c) 2011, Jonathan Oddy
  *
  * @JsonTypeInfo(use=JsonTypeInfo.Id.NAME, as=JsonTypeInfo.As.PROPERTY, property="type")
- * @JsonSubTypes({@JsonSubTypes.Type("\MooPhp\MooInterface\Data\Types\ColourCMYK"), @JsonSubTypes.Type("\MooPhp\MooInterface\Data\Types\ColourRGB")})
+ * @JsonSubTypes({@JsonSubTypes\Type("\MooPhp\MooInterface\Data\Types\ColourCMYK"), @JsonSubTypes\Type("\MooPhp\MooInterface\Data\Types\ColourRGB")})
  */
 class Colour {
 

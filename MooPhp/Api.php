@@ -136,7 +136,7 @@ class Api implements MooInterface\MooApi {
 		$request = new MooInterface\Request\UpdatePack();
 		$request->setPackId($packId);
 		$request->setPack($pack);
-		return $this->makeRequest($request, "GetPack");
+		return $this->makeRequest($request, "UpdatePack");
 	}
 
 	/**

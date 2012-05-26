@@ -105,7 +105,7 @@ class Side {
 
 	/**
 	 * @param string $type
-     * @JsonProperty(type="int")
+     * @JsonProperty(type="string")
 	 */
 	public function setType($type) {
 		$this->_type = $type;

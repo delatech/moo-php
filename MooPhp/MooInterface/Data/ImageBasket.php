@@ -46,7 +46,7 @@ class ImageBasket {
 
     /**
      * @return ImageBasketItem[]
-     * @JsonProperty(type="\MooPhp\MooInterface\ImageBasketItem[]")
+     * @JsonProperty(type="\MooPhp\MooInterface\Data\ImageBasketItem[]")
      */
     public function getItems() {
 		return $this->_items;
@@ -78,7 +78,7 @@ class ImageBasket {
 
     /**
      * @param $items
-     * @JsonProperty(type="\MooPhp\MooInterface\ImageBasketItem[]")
+     * @JsonProperty(type="\MooPhp\MooInterface\Data\ImageBasketItem[]")
      */
     public function setItems($items) {
 		$this->_items = $items;
