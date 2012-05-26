@@ -1,8 +1,8 @@
 <?php
 namespace MooPhp\MooInterface\Data;
-use PhpMarshaller\Config\Annotations\JsonProperty;
+use PhpJsonMarshaller\Config\Annotations\JsonProperty;
 /**
-use PhpMarshaller\Config\Annotations\JsonProperty;
+use PhpJsonMarshaller\Config\Annotations\JsonProperty;
  * @package MooPhp
  * @author Jonathan Oddy <jonathan at woaf.net>
  * @copyright Copyright (c) 2011, Jonathan Oddy

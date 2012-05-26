@@ -28,7 +28,7 @@ class Api implements MooInterface\MooApi {
 		// TODO: caching of the configs
 		$marshallerConfigs = Serialization\ArrayConfigBaseConfig::getParsedConfig(__DIR__ . "/Serialization/MarshallingConfig.json");
 		$this->_templateMarshaller = new Serialization\XmlMarshaller($marshallerConfigs);
-        $this->_marshaller = new \PhpMarshaller\JsonMarshaller(new \PhpMarshaller\Config\AnnotationDriver($client->getLogger()));
+        $this->_marshaller = new \PhpJsonMarshaller\JsonMarshaller(new \PhpJsonMarshaller\Config\AnnotationDriver($client->getLogger()));
         $this->_logger = $client->getLogger();
 	}
 

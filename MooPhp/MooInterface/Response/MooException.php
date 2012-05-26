@@ -1,8 +1,8 @@
 <?php
 namespace MooPhp\MooInterface\Response;
 
-use PhpMarshaller\Config\Annotations\JsonProperty;
-use PhpMarshaller\Config\Annotations\JsonCreator;
+use PhpJsonMarshaller\Config\Annotations\JsonProperty;
+use PhpJsonMarshaller\Config\Annotations\JsonCreator;
 
 /**
  * @package MooPhp
