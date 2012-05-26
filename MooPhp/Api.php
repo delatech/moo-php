@@ -18,12 +18,18 @@ class Api implements MooInterface\MooApi {
 	protected $_marshaller;
 	protected $_templateMarshaller;
 
+    /**
+     * @var \PhpLogger\Logger
+     */
+    protected $_logger;
+
 	public function __construct(Client\Client $client) {
 		$this->_client = $client;
 		// TODO: caching of the configs
 		$marshallerConfigs = Serialization\ArrayConfigBaseConfig::getParsedConfig(__DIR__ . "/Serialization/MarshallingConfig.json");
 		$this->_templateMarshaller = new Serialization\XmlMarshaller($marshallerConfigs);
         $this->_marshaller = new \PhpMarshaller\JsonMarshaller(new \PhpMarshaller\Config\AnnotationDriver($client->getLogger()));
+        $this->_logger = $client->getLogger();
 	}
 
 	public function getClient() {
@@ -38,6 +44,9 @@ class Api implements MooInterface\MooApi {
 	public function makeRequest(\MooPhp\MooInterface\Request\Request $request, $responseType) {
         $rObject = new \ReflectionObject($request);
         $requestParams = array();
+        if (isset($this->_logger)) {
+            $this->_logger->logDebug("Encoding request " . print_r($request, true));
+        }
         foreach ($rObject->getMethods() as $method) {
             /**
              * @var \ReflectionMethod $method
@@ -68,6 +77,11 @@ class Api implements MooInterface\MooApi {
          * @var \MooPhp\MooInterface\Response\Response $object
          */
         $object = $this->_marshaller->readString($rawResponse, '\MooPhp\MooInterface\Response\\' . $type);
+
+        if (isset($this->_logger)) {
+            $this->_logger->logDebug("Decoded response to " . print_r($object, true));
+        }
+
         if ($object->getException()) {
             throw $object->getException();
         }

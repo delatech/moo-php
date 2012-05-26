@@ -26,6 +26,10 @@ interface Client {
 
 	public function getFile($method, array $params);
 
+    /**
+     * @abstract
+     * @return \PhpLogger\Logger
+     */
     public function getLogger();
 
 }

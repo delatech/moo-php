@@ -1,10 +1,12 @@
 <?php
 namespace MooPhp\MooInterface\Data\Types;
 use PhpMarshaller\Config\Annotations\JsonProperty;
+use PhpMarshaller\Config\Annotations\JsonInclude;
 /**
  * @package MooPhp
  * @author Jonathan Oddy <jonathan at woaf.net>
  * @copyright Copyright (c) 2011, Jonathan Oddy
+ * @JsonInclude(JsonInclude.Include.NON_NULL)
  */
 
 class Font {
