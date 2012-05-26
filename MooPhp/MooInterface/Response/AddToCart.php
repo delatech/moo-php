@@ -1,5 +1,6 @@
 <?php
 namespace MooPhp\MooInterface\Response;
+use PhpMarshaller\Config\Annotations\JsonProperty;
 /**
  * @package MooPhp
  * @author Jonathan Oddy <jonathan at woaf.net>
@@ -25,11 +26,19 @@ class AddToCart extends Response {
 		return $this->_dropIns;
 	}
 
-	public function setDropIns($dropIns) {
+    /**
+     * @param $dropIns
+     * @JsonProperty(type="string[string]")
+     */
+    public function setDropIns($dropIns) {
 		$this->_dropIns = $dropIns;
 	}
 
-	public function setWarnings($warnings) {
+    /**
+     * @param $warnings
+     * @JsonProperty(type="\MooPhp\MooInterface\Response\Warning[]")
+     */
+    public function setWarnings($warnings) {
 		$this->_warnings = $warnings;
 	}
 

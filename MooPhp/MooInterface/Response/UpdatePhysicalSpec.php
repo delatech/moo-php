@@ -1,5 +1,6 @@
 <?php
 namespace MooPhp\MooInterface\Response;
+use PhpMarshaller\Config\Annotations\JsonProperty;
 /**
  * @package MooPhp
  * @author Jonathan Oddy <jonathan at woaf.net>
@@ -23,13 +24,18 @@ class UpdatePhysicalSpec extends Response {
 		return $this->_packId;
 	}
 
-	public function setPackId($packId) {
+    /**
+     * @param $packId
+     * @JsonProperty(type="string")
+     */
+    public function setPackId($packId) {
 		$this->_packId = $packId;
 	}
 
 	/**
 	 * @param \MooPhp\MooInterface\Data\PhysicalSpec $physicalSpec
 	 * @return \MooPhp\MooInterface\Response\UpdatePhysicalSpec
+     * @JsonProperty(type="\MooPhp\MooInterface\Data\PhysicalSpec")
 	 */
 	public function setPhysicalSpec($physicalSpec) {
 		$this->_physicalSpec = $physicalSpec;

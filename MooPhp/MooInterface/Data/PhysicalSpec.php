@@ -1,13 +1,15 @@
 <?php
 namespace MooPhp\MooInterface\Data;
 use PhpMarshaller\Config\Annotations\JsonProperty;
+use PhpMarshaller\Config\Annotations\JsonInclude;
 
 /**
  * @package MooPhp
  * @author Jonathan Oddy <jonathan at woaf.net>
  * @copyright Copyright (c) 2011, Jonathan Oddy
+ *
+ * @JsonInclude(JsonInclude.Include.NON_NULL)
  */
-
 class PhysicalSpec {
 
 	public function __construct($productType = \MooPhp\MooInterface\MooApi::PRODUCT_TYPE_BUSINESSCARD, $paperClassName = null, $finishingOptionName = null, $packSize = null) {

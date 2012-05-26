@@ -26,8 +26,8 @@ if (!isset($opts["k"]) || !isset($opts['s'])) {
 $key = $opts['k'];
 $secret = $opts['s'];
 
-$logger = new \MooPhp\Client\FileLogger();
-$logger->setLogLevel(\MooPhp\Client\Logger::LOG_LEVEL_DEBUG);
+$logger = new \PhpLogger\FileLogger();
+$logger->setLogLevel(\PhpLogger\Logger::LOG_LEVEL_DEBUG);
 
 $client = new \MooPhp\Client\OAuthSigningClient($key, $secret, $logger);
 

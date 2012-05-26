@@ -19,7 +19,7 @@ class OAuthSigningClient implements Client {
 	protected $_ch;
 
 	/**
-	 * @var \MooPhp\Client\Logger
+	 * @var \PhpLogger\Logger
 	 */
 	protected $_logger;
 
@@ -139,4 +139,8 @@ class OAuthSigningClient implements Client {
 
 	}
 
+    public function getLogger()
+    {
+        return $this->_logger;
+    }
 }

@@ -23,7 +23,7 @@ class Api implements MooInterface\MooApi {
 		// TODO: caching of the configs
 		$marshallerConfigs = Serialization\ArrayConfigBaseConfig::getParsedConfig(__DIR__ . "/Serialization/MarshallingConfig.json");
 		$this->_templateMarshaller = new Serialization\XmlMarshaller($marshallerConfigs);
-        $this->_marshaller = new \PhpMarshaller\JsonMarshaller(new \PhpMarshaller\Config\AnnotationDriver());
+        $this->_marshaller = new \PhpMarshaller\JsonMarshaller(new \PhpMarshaller\Config\AnnotationDriver($client->getLogger()));
 	}
 
 	public function getClient() {
@@ -36,23 +36,41 @@ class Api implements MooInterface\MooApi {
 	 * @return string
 	 */
 	public function makeRequest(\MooPhp\MooInterface\Request\Request $request, $responseType) {
-		$rawResponse = $this->_client->makeRequest($request->getMethod(), $this->_marshaller->marshall($request, "Request"));
+        $rObject = new \ReflectionObject($request);
+        $requestParams = array();
+        foreach ($rObject->getMethods() as $method) {
+            /**
+             * @var \ReflectionMethod $method
+             */
+            $name = $method->getName();
+            if ($method->getNumberOfParameters() === 0 && strpos($name, "get") === 0) {
+                $property = lcfirst(substr($name, 3));
+                $rawValue = $request->$name();
+                $value = null;
+                if (is_object($rawValue)) {
+                    $value = $this->_marshaller->writeString($rawValue);
+                } elseif (is_array($rawValue)) {
+                    $value = json_encode($rawValue);
+                } elseif (is_bool($rawValue)) {
+                    $value = $rawValue ? "true" : "false";
+                } else {
+                    $value = $rawValue;
+                }
+                $requestParams[$property] = $value;
+            }
+        }
+		$rawResponse = $this->_client->makeRequest($request->getMethod(), $requestParams);
 		return $this->_handleResponse($rawResponse, $responseType);
 	}
 
 	protected function _handleResponse($rawResponse, $type) {
-		$arrayResponse = json_decode($rawResponse, true);
-		if (isset($arrayResponse["exception"])) {
-			$e = $this->_marshaller->readString($rawResponse, "MooException");
-			/**
-			 * @var \Exception $e
-			 */
-			throw $e;
-		}
-		/**
-		 * @var MooInterface\Response\Response $object
-		 */
-		$object = $this->_marshaller->readString($rawResponse, $type);
+        /**
+         * @var \MooPhp\MooInterface\Response\Response $object
+         */
+        $object = $this->_marshaller->readString($rawResponse, '\MooPhp\MooInterface\Response\\' . $type);
+        if ($object->getException()) {
+            throw $object->getException();
+        }
 		return $object;
 	}
 
@@ -75,7 +93,7 @@ class Api implements MooInterface\MooApi {
 		$request->setTrackingId($trackingId);
 		$request->setFriendlyName($friendlyName);
 		$request->setStartAgainUrl($startAgainUrl);
-		return $this->makeRequest($request, "CreatePackResponse");
+		return $this->makeRequest($request, "CreatePack");
 	}
 
 	/**
@@ -89,7 +107,7 @@ class Api implements MooInterface\MooApi {
 	public function packGetPack($packId) {
 		$request = new MooInterface\Request\GetPack();
 		$request->setPackId($packId);
-		return $this->makeRequest($request, "GetPackResponse");
+		return $this->makeRequest($request, "GetPack");
 	}
 
 	/**
@@ -104,7 +122,7 @@ class Api implements MooInterface\MooApi {
 		$request = new MooInterface\Request\UpdatePack();
 		$request->setPackId($packId);
 		$request->setPack($pack);
-		return $this->makeRequest($request, "GetPackResponse");
+		return $this->makeRequest($request, "GetPack");
 	}
 
 	/**
@@ -118,7 +136,7 @@ class Api implements MooInterface\MooApi {
 	public function packAddToCart($packId, $quantity = 1) {
 		$request = new MooInterface\Request\AddToCart();
 		$request->setPackId($packId, $quantity);
-		return $this->makeRequest($request, "AddToCartResponse");
+		return $this->makeRequest($request, "AddToCart");
 	}
 
 	/**
@@ -131,7 +149,12 @@ class Api implements MooInterface\MooApi {
 	public function templateGetTemplate($templateCode) {
 		$request = new MooInterface\Request\GetTemplate();
 		$request->setTemplateCode($templateCode);
-		$rawResponse = $this->_client->getFile($request->getMethod(), $this->_marshaller->marshall($request, "Request"));
+
+        $requestParams = array(
+            "templateCode" => $templateCode,
+        );
+
+		$rawResponse = $this->_client->getFile($request->getMethod(), $requestParams);
 		return $this->_templateMarshaller->unmarshall($rawResponse, "Template");
 	}
 
@@ -153,8 +176,11 @@ class Api implements MooInterface\MooApi {
 
 		$request = new MooInterface\Request\UploadImage();
 		$request->setImageType($imageType);
-		$rawResponse = $this->_client->sendFile($request->getMethod(), $this->_marshaller->marshall($request, "Request"), $imageFilePath);
-		return $this->_handleResponse($rawResponse, "UploadImageResponse");
+
+        $requestParams["imageType"] = $imageType;
+
+        $rawResponse = $this->_client->sendFile($request->getMethod(), $requestParams, $imageFilePath);
+		return $this->_handleResponse($rawResponse, "UploadImage");
 	}
 
 	/**
@@ -168,7 +194,7 @@ class Api implements MooInterface\MooApi {
 		$request = new MooInterface\Request\ImportImage();
 		$request->setImageType($imageType);
 		$request->setImageUrl($url);
-		return $this->makeRequest($request, "ImportImageResponse");
+		return $this->makeRequest($request, "ImportImage");
 	}
 
 	/**
@@ -181,7 +207,7 @@ class Api implements MooInterface\MooApi {
 		$request = new MooInterface\Request\UpdatePhysicalSpec();
 		$request->setPackId($packId);
 		$request->setPhysicalSpec($physicalSpec);
-		return $this->makeRequest($request, "UpdatePhsyicalSpecResponse");
+		return $this->makeRequest($request, "UpdatePhsyicalSpec");
 	}
 }
 

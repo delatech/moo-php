@@ -33,7 +33,7 @@ class GetPack extends Request {
 	 * @param boolean $includePhysicalSpec
 	 */
 	public function setIncludePhysicalSpec($includePhysicalSpec) {
-		$this->_includePhysicalSpec = $includePhysicalSpec;
+		$this->_includePhysicalSpec = (bool)$includePhysicalSpec;
 		return $this;
 	}
 

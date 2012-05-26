@@ -1,5 +1,6 @@
 <?php
 namespace MooPhp\MooInterface\Response;
+use PhpMarshaller\Config\Annotations\JsonProperty;
 /**
  * @package MooPhp
  * @author Jonathan Oddy <jonathan at woaf.net>
@@ -46,25 +47,43 @@ abstract class CommonPack extends Response {
 		return $this->_dropIns;
 	}
 
-	public function setDropIns($dropIns) {
+    /**
+     * @param $dropIns
+     * @JsonProperty(type="string[string]")
+     */
+    public function setDropIns($dropIns) {
 		$this->_dropIns = $dropIns;
 	}
 
-	public function setPack($pack) {
+    /**
+     * @param $pack
+     * @JsonProperty(type="\MooPhp\MooInterface\Data\Pack")
+     */
+    public function setPack($pack) {
 		$this->_pack = $pack;
 	}
 
-	public function setPackId($packId) {
+    /**
+     * @param $packId
+     * @JsonProperty(type="string")
+     */
+    public function setPackId($packId) {
 		$this->_packId = $packId;
 	}
 
-	public function setWarnings($warnings) {
+    /**
+     * @param $warnings
+     * @JsonProperty(type="\MooPhp\MooInterface\Response\Warning[]")
+     */
+    public function setWarnings($warnings) {
 		$this->_warnings = $warnings;
 	}
 
 	/**
+     * @JsonProperty(type="\MooPhp\MooInterface\Data\PhysicalSpec")
 	 * @param \MooPhp\MooInterface\Data\PhysicalSpec $physicalSpec
-	 */
+     * @return \MooPhp\MooInterface\Response\CommonPack
+     */
 	public function setPhysicalSpec($physicalSpec) {
 		$this->_physicalSpec = $physicalSpec;
 		return $this;

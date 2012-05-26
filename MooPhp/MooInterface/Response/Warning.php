@@ -1,5 +1,6 @@
 <?php
 namespace MooPhp\MooInterface\Response;
+use PhpMarshaller\Config\Annotations\JsonProperty;
 /**
  * @package MooPhp
  * @author Jonathan Oddy <jonathan at woaf.net>
@@ -33,15 +34,27 @@ class Warning {
 		return $this->_message;
 	}
 
-	public function setCode($code) {
+    /**
+     * @param $code
+     * @JsonProperty(type="string")
+     */
+    public function setCode($code) {
 		$this->_code = $code;
 	}
 
-	public function setElement($element) {
+    /**
+     * @param $element
+     * @JsonProperty(type="string")
+     */
+    public function setElement($element) {
 		$this->_element = $element;
 	}
 
-	public function setMessage($message) {
+    /**
+     * @param $message
+     * @JsonProperty(type="string")
+     */
+    public function setMessage($message) {
 		$this->_message = $message;
 	}
 }

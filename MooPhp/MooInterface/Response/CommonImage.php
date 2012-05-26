@@ -1,5 +1,6 @@
 <?php
 namespace MooPhp\MooInterface\Response;
+use PhpMarshaller\Config\Annotations\JsonProperty;
 /**
  * @package MooPhp
  * @author Jonathan Oddy <jonathan at woaf.net>
@@ -10,7 +11,11 @@ abstract class CommonImage extends Response {
 
 	protected $_imageBasketItem;
 
-	public function setImageBasketItem($imageBasketItem) {
+    /**
+     * @param $imageBasketItem
+     * @JsonProperty(type="\MooPhp\MooInterface\Data\ImageBasketItem")
+     */
+    public function setImageBasketItem($imageBasketItem) {
 		$this->_imageBasketItem = $imageBasketItem;
 	}
 

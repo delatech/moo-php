@@ -26,4 +26,6 @@ interface Client {
 
 	public function getFile($method, array $params);
 
+    public function getLogger();
+
 }

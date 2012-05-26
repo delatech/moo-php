@@ -1,5 +1,7 @@
 <?php
 namespace MooPhp\MooInterface\Data\UserData;
+use PhpMarshaller\Config\Annotations\JsonProperty;
+use PhpMarshaller\Config\Annotations\JsonTypeName;
 /**
  * @package MooPhp
  * @author Jonathan Oddy <jonathan at woaf.net>
