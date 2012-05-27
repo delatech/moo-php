@@ -2,11 +2,15 @@
 namespace MooPhp\MooInterface\Data\Types;
 use PhpJsonMarshaller\Config\Annotations\JsonProperty;
 use PhpJsonMarshaller\Config\Annotations\JsonInclude;
+use PhpXmlMarshaller\Config\Annotations\XmlElement;
+use PhpXmlMarshaller\Config\Annotations\XmlAttribute;
+use PhpXmlMarshaller\Config\Annotations\XmlRootElement;
 /**
  * @package MooPhp
  * @author Jonathan Oddy <jonathan at woaf.net>
  * @copyright Copyright (c) 2011, Jonathan Oddy
  * @JsonInclude(JsonInclude.Include.NON_NULL)
+ * @XmlRootElement(namespace="http://www.moo.com/xsd/template-1.0")
  */
 
 class Font {

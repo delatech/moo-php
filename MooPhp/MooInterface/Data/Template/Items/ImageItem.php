@@ -1,9 +1,13 @@
 <?php
 namespace MooPhp\MooInterface\Data\Template\Items;
+use PhpXmlMarshaller\Config\Annotations\XmlElement;
+use PhpXmlMarshaller\Config\Annotations\XmlAttribute;
+use PhpXmlMarshaller\Config\Annotations\XmlRootElement;
 /**
  * @package MooPhp
  * @author Jonathan Oddy <jonathan at woaf.net>
  * @copyright Copyright (c) 2011, Jonathan Oddy
+ * @XmlRootElement(namespace="http://www.moo.com/xsd/template-1.0")
  */
 
 class ImageItem extends Item {
@@ -65,6 +69,7 @@ class ImageItem extends Item {
 
 	/**
 	 * @param \MooPhp\MooInterface\Data\Types\BoundingBox $clippingBox
+     * @XmlElement(type="\MooPhp\MooInterface\Data\Types\BoundingBox")
 	 */
 	public function setClippingBox($clippingBox) {
 		$this->_clippingBox = $clippingBox;
@@ -72,6 +77,7 @@ class ImageItem extends Item {
 
 	/**
 	 * @param \MooPhp\MooInterface\Data\Template\Items\ImageConstraints $constraints
+     * @XmlElement(type="\MooPhp\MooInterface\Data\Template\Items\ImageConstraints")
 	 */
 	public function setConstraints($constraints) {
 		$this->_constraints = $constraints;

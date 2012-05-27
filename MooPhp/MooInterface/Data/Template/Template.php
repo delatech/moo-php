@@ -1,11 +1,20 @@
 <?php
 namespace MooPhp\MooInterface\Data\Template;
+
+use PhpXmlMarshaller\Config\Annotations\XmlRootElement;
+use PhpXmlMarshaller\Config\Annotations\XmlElement;
+use PhpXmlMarshaller\Config\Annotations\XmlElementWrapper;
+use PhpXmlMarshaller\Config\Annotations\XmlElementRef;
+use PhpXmlMarshaller\Config\Annotations\XmlElementRefs;
+use PhpXmlMarshaller\Config\Annotations\XmlAttribute;
+
 /**
  * @package MooPhp
  * @author Jonathan Oddy <jonathan at woaf.net>
  * @copyright Copyright (c) 2011, Jonathan Oddy
+ *
+ * @XmlRootElement(namespace="http://www.moo.com/xsd/template-1.0")
  */
-
 class Template {
 
 	/**
@@ -65,6 +74,13 @@ class Template {
 
 	/**
 	 * @param \MooPhp\MooInterface\Data\Template\Items\Item[] $items
+     * @XmlElementWrapper
+     * @XmlElementRefs(type="\MooPhp\MooInterface\Data\Template\Items\Item", values={
+                        @XmlElementRef(name="Box", type="\MooPhp\MooInterface\Data\Template\Items\BoxItem"),
+                        @XmlElementRef(name="FixedImage", type="\MooPhp\MooInterface\Data\Template\Items\FixedImageItem"),
+                        @XmlElementRef(name="Image", type="\MooPhp\MooInterface\Data\Template\Items\ImageItem"),
+                        @XmlElementRef(name="MultiLineText", type="\MooPhp\MooInterface\Data\Template\Items\MultiLineTextItem"),
+                        @XmlElementRef(name="Text", type="\MooPhp\MooInterface\Data\Template\Items\TextItem")})
 	 */
 	public function setItems($items) {
 		foreach ($items as $item) {
@@ -79,6 +95,7 @@ class Template {
 
 	/**
 	 * @param \MooPhp\MooInterface\Data\Template\Settings $settings
+     * @XmlElement(type="\MooPhp\MooInterface\Data\Template\Settings")
 	 */
 	public function setSettings($settings) {
 		$this->_settings = $settings;
@@ -86,6 +103,7 @@ class Template {
 
 	/**
 	 * @param string $templateCode
+     * @XmlElement(name="Code", type="string")
 	 */
 	public function setTemplateCode($templateCode) {
 		$this->_templateCode = $templateCode;
@@ -93,6 +111,7 @@ class Template {
 
 	/**
 	 * @param string $templateVersion
+     * @XmlElement(name="Version", type="string")
 	 */
 	public function setTemplateVersion($templateVersion) {
 		$this->_templateVersion = $templateVersion;

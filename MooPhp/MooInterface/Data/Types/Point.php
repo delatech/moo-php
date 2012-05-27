@@ -1,10 +1,14 @@
 <?php
 namespace MooPhp\MooInterface\Data\Types;
 use PhpJsonMarshaller\Config\Annotations\JsonProperty;
+use PhpXmlMarshaller\Config\Annotations\XmlElement;
+use PhpXmlMarshaller\Config\Annotations\XmlAttribute;
+use PhpXmlMarshaller\Config\Annotations\XmlRootElement;
 /**
  * @package MooPhp
  * @author Jonathan Oddy <jonathan at woaf.net>
  * @copyright Copyright (c) 2011, Jonathan Oddy
+ * @XmlRootElement(namespace="http://www.moo.com/xsd/template-1.0")
  */
 
 class Point {
@@ -43,6 +47,7 @@ class Point {
 	/**
 	 * @param float $y
      * @JsonProperty(type="float")
+     * @XmlAttribute(type="float")
 	 */
 	public function setY($y) {
 		$this->_y = $y;
@@ -51,6 +56,7 @@ class Point {
 	/**
 	 * @param float $x
      * @JsonProperty(type="float")
+     * @XmlAttribute(type="float")
 	 */
 	public function setX($x) {
 		$this->_x = $x;

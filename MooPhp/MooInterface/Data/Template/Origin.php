@@ -1,9 +1,13 @@
 <?php
 namespace MooPhp\MooInterface\Data\Template;
+use PhpXmlMarshaller\Config\Annotations\XmlRootElement;
+use PhpXmlMarshaller\Config\Annotations\XmlElement;
+use PhpXmlMarshaller\Config\Annotations\XmlAttribute;
 /**
  * @package MooPhp
  * @author Jonathan Oddy <jonathan at woaf.net>
  * @copyright Copyright (c) 2011, Jonathan Oddy
+ * @XmlRootElement(namespace="http://www.moo.com/xsd/template-1.0")
  */
 
 class Origin {
@@ -26,15 +30,27 @@ class Origin {
 		return $this->_orientation;
 	}
 
-	public function setOffsetX($offsetX) {
+    /**
+     * @param $offsetX
+     * @XmlAttribute(type="int")
+     */
+    public function setOffsetX($offsetX) {
 		$this->_offsetX = $offsetX;
 	}
 
-	public function setOffsetY($offsetY) {
+    /**
+     * @param $offsetY
+     * @XmlAttribute(type="int")
+     */
+    public function setOffsetY($offsetY) {
 		$this->_offsetY = $offsetY;
 	}
 
-	public function setOrientation($orientation) {
+    /**
+     * @param $orientation
+     * @XmlAttribute(type="string")
+     */
+    public function setOrientation($orientation) {
 		$this->_orientation = $orientation;
 	}
 

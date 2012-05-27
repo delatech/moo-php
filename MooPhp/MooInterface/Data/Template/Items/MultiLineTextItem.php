@@ -1,9 +1,13 @@
 <?php
 namespace MooPhp\MooInterface\Data\Template\Items;
+use PhpXmlMarshaller\Config\Annotations\XmlElement;
+use PhpXmlMarshaller\Config\Annotations\XmlAttribute;
+use PhpXmlMarshaller\Config\Annotations\XmlRootElement;
 /**
  * @package MooPhp
  * @author Jonathan Oddy <jonathan at woaf.net>
  * @copyright Copyright (c) 2011, Jonathan Oddy
+ * @XmlRootElement(namespace="http://www.moo.com/xsd/template-1.0")
  */
 
 class MultiLineTextItem extends TextItem {
@@ -57,6 +61,7 @@ class MultiLineTextItem extends TextItem {
 
 	/**
 	 * @param float $baselineOffset
+     * @XmlElement(type="float")
 	 */
 	public function setBaselineOffset($baselineOffset) {
 		$this->_baselineOffset = $baselineOffset;
@@ -64,6 +69,7 @@ class MultiLineTextItem extends TextItem {
 
 	/**
 	 * @param float $leading
+     * @XmlElement(type="float")
 	 */
 	public function setLeading($leading) {
 		$this->_leading = $leading;
@@ -71,6 +77,7 @@ class MultiLineTextItem extends TextItem {
 
 	/**
 	 * @param string $verticalAlignment
+     * @XmlElement(type="string")
 	 */
 	public function setVerticalAlignment($verticalAlignment) {
 		$this->_verticalAlignment = $verticalAlignment;

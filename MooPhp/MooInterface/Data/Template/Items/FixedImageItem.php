@@ -1,9 +1,13 @@
 <?php
 namespace MooPhp\MooInterface\Data\Template\Items;
+use PhpXmlMarshaller\Config\Annotations\XmlElement;
+use PhpXmlMarshaller\Config\Annotations\XmlAttribute;
+use PhpXmlMarshaller\Config\Annotations\XmlRootElement;
 /**
  * @package MooPhp
  * @author Jonathan Oddy <jonathan at woaf.net>
  * @copyright Copyright (c) 2011, Jonathan Oddy
+ * @XmlRootElement(namespace="http://www.moo.com/xsd/template-1.0")
  */
 
 class FixedImageItem extends ImageItem {
@@ -51,6 +55,7 @@ class FixedImageItem extends ImageItem {
 
 	/**
 	 * @param \MooPhp\MooInterface\Data\Types\BoundingBox $imageBox
+     * @XmlElement(type="\MooPhp\MooInterface\Data\Types\BoundingBox")
 	 */
 	public function setImageBox($imageBox) {
 		$this->_imageBox = $imageBox;
@@ -58,12 +63,18 @@ class FixedImageItem extends ImageItem {
 
 	/**
 	 * @param string $resourceUri
+     * @XmlElement(type="string")
 	 */
 	public function setResourceUri($resourceUri) {
 		$this->_resourceUri = $resourceUri;
 	}
 
-	public function setResourceUriChoiceList($resourceUriChoiceList) {
+    /**
+     * @param string[] $resourceUriChoiceList
+     * @XmlElementWrapper
+     * @XmlElement(type="string[]", name="ResourceUri")
+     */
+    public function setResourceUriChoiceList($resourceUriChoiceList) {
 		$this->_resourceUriChoiceList = $resourceUriChoiceList;
 	}
 

@@ -2,11 +2,17 @@
 namespace MooPhp\MooInterface\Data\Types;
 use PhpJsonMarshaller\Config\Annotations\JsonProperty;
 use PhpJsonMarshaller\Config\Annotations\JsonTypeName;
+use PhpXmlMarshaller\Config\Annotations\XmlElement;
+use PhpXmlMarshaller\Config\Annotations\XmlAttribute;
+use PhpXmlMarshaller\Config\Annotations\XmlRootElement;
+use PhpXmlMarshaller\Config\Annotations\XmlDiscriminatorValue;
 /**
  * @package MooPhp
  * @author Jonathan Oddy <jonathan at woaf.net>
  * @copyright Copyright (c) 2011, Jonathan Oddy
  * @JsonTypeName("RGB")
+ * @XmlRootElement(namespace="http://www.moo.com/xsd/template-1.0")
+ * @XmlDiscriminatorValue("RGB")
  */
 class ColourRGB extends Colour {
 
@@ -37,6 +43,7 @@ class ColourRGB extends Colour {
 	/**
 	 * @param int $b
      * @JsonProperty(type="int")
+     * @XmlElement(type="float", name="Blue")
 	 */
 	public function setB($b) {
 		$this->_b = $b;
@@ -45,6 +52,7 @@ class ColourRGB extends Colour {
 	/**
 	 * @param int $g
      * @JsonProperty(type="int")
+     * @XmlElement(type="float", name="Green")
 	 */
 	public function setG($g) {
 		$this->_g = $g;
@@ -53,6 +61,7 @@ class ColourRGB extends Colour {
 	/**
 	 * @param int $r
      * @JsonProperty(type="int")
+     * @XmlElement(type="float", name="Red")
 	 */
 	public function setR($r) {
 		$this->_r = $r;

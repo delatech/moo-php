@@ -1,9 +1,13 @@
 <?php
 namespace MooPhp\MooInterface\Data\Template\Items;
+use PhpXmlMarshaller\Config\Annotations\XmlElement;
+use PhpXmlMarshaller\Config\Annotations\XmlAttribute;
+use PhpXmlMarshaller\Config\Annotations\XmlRootElement;
 /**
  * @package MooPhp
  * @author Jonathan Oddy <jonathan at woaf.net>
  * @copyright Copyright (c) 2011, Jonathan Oddy
+ * @XmlRootElement(namespace="http://www.moo.com/xsd/template-1.0")
  */
 
 class TextConstraints {
@@ -55,6 +59,7 @@ class TextConstraints {
 
 	/**
 	 * @param boolean $alignmentFixed
+     * @XmlAttribute(type="bool")
 	 */
 	public function setAlignmentFixed($alignmentFixed) {
 		$this->_alignmentFixed = $alignmentFixed;
@@ -62,6 +67,7 @@ class TextConstraints {
 
 	/**
 	 * @param boolean $colourFixed
+     * @XmlAttribute(type="bool")
 	 */
 	public function setColourFixed($colourFixed) {
 		$this->_colourFixed = $colourFixed;
@@ -69,6 +75,7 @@ class TextConstraints {
 
 	/**
 	 * @param boolean $fontFixed
+     * @XmlAttribute(type="bool")
 	 */
 	public function setFontFixed($fontFixed) {
 		$this->_fontFixed = $fontFixed;
@@ -76,6 +83,7 @@ class TextConstraints {
 
 	/**
 	 * @param boolean $pointSizeFixed
+     * @XmlAttribute(type="bool")
 	 */
 	public function setPointSizeFixed($pointSizeFixed) {
 		$this->_pointSizeFixed = $pointSizeFixed;

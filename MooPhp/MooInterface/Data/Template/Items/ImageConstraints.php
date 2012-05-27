@@ -1,9 +1,13 @@
 <?php
 namespace MooPhp\MooInterface\Data\Template\Items;
+use PhpXmlMarshaller\Config\Annotations\XmlElement;
+use PhpXmlMarshaller\Config\Annotations\XmlAttribute;
+use PhpXmlMarshaller\Config\Annotations\XmlRootElement;
 /**
  * @package MooPhp
  * @author Jonathan Oddy <jonathan at woaf.net>
  * @copyright Copyright (c) 2011, Jonathan Oddy
+ * @XmlRootElement(namespace="http://www.moo.com/xsd/template-1.0")
  */
 
 class ImageConstraints {
@@ -59,6 +63,7 @@ class ImageConstraints {
 
 	/**
 	 * @param \MooPhp\MooInterface\Data\Template\Items\ImageEdgeConstraint $bottomEdge
+     * @XmlElement(type="\MooPhp\MooInterface\Data\Template\Items\ImageEdgeConstraint")
 	 */
 	public function setBottomEdge($bottomEdge) {
 		$this->_bottomEdge = $bottomEdge;
@@ -66,6 +71,7 @@ class ImageConstraints {
 
 	/**
 	 * @param \MooPhp\MooInterface\Data\Template\Items\ImageEdgeConstraint $leftEdge
+     * @XmlElement(type="\MooPhp\MooInterface\Data\Template\Items\ImageEdgeConstraint")
 	 */
 	public function setLeftEdge($leftEdge) {
 		$this->_leftEdge = $leftEdge;
@@ -73,6 +79,7 @@ class ImageConstraints {
 
 	/**
 	 * @param \MooPhp\MooInterface\Data\Template\Items\ImageEdgeConstraint $rightEdge
+     * @XmlElement(type="\MooPhp\MooInterface\Data\Template\Items\ImageEdgeConstraint")
 	 */
 	public function setRightEdge($rightEdge) {
 		$this->_rightEdge = $rightEdge;
@@ -80,6 +87,7 @@ class ImageConstraints {
 
 	/**
 	 * @param \MooPhp\MooInterface\Data\Template\Items\ImageEdgeConstraint $topEdge
+     * @XmlElement(type="\MooPhp\MooInterface\Data\Template\Items\ImageEdgeConstraint")
 	 */
 	public function setTopEdge($topEdge) {
 		$this->_topEdge = $topEdge;

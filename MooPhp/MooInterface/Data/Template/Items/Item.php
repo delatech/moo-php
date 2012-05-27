@@ -1,9 +1,21 @@
 <?php
 namespace MooPhp\MooInterface\Data\Template\Items;
+use PhpXmlMarshaller\Config\Annotations\XmlElement;
+use PhpXmlMarshaller\Config\Annotations\XmlAttribute;
+use PhpXmlMarshaller\Config\Annotations\XmlRootElement;
+use PhpXmlMarshaller\Config\Annotations\XmlSeeAlso;
+use PhpXmlMarshaller\Config\Annotations\XmlDiscriminator;
 /**
  * @package MooPhp
  * @author Jonathan Oddy <jonathan at woaf.net>
  * @copyright Copyright (c) 2011, Jonathan Oddy
+ *
+ * @XmlRootElement(namespace="http://www.moo.com/xsd/template-1.0")
+ * @XmlSeeAlso({"\MooPhp\MooInterface\Data\Template\Items\BoxItem",
+                "\MooPhp\MooInterface\Data\Template\Items\FixedImageItem",
+                "\MooPhp\MooInterface\Data\Template\Items\ImageItem",
+                "\MooPhp\MooInterface\Data\Template\Items\MultiLineTextItem",
+                "\MooPhp\MooInterface\Data\Template\Items\TextItem"})
  */
 
 class Item {
@@ -68,6 +80,7 @@ class Item {
 
 	/**
 	 * @param string $linkId
+     * @XmlElement(type="string")
 	 */
 	public function setLinkId($linkId) {
 		$this->_linkId = $linkId;
@@ -75,6 +88,7 @@ class Item {
 
 	/**
 	 * @param \MooPhp\MooInterface\Data\Template\Layout $layout
+     * @XmlElement(type="\MooPhp\MooInterface\Data\Template\Layout")
 	 */
 	public function setLayout($layout) {
 		$this->_layout = $layout;

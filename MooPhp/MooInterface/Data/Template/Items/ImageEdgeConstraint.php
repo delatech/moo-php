@@ -1,9 +1,13 @@
 <?php
 namespace MooPhp\MooInterface\Data\Template\Items;
+use PhpXmlMarshaller\Config\Annotations\XmlElement;
+use PhpXmlMarshaller\Config\Annotations\XmlAttribute;
+use PhpXmlMarshaller\Config\Annotations\XmlRootElement;
 /**
  * @package MooPhp
  * @author Jonathan Oddy <jonathan at woaf.net>
  * @copyright Copyright (c) 2011, Jonathan Oddy
+ * @XmlRootElement(namespace="http://www.moo.com/xsd/template-1.0")
  */
 
 class ImageEdgeConstraint {
@@ -55,6 +59,7 @@ class ImageEdgeConstraint {
 
 	/**
 	 * @param boolean $betweenBleedAndCut
+     * @XmlAttribute(type="bool")
 	 */
 	public function setBetweenBleedAndCut($betweenBleedAndCut) {
 		$this->_betweenBleedAndCut = $betweenBleedAndCut;
@@ -62,6 +67,7 @@ class ImageEdgeConstraint {
 
 	/**
 	 * @param boolean $betweenCutAndSafe
+     * @XmlAttribute(type="bool")
 	 */
 	public function setBetweenCutAndSafe($betweenCutAndSafe) {
 		$this->_betweenCutAndSafe = $betweenCutAndSafe;
@@ -69,6 +75,7 @@ class ImageEdgeConstraint {
 
 	/**
 	 * @param boolean $insideSafe
+     * @XmlAttribute(type="bool")
 	 */
 	public function setInsideSafe($insideSafe) {
 		$this->_insideSafe = $insideSafe;
@@ -76,6 +83,7 @@ class ImageEdgeConstraint {
 
 	/**
 	 * @param boolean $outside
+     * @XmlAttribute(type="bool")
 	 */
 	public function setOutside($outside) {
 		$this->_outside = $outside;

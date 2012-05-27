@@ -13,8 +13,6 @@ class Api implements MooInterface\MooApi {
 	 */
 	protected $_client;
 
-	protected $_templateDeserializer;
-
 	protected $_marshaller;
 	protected $_templateMarshaller;
 
@@ -26,10 +24,9 @@ class Api implements MooInterface\MooApi {
 	public function __construct(Client\Client $client) {
 		$this->_client = $client;
 		// TODO: caching of the configs
-		$marshallerConfigs = Serialization\ArrayConfigBaseConfig::getParsedConfig(__DIR__ . "/Serialization/MarshallingConfig.json");
-		$this->_templateMarshaller = new Serialization\XmlMarshaller($marshallerConfigs);
-        $this->_marshaller = new \PhpJsonMarshaller\JsonMarshaller(new \PhpJsonMarshaller\Config\AnnotationDriver($client->getLogger()));
         $this->_logger = $client->getLogger();
+        $this->_templateMarshaller = new \PhpXmlMarshaller\XmlMapper(new \PhpXmlMarshaller\Config\AnnotationDriver($this->_logger));
+        $this->_marshaller = new \PhpJsonMarshaller\JsonMapper(new \PhpJsonMarshaller\Config\AnnotationDriver($this->_logger));
 	}
 
 	public function getClient() {
@@ -169,17 +166,18 @@ class Api implements MooInterface\MooApi {
         );
 
 		$rawResponse = $this->_client->getFile($request->getMethod(), $requestParams);
-		return $this->_templateMarshaller->unmarshall($rawResponse, "Template");
+		return $this->_templateMarshaller->readString($rawResponse, '\MooPhp\MooInterface\Data\Template\Template', 'http://www.moo.com/xsd/template-1.0');
 	}
 
-	/**
-	 * Upload a local image to the Moo servers.
-	 * Will take an ImageResource, which could be wrapping a file or some binary and feed it to moo.
-	 * Requires upload_image permission, which is granted to everyone.
-	 * @param string $imageFile path to the image to import
-	 * @param string $imageType Type of image from the IMAGE_TYPE_ constants. Default is unknown which will not trigger image enhance by default.
-	 * @return MooInterface\Response\UploadImage
-	 */
+    /**
+     * Upload a local image to the Moo servers.
+     * Will take an ImageResource, which could be wrapping a file or some binary and feed it to moo.
+     * Requires upload_image permission, which is granted to everyone.
+     * @param string $imageFile path to the image to import
+     * @param string $imageType Type of image from the IMAGE_TYPE_ constants. Default is unknown which will not trigger image enhance by default.
+     * @throws \InvalidArgumentException
+     * @return \MooPhp\MooInterface\Response\UploadImage
+     */
 	public function imageUploadImage($imageFile, $imageType = self::IMAGE_TYPE_UNKNOWN) {
 
 		$imageFilePath = realpath($imageFile);
