@@ -89,12 +89,13 @@ class OAuthSigningClient implements Client {
 		return $rawResponse;
 	}
 
-	/**
-	 * @param string $method
-	 * @param array $params
-	 * @param string $file Path to the file on disk to transfer
-	 * @return mixed
-	 */
+    /**
+     * @param string $method
+     * @param array $params
+     * @param string $file Path to the file on disk to transfer
+     * @throws \RuntimeException
+     * @return mixed
+     */
 	public function sendFile($method, array $params, $file) {
 		$ch = $this->_ch;
 		curl_setopt($ch, CURLOPT_POST, true);
