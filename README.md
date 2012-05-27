@@ -11,8 +11,13 @@ This is one developer's crazed thrashings after consuming one too many cups of t
 shape, or form derived from any internal stuff at Moo, or representative of anything that might happen at Moo. It is not
 supported by Moo. Blah, blah, etc. Basically, if it explodes, don't contact Moo.
 
+It requires the php-marshaller library to be available via autoloading.
+
 Usage
 -----
+Grab the php-marshaller library (https://github.com/JonathanO/php-marshaller) and arrange for the packages within it
+to be autoloadable.
+
 There's an example called packManipulator.php in the examples directory. It sets up the API client and creates a
 businesscard pack with some stuff in it.
 
@@ -51,43 +56,23 @@ them do have a slightly more useful interface than the raw Moo model, just for e
 not 100% convinced this is the correct design decision, as where do you draw the line at adding to the Moo model? Is
 the ImageItem::calculateDefaultImageBox() method a step too far?
 
+Almost everything in MooInterface is "annotated" with serialization related information which is used to configure
+the PhpJsonMarshaller and PhpXmlMarshaller.
+
 The Client interface is intended to provide a way to send requests to some API endpoint. It basically expects a method
-name and its arguments. Except the magical special cases for handling templates and image uploads (yawn.) I had
-originally intended that the Client would be passed Request objects, and know what to do with them, but that broke down
-over the image and template handling.
-
-The Serialization namespace is a bit more of a horror than I had originally hoped. It has grown into a general purpose,
-configurable serialization/deserialization system. Things implementing the Marshaller interface are expected to be able
-to convert to/from some serialized format, given an object/serialized data and some sort of type name.
-
-Currently there's an ArrayMarshaller which works on arrays, and an XmlMarshaller which works on XML. Both make use of
-configuration files written in json to work out how to (de)serialize various flavours of object. The second argument
-to the (de)serialize methods in both is expected to be the name of the starting element in the configuration file.
-
-I'm planning to split the serialization framework out. Perhaps it can be beaten into a form that might be useful to
-other people.
+name and its arguments. Except the magical special cases for handling templates and image uploads (yawn.) I'm intending
+to move a bit of more of the request functionality into the Client in the future.
 
 The Api is the part which glues everything together. It builds Request objects, serializes them using a Serializer,
 sends them to Moo using the Client, and deserializes the responses.
+
+Serialization was also implemented here, but I realised it'd be far more useful to have a general purpose, annotation
+driven library separately.
 
 Extending
 ---------
 Extending the Api class (or implementing your own MooApi) should be reasonably painless. Ditto the Client (just pass
 your own implementation to the Api constructor.)
-
-Extending any of the Moo model is going to be more exciting. At present you'll need to modify the marshalling configs
-that mention the class you intend to extend. You'll need to update any entries for the original class to instead have
-a type of your new implementation. If you copy the config files elsewhere you'll need to extend the Api class in order
-to change where it loads its configs from. I intend to make this simpler, by (a) making the config file path
-configurable (why isn't it already?) and (b) allowing you to include additional configs that override parts of the main
-config.
-
-Adding new parts to the model is much like the above, but will require you to add additional sections to the serializer
-configs.
-
-If you're extending requests you'll also either need to extend the Api class to change the method implementations, or
-you'll need to use the Api::makeRequest() method, which allows you to pass in arbitrary request objects. Note that this
-method is only able to cope with simple API calls (i.e. those which accept an OAuth signed POST, and return JSON.)
 
 Contributing
 ------------
@@ -111,8 +96,7 @@ Will there be tests?
 > Yes. Yes there will. They'll almost certainly find this is a buggy heap of s**t.
 
 All these questions are about tests. Are you embarrassed about the lack of them?
-> Yes. Very. You know how, as a sysadmin, you'd never consider not having working off-site backups of every machine
-> you're responsible for... but your machines at home have never been backed up. It's a lot like that.
+> Yes. Very.
 
 So is this safe to use?
 > Probably, but expect to find interesting bugs in the features I don't use.
