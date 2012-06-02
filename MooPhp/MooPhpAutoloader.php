@@ -20,6 +20,7 @@ function autoLoad($name)
         return;
     }
     $path = implode('/', $exploded);
+    /** @noinspection PhpIncludeInspection */
     include(__DIR__ . '/' . $path . '.php');
     return;
 }
