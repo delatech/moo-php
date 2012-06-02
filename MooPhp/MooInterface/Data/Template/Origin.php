@@ -3,6 +3,7 @@ namespace MooPhp\MooInterface\Data\Template;
 use Weasel\XmlMarshaller\Config\Annotations\XmlRootElement;
 use Weasel\XmlMarshaller\Config\Annotations\XmlElement;
 use Weasel\XmlMarshaller\Config\Annotations\XmlAttribute;
+
 /**
  * @package MooPhp
  * @author Jonathan Oddy <jonathan at woaf.net>
@@ -10,48 +11,55 @@ use Weasel\XmlMarshaller\Config\Annotations\XmlAttribute;
  * @XmlRootElement(namespace="http://www.moo.com/xsd/template-1.0")
  */
 
-class Origin {
+class Origin
+{
 
-	protected $_orientation;
+    protected $_orientation;
 
-	protected $_offsetX;
+    protected $_offsetX;
 
-	protected $_offsetY;
+    protected $_offsetY;
 
-	public function getOffsetX() {
-		return $this->_offsetX;
-	}
+    public function getOffsetX()
+    {
+        return $this->_offsetX;
+    }
 
-	public function getOffsetY() {
-		return $this->_offsetY;
-	}
+    public function getOffsetY()
+    {
+        return $this->_offsetY;
+    }
 
-	public function getOrientation() {
-		return $this->_orientation;
-	}
+    public function getOrientation()
+    {
+        return $this->_orientation;
+    }
 
     /**
      * @param $offsetX
      * @XmlAttribute(type="int")
      */
-    public function setOffsetX($offsetX) {
-		$this->_offsetX = $offsetX;
-	}
+    public function setOffsetX($offsetX)
+    {
+        $this->_offsetX = $offsetX;
+    }
 
     /**
      * @param $offsetY
      * @XmlAttribute(type="int")
      */
-    public function setOffsetY($offsetY) {
-		$this->_offsetY = $offsetY;
-	}
+    public function setOffsetY($offsetY)
+    {
+        $this->_offsetY = $offsetY;
+    }
 
     /**
      * @param $orientation
      * @XmlAttribute(type="string")
      */
-    public function setOrientation($orientation) {
-		$this->_orientation = $orientation;
-	}
+    public function setOrientation($orientation)
+    {
+        $this->_orientation = $orientation;
+    }
 
 }

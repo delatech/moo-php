@@ -1,47 +1,53 @@
 <?php
 namespace MooPhp\MooInterface\Data;
 use Weasel\JsonMarshaller\Config\Annotations\JsonProperty;
+
 /**
  * @package MooPhp
  * @author Jonathan Oddy <jonathan at woaf.net>
  * @copyright Copyright (c) 2011, Jonathan Oddy
  */
 
-class CardSide {
+class CardSide
+{
 
-	protected $_sideNum;
-	protected $_sideType;
+    protected $_sideNum;
+    protected $_sideType;
 
     /**
      * @return string
      * @JsonProperty(type="string")
      */
-    public function getSideType() {
-		return $this->_sideType;
-	}
+    public function getSideType()
+    {
+        return $this->_sideType;
+    }
 
     /**
      * @return int
      * @JsonProperty(type="int")
      */
-	public function getSideNum() {
-		return $this->_sideNum;
-	}
+    public function getSideNum()
+    {
+        return $this->_sideNum;
+    }
 
     /**
      * @param int $sideNum
      * @JsonProperty(type="int")
      */
-    public function setSideNum($sideNum) {
-		$this->_sideNum = $sideNum;
-	}
+    public function setSideNum($sideNum)
+    {
+        $this->_sideNum = $sideNum;
+    }
 
     /**
      * @param string $sideType
      * @JsonProperty(type="string")
      */
-    public function setSideType($sideType) {
-		$this->_sideType = $sideType;
-	}
+    public function setSideType($sideType)
+    {
+        $this->_sideType = $sideType;
+    }
 
 }

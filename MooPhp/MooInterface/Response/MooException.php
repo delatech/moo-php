@@ -10,7 +10,8 @@ use Weasel\JsonMarshaller\Config\Annotations\JsonCreator;
  * @copyright Copyright (c) 2011, Jonathan Oddy
  */
 
-class MooException extends \Exception {
+class MooException extends \Exception
+{
 
     /**
      * @param string $message

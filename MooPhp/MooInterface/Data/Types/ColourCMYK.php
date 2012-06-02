@@ -6,6 +6,7 @@ use Weasel\XmlMarshaller\Config\Annotations\XmlElement;
 use Weasel\XmlMarshaller\Config\Annotations\XmlAttribute;
 use Weasel\XmlMarshaller\Config\Annotations\XmlRootElement;
 use Weasel\XmlMarshaller\Config\Annotations\XmlDiscriminatorValue;
+
 /**
  * @package MooPhp
  * @author Jonathan Oddy <jonathan at woaf.net>
@@ -14,110 +15,122 @@ use Weasel\XmlMarshaller\Config\Annotations\XmlDiscriminatorValue;
  * @XmlRootElement(namespace="http://www.moo.com/xsd/template-1.0")
  * @XmlDiscriminatorValue("CMYK")
  */
-class ColourCMYK extends Colour {
+class ColourCMYK extends Colour
+{
 
-	public function __construct($c = 0, $m = 0, $y = 0, $k = 0) {
-		$this->_c = $c;
-		$this->_m = $m;
-		$this->_y = $y;
-		$this->_k = $k;
-		$this->_type = "CMYK";
-	}
+    public function __construct($c = 0, $m = 0, $y = 0, $k = 0)
+    {
+        $this->_c = $c;
+        $this->_m = $m;
+        $this->_y = $y;
+        $this->_k = $k;
+        $this->_type = "CMYK";
+    }
 
-	/**
-	 * @var float
-	 */
-	protected $_c;
-	/**
-	 * @var float
-	 */
-	protected $_m;
-	/**
-	 * @var float
-	 */
-	protected $_y;
-	/**
-	 * @var float
-	 */
-	protected $_k;
+    /**
+     * @var float
+     */
+    protected $_c;
+    /**
+     * @var float
+     */
+    protected $_m;
+    /**
+     * @var float
+     */
+    protected $_y;
+    /**
+     * @var float
+     */
+    protected $_k;
 
-	public function getColour() {
-		return array($this->_c, $this->_m, $this->_y, $this->_k);
-	}
+    public function getColour()
+    {
+        return array($this->_c, $this->_m, $this->_y, $this->_k);
+    }
 
-	public function setColour($c, $m, $y, $k) {
-		$this->_c = $c;
-		$this->_m = $m;
-		$this->_y = $y;
-		$this->_k = $k;
-	}
+    public function setColour($c, $m, $y, $k)
+    {
+        $this->_c = $c;
+        $this->_m = $m;
+        $this->_y = $y;
+        $this->_k = $k;
+    }
 
-	/**
-	 * @param float $c
+    /**
+     * @param float $c
      * @JsonProperty(type="float")
      * @XmlElement(name="Cyan", type="float")
-	 */
-	public function setC($c) {
-		$this->_c = $c;
-	}
+     */
+    public function setC($c)
+    {
+        $this->_c = $c;
+    }
 
-	/**
-	 * @param float $k
+    /**
+     * @param float $k
      * @JsonProperty(type="float")
      * @XmlElement(name="Black", type="float")
-	 */
-	public function setK($k) {
-		$this->_k = $k;
-	}
+     */
+    public function setK($k)
+    {
+        $this->_k = $k;
+    }
 
-	/**
-	 * @param float $m
+    /**
+     * @param float $m
      * @JsonProperty(type="float")
      * @XmlElement(name="Magenta", type="float")
-	 */
-	public function setM($m) {
-		$this->_m = $m;
-	}
+     */
+    public function setM($m)
+    {
+        $this->_m = $m;
+    }
 
-	/**
-	 * @param float $y
+    /**
+     * @param float $y
      * @JsonProperty(type="float")
      * @XmlElement(name="Yellow", type="float")
-	 */
-	public function setY($y) {
-		$this->_y = $y;
-	}
+     */
+    public function setY($y)
+    {
+        $this->_y = $y;
+    }
 
-	/**
-	 * @return float
+    /**
+     * @return float
      * @JsonProperty(type="float")
-	 */
-	public function getY() {
-		return $this->_y;
-	}
+     */
+    public function getY()
+    {
+        return $this->_y;
+    }
 
-	/**
-	 * @return float
+    /**
+     * @return float
      * @JsonProperty(type="float")
-	 */
-	public function getM() {
-		return $this->_m;
-	}
+     */
+    public function getM()
+    {
+        return $this->_m;
+    }
 
-	/**
-	 * @return float
+    /**
+     * @return float
      * @JsonProperty(type="float")
-	 */
-	public function getK() {
-		return $this->_k;
-	}
+     */
+    public function getK()
+    {
+        return $this->_k;
+    }
 
-	/**
-	 * @return float
+    /**
+     * @return float
      * @JsonProperty(type="float")
-	 */
-	public function getC() {
-		return $this->_c;
-	}
+     */
+    public function getC()
+    {
+        return $this->_c;
+    }
 
 }

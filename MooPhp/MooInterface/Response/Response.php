@@ -9,7 +9,8 @@ use Weasel\JsonMarshaller\Config\Annotations\JsonProperty;
  * @copyright Copyright (c) 2011, Jonathan Oddy
  */
 
-abstract class Response {
+abstract class Response
+{
 
     /**
      * @var \MooPhp\MooInterface\Response\MooException

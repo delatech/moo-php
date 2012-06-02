@@ -6,5 +6,6 @@ namespace MooPhp\MooInterface\Response;
  * @copyright Copyright (c) 2011, Jonathan Oddy
  */
 
-class GetPack extends CommonPack {
+class GetPack extends CommonPack
+{
 }

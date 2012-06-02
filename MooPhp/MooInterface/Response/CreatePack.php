@@ -6,6 +6,7 @@ namespace MooPhp\MooInterface\Response;
  * @copyright Copyright (c) 2011, Jonathan Oddy
  */
 
-class CreatePack extends CommonPack {
+class CreatePack extends CommonPack
+{
 
 }

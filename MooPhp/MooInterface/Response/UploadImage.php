@@ -6,6 +6,7 @@ namespace MooPhp\MooInterface\Response;
  * @copyright Copyright (c) 2011, Jonathan Oddy
  */
 
-class UploadImage extends CommonImage {
+class UploadImage extends CommonImage
+{
 }
 

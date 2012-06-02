@@ -4,6 +4,7 @@ use Weasel\JsonMarshaller\Config\Annotations\JsonProperty;
 use Weasel\XmlMarshaller\Config\Annotations\XmlElement;
 use Weasel\XmlMarshaller\Config\Annotations\XmlAttribute;
 use Weasel\XmlMarshaller\Config\Annotations\XmlRootElement;
+
 /**
  * @package MooPhp
  * @author Jonathan Oddy <jonathan at woaf.net>
@@ -11,103 +12,113 @@ use Weasel\XmlMarshaller\Config\Annotations\XmlRootElement;
  * @XmlRootElement(namespace="http://www.moo.com/xsd/template-1.0")
  */
 
-class BoundingBox {
+class BoundingBox
+{
 
-	/**
-	 * @var float
-	 */
-	protected $_width;
+    /**
+     * @var float
+     */
+    protected $_width;
 
-	/**
-	 * @var float
-	 */
-	protected $_height;
+    /**
+     * @var float
+     */
+    protected $_height;
 
-	/**
-	 * @var float
-	 */
-	protected $_angle;
+    /**
+     * @var float
+     */
+    protected $_angle;
 
-	/**
-	 * @var \MooPhp\MooInterface\Data\Types\Point
-	 */
-	protected $_centre;
+    /**
+     * @var \MooPhp\MooInterface\Data\Types\Point
+     */
+    protected $_centre;
 
-	public function __construct($centre = null, $width = null, $height = null, $angle = null) {
-		$this->_centre = $centre;
-		$this->_width = $width;
-		$this->_height = $height;
-		$this->_angle = $angle;
-	}
+    public function __construct($centre = null, $width = null, $height = null, $angle = null)
+    {
+        $this->_centre = $centre;
+        $this->_width = $width;
+        $this->_height = $height;
+        $this->_angle = $angle;
+    }
 
-	/**
-	 * @return float
+    /**
+     * @return float
      * @JsonProperty(type="float")
-	 */
-	public function getAngle() {
-		return $this->_angle;
-	}
+     */
+    public function getAngle()
+    {
+        return $this->_angle;
+    }
 
-	/**
-	 * @return \MooPhp\MooInterface\Data\Types\Point
+    /**
+     * @return \MooPhp\MooInterface\Data\Types\Point
      * @JsonProperty(name="center", type="\MooPhp\MooInterface\Data\Types\Point")
-	 */
-	public function getCentre() {
-		return $this->_centre;
-	}
+     */
+    public function getCentre()
+    {
+        return $this->_centre;
+    }
 
 
-	/**
-	 * @return float
+    /**
+     * @return float
      * @JsonProperty(type="float")
-	 */
-	public function getHeight() {
-		return $this->_height;
-	}
+     */
+    public function getHeight()
+    {
+        return $this->_height;
+    }
 
-	/**
-	 * @return float
+    /**
+     * @return float
      * @JsonProperty(type="float")
-	 */
-	public function getWidth() {
-		return $this->_width;
-	}
+     */
+    public function getWidth()
+    {
+        return $this->_width;
+    }
 
-	/**
-	 * @param float $angle
+    /**
+     * @param float $angle
      * @JsonProperty(type="float")
      * @XmlElement(type="float")
-	 */
-	public function setAngle($angle) {
-		$this->_angle = $angle;
-	}
+     */
+    public function setAngle($angle)
+    {
+        $this->_angle = $angle;
+    }
 
-	/**
-	 * @param \MooPhp\MooInterface\Data\Types\Point $centre
+    /**
+     * @param \MooPhp\MooInterface\Data\Types\Point $centre
      * @JsonProperty(name="center", type="\MooPhp\MooInterface\Data\Types\Point")
      * @XmlElement(type="\MooPhp\MooInterface\Data\Types\Point")
-	 */
-	public function setCentre($centre) {
-		$this->_centre = $centre;
-	}
+     */
+    public function setCentre($centre)
+    {
+        $this->_centre = $centre;
+    }
 
-	/**
-	 * @param float $height
+    /**
+     * @param float $height
      * @JsonProperty(type="float")
      * @XmlElement(type="float")
-	 */
-	public function setHeight($height) {
-		$this->_height = $height;
-	}
+     */
+    public function setHeight($height)
+    {
+        $this->_height = $height;
+    }
 
-	/**
-	 * @param float $width
+    /**
+     * @param float $width
      * @JsonProperty(type="float")
      * @XmlElement(type="float")
-	 */
-	public function setWidth($width) {
-		$this->_width = $width;
-	}
+     */
+    public function setWidth($width)
+    {
+        $this->_width = $width;
+    }
 
 
 }

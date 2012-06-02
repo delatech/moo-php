@@ -1,54 +1,60 @@
 <?php
 namespace MooPhp\MooInterface\Data;
 use Weasel\JsonMarshaller\Config\Annotations\JsonProperty;
+
 /**
  * @package MooPhp
  * @author Jonathan Oddy <jonathan at woaf.net>
  * @copyright Copyright (c) 2011, Jonathan Oddy
  */
 
-class Extra {
+class Extra
+{
 
-	/**
-	 * @var string
-	 */
-	protected $_key;
+    /**
+     * @var string
+     */
+    protected $_key;
 
-	/**
-	 * @var string
-	 */
-	protected $_value;
+    /**
+     * @var string
+     */
+    protected $_value;
 
-	/**
-	 * @return string
+    /**
+     * @return string
      * @JsonProperty(type="string")
-	 */
-	public function getKey() {
-		return $this->_key;
-	}
+     */
+    public function getKey()
+    {
+        return $this->_key;
+    }
 
-	/**
-	 * @return string
+    /**
+     * @return string
      * @JsonProperty(type="string")
-	 */
-	public function getValue() {
-		return $this->_value;
-	}
+     */
+    public function getValue()
+    {
+        return $this->_value;
+    }
 
-	/**
-	 * @param string $key
+    /**
+     * @param string $key
      * @JsonProperty(type="string")
-	 */
-	public function setKey($key) {
-		$this->_key = $key;
-	}
+     */
+    public function setKey($key)
+    {
+        $this->_key = $key;
+    }
 
-	/**
-	 * @param string $value
+    /**
+     * @param string $value
      * @JsonProperty(type="string")
-	 */
-	public function setValue($value) {
-		$this->_value = $value;
-	}
+     */
+    public function setValue($value)
+    {
+        $this->_value = $value;
+    }
 
 }

@@ -1,103 +1,114 @@
 <?php
 namespace MooPhp\MooInterface\Data;
 use Weasel\JsonMarshaller\Config\Annotations\JsonProperty;
+
 /**
  * @package MooPhp
  * @author Jonathan Oddy <jonathan at woaf.net>
  * @copyright Copyright (c) 2011, Jonathan Oddy
  */
 
-class ImageBasket {
+class ImageBasket
+{
 
-	/**
-	 * @var \MooPhp\MooInterface\Data\ImageBasketItem[]
-	 */
-	protected $_items;
+    /**
+     * @var \MooPhp\MooInterface\Data\ImageBasketItem[]
+     */
+    protected $_items;
 
-	/**
-	 * @var string
-	 */
-	protected $_type;
+    /**
+     * @var string
+     */
+    protected $_type;
 
-	/**
-	 * @var string
-	 */
-	protected $_name;
+    /**
+     * @var string
+     */
+    protected $_name;
 
-	/**
-	 * @var boolean
-	 */
-	protected $_immutable;
+    /**
+     * @var boolean
+     */
+    protected $_immutable;
 
-	public function addItem(ImageBasketItem $item) {
-		$items = $this->getItems();
-		$items[] = $item;
-		$this->setItems($items);
-		return $item;
-	}
+    public function addItem(ImageBasketItem $item)
+    {
+        $items = $this->getItems();
+        $items[] = $item;
+        $this->setItems($items);
+        return $item;
+    }
 
-	/**
-	 * @return boolean
+    /**
+     * @return boolean
      * @JsonProperty(type="bool")
-	 */
-	public function getImmutable() {
-		return $this->_immutable;
-	}
+     */
+    public function getImmutable()
+    {
+        return $this->_immutable;
+    }
 
     /**
      * @return ImageBasketItem[]
      * @JsonProperty(type="\MooPhp\MooInterface\Data\ImageBasketItem[]")
      */
-    public function getItems() {
-		return $this->_items;
-	}
+    public function getItems()
+    {
+        return $this->_items;
+    }
 
-	/**
-	 * @return string
+    /**
+     * @return string
      * @JsonProperty(type="string")
-	 */
-	public function getName() {
-		return $this->_name;
-	}
+     */
+    public function getName()
+    {
+        return $this->_name;
+    }
 
-	/**
-	 * @return string
+    /**
+     * @return string
      * @JsonProperty(type="string")
-	 */
-	public function getType() {
-		return $this->_type;
-	}
+     */
+    public function getType()
+    {
+        return $this->_type;
+    }
 
-	/**
-	 * @param boolean $immutable
+    /**
+     * @param boolean $immutable
      * @JsonProperty(type="bool")
-	 */
-	public function setImmutable($immutable) {
-		$this->_immutable = $immutable;
-	}
+     */
+    public function setImmutable($immutable)
+    {
+        $this->_immutable = $immutable;
+    }
 
     /**
      * @param $items
      * @JsonProperty(type="\MooPhp\MooInterface\Data\ImageBasketItem[]")
      */
-    public function setItems($items) {
-		$this->_items = $items;
-	}
+    public function setItems($items)
+    {
+        $this->_items = $items;
+    }
 
-	/**
-	 * @param string $name
+    /**
+     * @param string $name
      * @JsonProperty(type="string")
-	 */
-	public function setName($name) {
-		$this->_name = $name;
-	}
+     */
+    public function setName($name)
+    {
+        $this->_name = $name;
+    }
 
-	/**
-	 * @param string $type
+    /**
+     * @param string $type
      * @JsonProperty(type="string")
-	 */
-	public function setType($type) {
-		$this->_type = $type;
-	}
+     */
+    public function setType($type)
+    {
+        $this->_type = $type;
+    }
 
 }

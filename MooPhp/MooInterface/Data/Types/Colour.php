@@ -8,6 +8,7 @@ use Weasel\XmlMarshaller\Config\Annotations\XmlAttribute;
 use Weasel\XmlMarshaller\Config\Annotations\XmlRootElement;
 use Weasel\XmlMarshaller\Config\Annotations\XmlSeeAlso;
 use Weasel\XmlMarshaller\Config\Annotations\XmlDiscriminator;
+
 /**
  * @package MooPhp
  * @author Jonathan Oddy <jonathan at woaf.net>
@@ -21,26 +22,29 @@ use Weasel\XmlMarshaller\Config\Annotations\XmlDiscriminator;
  * @XmlDiscriminator("@type")
  *
  */
-class Colour {
+class Colour
+{
 
-	const COLOUR_RGB = "RGB";
-	const COLOUR_CMYK = "CMYK";
+    const COLOUR_RGB = "RGB";
+    const COLOUR_CMYK = "CMYK";
 
-	protected $_type;
+    protected $_type;
 
     /**
      * @return string
      * @JsonProperty(type="string")
      */
-    public function getType() {
-		return $this->_type;
-	}
+    public function getType()
+    {
+        return $this->_type;
+    }
 
     /**
      * @param string $type
      * @JsonProperty(type="string")
      */
-    public function setType($type) {
-		$this->_type = $type;
-	}
+    public function setType($type)
+    {
+        $this->_type = $type;
+    }
 }

@@ -2,6 +2,7 @@
 namespace MooPhp\MooInterface\Data\UserData;
 use Weasel\JsonMarshaller\Config\Annotations\JsonProperty;
 use Weasel\JsonMarshaller\Config\Annotations\JsonTypeName;
+
 /**
  * @package MooPhp
  * @author Jonathan Oddy <jonathan at woaf.net>
@@ -10,94 +11,104 @@ use Weasel\JsonMarshaller\Config\Annotations\JsonTypeName;
  * @JsonTypeName("imageData")
  */
 
-class ImageData extends Datum {
+class ImageData extends Datum
+{
 
-	/**
-	 * @var string
-	 */
-	protected $_resourceUri;
+    /**
+     * @var string
+     */
+    protected $_resourceUri;
 
-	/**
-	 * @var string
-	 */
-	protected $_imageStoreFileId;
+    /**
+     * @var string
+     */
+    protected $_imageStoreFileId;
 
-	/**
-	 * @var \MooPhp\MooInterface\Data\Types\BoundingBox
-	 */
-	protected $_imageBox;
+    /**
+     * @var \MooPhp\MooInterface\Data\Types\BoundingBox
+     */
+    protected $_imageBox;
 
-	/**
-	 * @var bool
-	 */
-	protected $_enhance;
+    /**
+     * @var bool
+     */
+    protected $_enhance;
 
-	public function __construct() {
-		$this->_type = "imageData";
-	}
+    public function __construct()
+    {
+        $this->_type = "imageData";
+    }
 
-	/**
-	 * @return boolean
+    /**
+     * @return boolean
      * @JsonProperty(type="bool")
-	 */
-	public function getEnhance() {
-		return $this->_enhance;
-	}
+     */
+    public function getEnhance()
+    {
+        return $this->_enhance;
+    }
 
-	/**
-	 * @return \MooPhp\MooInterface\Data\Types\BoundingBox
+    /**
+     * @return \MooPhp\MooInterface\Data\Types\BoundingBox
      * @JsonProperty(type="\MooPhp\MooInterface\Data\Types\BoundingBox")
-	 */
-	public function getImageBox() {
-		return $this->_imageBox;
-	}
+     */
+    public function getImageBox()
+    {
+        return $this->_imageBox;
+    }
 
-	/**
-	 * @return string
+    /**
+     * @return string
      * @JsonProperty(type="string")
-	 */
-	public function getImageStoreFileId() {
-		return $this->_imageStoreFileId;
-	}
+     */
+    public function getImageStoreFileId()
+    {
+        return $this->_imageStoreFileId;
+    }
 
-	/**
-	 * @return string
+    /**
+     * @return string
      * @JsonProperty(type="string")
-	 */
-	public function getResourceUri() {
-		return $this->_resourceUri;
-	}
+     */
+    public function getResourceUri()
+    {
+        return $this->_resourceUri;
+    }
 
-	/**
-	 * @param boolean $enhance
+    /**
+     * @param boolean $enhance
      * @JsonProperty(type="bool")
-	 */
-	public function setEnhance($enhance) {
-		$this->_enhance = $enhance;
-	}
+     */
+    public function setEnhance($enhance)
+    {
+        $this->_enhance = $enhance;
+    }
 
-	/**
-	 * @param \MooPhp\MooInterface\Data\Types\BoundingBox $imageBox
+    /**
+     * @param \MooPhp\MooInterface\Data\Types\BoundingBox $imageBox
      * @JsonProperty(type="\MooPhp\MooInterface\Data\Types\BoundingBox")
-	 */
-	public function setImageBox($imageBox) {
-		$this->_imageBox = $imageBox;
-	}
+     */
+    public function setImageBox($imageBox)
+    {
+        $this->_imageBox = $imageBox;
+    }
 
-	/**
-	 * @param string $imageStoreFileId
+    /**
+     * @param string $imageStoreFileId
      * @JsonProperty(type="string")
-	 */
-	public function setImageStoreFileId($imageStoreFileId) {
-		$this->_imageStoreFileId = $imageStoreFileId;
-	}
+     */
+    public function setImageStoreFileId($imageStoreFileId)
+    {
+        $this->_imageStoreFileId = $imageStoreFileId;
+    }
 
-	/**
-	 * @param string $resourceUri
+    /**
+     * @param string $resourceUri
      * @JsonProperty(type="string")
-	 */
-	public function setResourceUri($resourceUri) {
-		$this->_resourceUri = $resourceUri;
-	}
+     */
+    public function setResourceUri($resourceUri)
+    {
+        $this->_resourceUri = $resourceUri;
+    }
 
 }

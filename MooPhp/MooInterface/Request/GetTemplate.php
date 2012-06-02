@@ -6,23 +6,27 @@ namespace MooPhp\MooInterface\Request;
  * @copyright Copyright (c) 2011, Jonathan Oddy
  */
 
-class GetTemplate extends Request {
+class GetTemplate extends Request
+{
 
-	private $_templateCode;
+    private $_templateCode;
 
-	public function __construct() {
-		parent::__construct("moo.template.getTemplate");
-	}
+    public function __construct()
+    {
+        parent::__construct("moo.template.getTemplate");
+    }
 
-	/**
-	 * @param string $templateCode Template code
-	 */
-	public function setTemplateCode($templateCode) {
-		$this->_templateCode = $templateCode;
-	}
+    /**
+     * @param string $templateCode Template code
+     */
+    public function setTemplateCode($templateCode)
+    {
+        $this->_templateCode = $templateCode;
+    }
 
-	public function getTemplateCode() {
-		return $this->_templateCode;
-	}
+    public function getTemplateCode()
+    {
+        return $this->_templateCode;
+    }
 
 }
