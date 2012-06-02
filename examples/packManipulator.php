@@ -15,7 +15,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 require __DIR__ . '/../MooPhp/MooPhpAutoloader.php';
-require_once "PhpMarshallerAutoloader.php";
+require_once "WeaselAutoloader.php";
 
 $opts = getopt("k:s:");
 
@@ -26,8 +26,8 @@ if (!isset($opts["k"]) || !isset($opts['s'])) {
 $key = $opts['k'];
 $secret = $opts['s'];
 
-$logger = new \PhpLogger\FileLogger();
-$logger->setLogLevel(\PhpLogger\Logger::LOG_LEVEL_DEBUG);
+$logger = new \Weasel\Logger\FileLogger();
+$logger->setLogLevel(\Weasel\Logger\Logger::LOG_LEVEL_DEBUG);
 
 $client = new \MooPhp\Client\OAuthSigningClient($key, $secret, $logger);
 

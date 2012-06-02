@@ -17,7 +17,7 @@ class Api implements MooInterface\MooApi {
 	protected $_templateMarshaller;
 
     /**
-     * @var \PhpLogger\Logger
+     * @var \Weasel\Logger\Logger
      */
     protected $_logger;
 
@@ -25,8 +25,8 @@ class Api implements MooInterface\MooApi {
 		$this->_client = $client;
 		// TODO: caching of the configs
         $this->_logger = $client->getLogger();
-        $this->_templateMarshaller = new \PhpXmlMarshaller\XmlMapper(new \PhpXmlMarshaller\Config\AnnotationDriver($this->_logger));
-        $this->_marshaller = new \PhpJsonMarshaller\JsonMapper(new \PhpJsonMarshaller\Config\AnnotationDriver($this->_logger));
+        $this->_templateMarshaller = new \Weasel\XmlMarshaller\XmlMapper(new \Weasel\XmlMarshaller\Config\AnnotationDriver($this->_logger));
+        $this->_marshaller = new \Weasel\JsonMarshaller\JsonMapper(new \Weasel\JsonMarshaller\Config\AnnotationDriver($this->_logger));
 	}
 
 	public function getClient() {

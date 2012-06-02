@@ -1,12 +1,12 @@
 <?php
 namespace MooPhp\MooInterface\Data\Template;
 
-use PhpXmlMarshaller\Config\Annotations\XmlRootElement;
-use PhpXmlMarshaller\Config\Annotations\XmlElement;
-use PhpXmlMarshaller\Config\Annotations\XmlElementWrapper;
-use PhpXmlMarshaller\Config\Annotations\XmlElementRef;
-use PhpXmlMarshaller\Config\Annotations\XmlElementRefs;
-use PhpXmlMarshaller\Config\Annotations\XmlAttribute;
+use Weasel\XmlMarshaller\Config\Annotations\XmlRootElement;
+use Weasel\XmlMarshaller\Config\Annotations\XmlElement;
+use Weasel\XmlMarshaller\Config\Annotations\XmlElementWrapper;
+use Weasel\XmlMarshaller\Config\Annotations\XmlElementRef;
+use Weasel\XmlMarshaller\Config\Annotations\XmlElementRefs;
+use Weasel\XmlMarshaller\Config\Annotations\XmlAttribute;
 
 /**
  * @package MooPhp

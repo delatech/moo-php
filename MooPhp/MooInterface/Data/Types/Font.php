@@ -1,10 +1,10 @@
 <?php
 namespace MooPhp\MooInterface\Data\Types;
-use PhpJsonMarshaller\Config\Annotations\JsonProperty;
-use PhpJsonMarshaller\Config\Annotations\JsonInclude;
-use PhpXmlMarshaller\Config\Annotations\XmlElement;
-use PhpXmlMarshaller\Config\Annotations\XmlAttribute;
-use PhpXmlMarshaller\Config\Annotations\XmlRootElement;
+use Weasel\JsonMarshaller\Config\Annotations\JsonProperty;
+use Weasel\JsonMarshaller\Config\Annotations\JsonInclude;
+use Weasel\XmlMarshaller\Config\Annotations\XmlElement;
+use Weasel\XmlMarshaller\Config\Annotations\XmlAttribute;
+use Weasel\XmlMarshaller\Config\Annotations\XmlRootElement;
 /**
  * @package MooPhp
  * @author Jonathan Oddy <jonathan at woaf.net>

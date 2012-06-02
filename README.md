@@ -57,7 +57,7 @@ not 100% convinced this is the correct design decision, as where do you draw the
 the ImageItem::calculateDefaultImageBox() method a step too far?
 
 Almost everything in MooInterface is "annotated" with serialization related information which is used to configure
-the PhpJsonMarshaller and PhpXmlMarshaller.
+the Weasel\JsonMarshaller and Weasel\XmlMarshaller.
 
 The Client interface is intended to provide a way to send requests to some API endpoint. It basically expects a method
 name and its arguments. Except the magical special cases for handling templates and image uploads (yawn.) I'm intending

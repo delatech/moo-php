@@ -1,8 +1,8 @@
 <?php
 namespace MooPhp\MooInterface\Data\UserData;
-use PhpJsonMarshaller\Config\Annotations\JsonProperty;
-use PhpJsonMarshaller\Config\Annotations\JsonTypeInfo;
-use PhpJsonMarshaller\Config\Annotations\JsonSubTypes;
+use Weasel\JsonMarshaller\Config\Annotations\JsonProperty;
+use Weasel\JsonMarshaller\Config\Annotations\JsonTypeInfo;
+use Weasel\JsonMarshaller\Config\Annotations\JsonSubTypes;
 /**
  * @package MooPhp
  * @author Jonathan Oddy <jonathan at woaf.net>

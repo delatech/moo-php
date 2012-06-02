@@ -28,7 +28,7 @@ interface Client {
 
     /**
      * @abstract
-     * @return \PhpLogger\Logger
+     * @return \Weasel\Logger\Logger
      */
     public function getLogger();
 

@@ -19,7 +19,7 @@ class OAuthSigningClient implements Client {
 	protected $_ch;
 
 	/**
-	 * @var \PhpLogger\Logger
+	 * @var \Weasel\Logger\Logger
 	 */
 	protected $_logger;
 

@@ -1,8 +1,8 @@
 <?php
 namespace MooPhp\MooInterface\Data\Template;
-use PhpXmlMarshaller\Config\Annotations\XmlRootElement;
-use PhpXmlMarshaller\Config\Annotations\XmlElement;
-use PhpXmlMarshaller\Config\Annotations\XmlAttribute;
+use Weasel\XmlMarshaller\Config\Annotations\XmlRootElement;
+use Weasel\XmlMarshaller\Config\Annotations\XmlElement;
+use Weasel\XmlMarshaller\Config\Annotations\XmlAttribute;
 /**
  * @package MooPhp
  * @author Jonathan Oddy <jonathan at woaf.net>

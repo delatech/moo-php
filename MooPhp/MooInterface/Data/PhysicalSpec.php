@@ -1,7 +1,7 @@
 <?php
 namespace MooPhp\MooInterface\Data;
-use PhpJsonMarshaller\Config\Annotations\JsonProperty;
-use PhpJsonMarshaller\Config\Annotations\JsonInclude;
+use Weasel\JsonMarshaller\Config\Annotations\JsonProperty;
+use Weasel\JsonMarshaller\Config\Annotations\JsonInclude;
 
 /**
  * @package MooPhp
