@@ -76,28 +76,31 @@ class Api implements MooInterface\MooApi
      */
     public function makeRequest(\MooPhp\MooInterface\Request\Request $request, $responseType)
     {
-        $rawResponse = $this->_client->makeRequest($request->getMethod(), $this->_getRequestParams($request));
+        $rawResponse = $this->_client->makeRequest($this->_getRequestParams($request));
         return $this->_handleResponse($rawResponse, $responseType);
     }
 
     public function getFile(\MooPhp\MooInterface\Request\Request $request)
     {
-        return $this->_client->getFile($request->getMethod(), $this->_getRequestParams($request));
+        return $this->_client->getFile($this->_getRequestParams($request));
     }
 
     public function sendFile(\MooPhp\MooInterface\Request\Request $request, $fileParam, $responseType)
     {
-        $rawResponse = $this->_client->sendFile($request->getMethod(), $this->_getRequestParams($request), $fileParam);
+        $rawResponse = $this->_client->sendFile($this->_getRequestParams($request), $fileParam);
         return $this->_handleResponse($rawResponse, $responseType);
     }
 
 
     protected function _handleResponse($rawResponse, $type)
     {
+        if ($type[0] !== '\\') {
+            $type = '\MooPhp\MooInterface\Response\\' . $type;
+        }
         /**
          * @var \MooPhp\MooInterface\Response\Response $object
          */
-        $object = $this->_marshaller->readString($rawResponse, '\MooPhp\MooInterface\Response\\' . $type);
+        $object = $this->_marshaller->readString($rawResponse, $type);
 
         if (isset($this->_logger)) {
             $this->_logger->logDebug("Decoded response to " . print_r($object, true));

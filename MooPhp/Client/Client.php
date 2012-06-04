@@ -10,22 +10,25 @@ interface Client
 {
 
     /**
-     * @param string $method
      * @param array $params
      * @return string
      */
-    public function makeRequest($method, array $params);
+    public function makeRequest(array $params);
 
     /**
      * @abstract
-     * @param string $method
      * @param array $params
      * @param string $fileParam The name of the param that contains the path to the file on disk
      * @return string
      */
-    public function sendFile($method, array $params, $fileParam);
+    public function sendFile(array $params, $fileParam);
 
-    public function getFile($method, array $params);
+    /**
+     * @abstract
+     * @param array $params
+     * @return string
+     */
+    public function getFile(array $params);
 
     /**
      * @abstract

@@ -52,7 +52,8 @@ interface MooApi
      *
      * @abstract
      * @param Request\Request $request The request to send
-     * @param string $responseType The response type to deserialize as
+     * @param string $responseType The response type to deserialize as. Expected to either be fully qualified, or
+     * inside the \MooInterface\MooApi\Response namespace.
      * @return Response\Response
      */
     public function makeRequest(\MooPhp\MooInterface\Request\Request $request, $responseType);
@@ -71,7 +72,8 @@ interface MooApi
      * @abstract
      * @param Request\Request $request The request to send
      * @param string $fileParam The name of the property containing the path to the file to send
-     * @param string $responseType The response type to deserialize as
+     * @param string $responseType The response type to deserialize as. Expected to either be fully qualified, or
+     * inside the \MooInterface\MooApi\Response namespace.
      * @return Response\Response
      */
     public function sendFile(\MooPhp\MooInterface\Request\Request $request, $fileParam, $responseType);

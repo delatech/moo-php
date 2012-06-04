@@ -81,18 +81,13 @@ class OAuthSigningClient implements Client
     }
 
     /**
-     * @param string $method
      * @param array $params
      * @return string
      */
-    public function makeRequest($method, array $params)
+    public function makeRequest(array $params)
     {
 
         $target = $this->_urls["apiEndpoint"];
-        $params =
-            array("method" => $method,
-                  "errorsAsOK" => "false"
-            ) + $params;
 
         if ($this->_logger) {
             $this->_logger->logDebug("Request: " . print_r($params, true));
@@ -108,27 +103,19 @@ class OAuthSigningClient implements Client
     }
 
     /**
-     * @param string $method
      * @param array $params
      * @param string $fileParam The param that contains the path on disk to the file
      * @throws \RuntimeException
      * @return mixed
      */
-    public function sendFile($method, array $params, $fileParam)
+    public function sendFile(array $params, $fileParam)
     {
         $ch = $this->_ch;
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_URL, $this->_urls["apiEndpoint"]);
 
-        $file = $params[$fileParam];
-        unset($params[$fileParam]);
-
-        $params =
-            array($fileParam => "@" . $file,
-                  "method" => $method,
-                  "errorsAsOK" => "false"
-            ) + $params;
+        $params[$fileParam] = '@' . $params[$fileParam];
 
         curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
 
@@ -148,16 +135,12 @@ class OAuthSigningClient implements Client
         return $rawResponse;
     }
 
-    public function getFile($method, array $params)
+    public function getFile(array $params)
     {
         $ch = $this->_ch;
         curl_setopt($ch, CURLOPT_HTTPGET, true);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-        $params =
-            array("method" => $method,
-                  "errorsAsOK" => "false"
-            ) + $params;
         $url = $this->_urls["apiEndpoint"] . '?' . http_build_query($params);
 
         curl_setopt($ch, CURLOPT_URL, $url);
