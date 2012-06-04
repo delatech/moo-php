@@ -27,8 +27,10 @@ class Api implements MooInterface\MooApi
         $this->_client = $client;
         // TODO: caching of the configs
         $this->_logger = $client->getLogger();
-        $this->_templateMarshaller = new \Weasel\XmlMarshaller\XmlMapper(new \Weasel\XmlMarshaller\Config\AnnotationDriver($this->_logger));
-        $this->_marshaller = new \Weasel\JsonMarshaller\JsonMapper(new \Weasel\JsonMarshaller\Config\AnnotationDriver($this->_logger));
+        $this->_templateMarshaller =
+            new \Weasel\XmlMarshaller\XmlMapper(new \Weasel\XmlMarshaller\Config\AnnotationDriver($this->_logger));
+        $this->_marshaller =
+            new \Weasel\JsonMarshaller\JsonMapper(new \Weasel\JsonMarshaller\Config\AnnotationDriver($this->_logger));
     }
 
     public function getClient()
@@ -36,12 +38,7 @@ class Api implements MooInterface\MooApi
         return $this->_client;
     }
 
-    /**
-     * @param MooInterface\Request\Request $request
-     * @param string $responseType
-     * @return string
-     */
-    public function makeRequest(\MooPhp\MooInterface\Request\Request $request, $responseType)
+    protected function _getRequestParams(\MooPhp\MooInterface\Request\Request $request)
     {
         $rObject = new \ReflectionObject($request);
         $requestParams = array();
@@ -69,9 +66,31 @@ class Api implements MooInterface\MooApi
                 $requestParams[$property] = $value;
             }
         }
-        $rawResponse = $this->_client->makeRequest($request->getMethod(), $requestParams);
+        return $requestParams;
+    }
+
+    /**
+     * @param MooInterface\Request\Request $request
+     * @param string $responseType
+     * @return string
+     */
+    public function makeRequest(\MooPhp\MooInterface\Request\Request $request, $responseType)
+    {
+        $rawResponse = $this->_client->makeRequest($request->getMethod(), $this->_getRequestParams($request));
         return $this->_handleResponse($rawResponse, $responseType);
     }
+
+    public function getFile(\MooPhp\MooInterface\Request\Request $request)
+    {
+        return $this->_client->getFile($request->getMethod(), $this->_getRequestParams($request));
+    }
+
+    public function sendFile(\MooPhp\MooInterface\Request\Request $request, $fileParam, $responseType)
+    {
+        $rawResponse = $this->_client->sendFile($request->getMethod(), $this->_getRequestParams($request), $fileParam);
+        return $this->_handleResponse($rawResponse, $responseType);
+    }
+
 
     protected function _handleResponse($rawResponse, $type)
     {
@@ -102,7 +121,9 @@ class Api implements MooInterface\MooApi
      * @param string $startAgainUrl Absolute URL to send the user to if they hit the start again button
      * @return \MooPhp\MooInterface\Response\CreatePack
      */
-    public function packCreatePack(\MooPhp\MooInterface\Data\PhysicalSpec $physicalSpec, MooInterface\Data\Pack $pack = null, $friendlyName = null, $trackingId = null, $startAgainUrl = null)
+    public function packCreatePack(\MooPhp\MooInterface\Data\PhysicalSpec $physicalSpec,
+                                   MooInterface\Data\Pack $pack = null, $friendlyName = null, $trackingId = null,
+                                   $startAgainUrl = null)
     {
         $request = new MooInterface\Request\CreatePack();
         $request->setPack($pack);
@@ -171,12 +192,10 @@ class Api implements MooInterface\MooApi
         $request = new MooInterface\Request\GetTemplate();
         $request->setTemplateCode($templateCode);
 
-        $requestParams = array(
-            "templateCode" => $templateCode,
+        $rawResponse = $this->getFile($request);
+        return $this->_templateMarshaller->readString($rawResponse, '\MooPhp\MooInterface\Data\Template\Template',
+                                                      'http://www.moo.com/xsd/template-1.0'
         );
-
-        $rawResponse = $this->_client->getFile($request->getMethod(), $requestParams);
-        return $this->_templateMarshaller->readString($rawResponse, '\MooPhp\MooInterface\Data\Template\Template', 'http://www.moo.com/xsd/template-1.0');
     }
 
     /**
@@ -199,11 +218,10 @@ class Api implements MooInterface\MooApi
 
         $request = new MooInterface\Request\UploadImage();
         $request->setImageType($imageType);
+        $request->setImageFile($imageFilePath);
 
-        $requestParams["imageType"] = $imageType;
+        return $this->sendFile($request, "imageFile", "UploadImage");
 
-        $rawResponse = $this->_client->sendFile($request->getMethod(), $requestParams, $imageFilePath);
-        return $this->_handleResponse($rawResponse, "UploadImage");
     }
 
     /**

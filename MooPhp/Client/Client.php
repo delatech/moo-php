@@ -20,10 +20,10 @@ interface Client
      * @abstract
      * @param string $method
      * @param array $params
-     * @param string $file Path to the file on disk to transfer
+     * @param string $fileParam The name of the param that contains the path to the file on disk
      * @return string
      */
-    public function sendFile($method, array $params, $file);
+    public function sendFile($method, array $params, $fileParam);
 
     public function getFile($method, array $params);
 

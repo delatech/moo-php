@@ -49,7 +49,8 @@ class OAuthSigningClient implements Client
 
     public function getAuthUrl($callback = "oob")
     {
-        return $this->_urls["authorize"] . "?oauth_token=" . urlencode($this->_token) . "&oauth_callback=" . urlencode($callback);
+        return $this->_urls["authorize"] . "?oauth_token=" . urlencode($this->_token) . "&oauth_callback=" .
+            urlencode($callback);
     }
 
     public function setToken($token, $secret)
@@ -62,7 +63,9 @@ class OAuthSigningClient implements Client
 
     public function getToken()
     {
-        return array("token" => $this->_token, "secret" => $this->_tokenSecret);
+        return array("token" => $this->_token,
+                     "secret" => $this->_tokenSecret
+        );
     }
 
     public function getRequestToken()
@@ -86,13 +89,20 @@ class OAuthSigningClient implements Client
     {
 
         $target = $this->_urls["apiEndpoint"];
-        $params = array("method" => $method, "errorsAsOK" => "false") + $params;
+        $params =
+            array("method" => $method,
+                  "errorsAsOK" => "false"
+            ) + $params;
 
-        if ($this->_logger) $this->_logger->logDebug("Request: " . print_r($params, true));
+        if ($this->_logger) {
+            $this->_logger->logDebug("Request: " . print_r($params, true));
+        }
         $this->_oauth->fetch($target, $params, OAUTH_HTTP_METHOD_POST, array());
 
         $rawResponse = $this->_oauth->getLastResponse();
-        if ($this->_logger) $this->_logger->logDebug("Response: " . $rawResponse);
+        if ($this->_logger) {
+            $this->_logger->logDebug("Response: " . $rawResponse);
+        }
 
         return $rawResponse;
     }
@@ -100,24 +110,35 @@ class OAuthSigningClient implements Client
     /**
      * @param string $method
      * @param array $params
-     * @param string $file Path to the file on disk to transfer
+     * @param string $fileParam The param that contains the path on disk to the file
      * @throws \RuntimeException
      * @return mixed
      */
-    public function sendFile($method, array $params, $file)
+    public function sendFile($method, array $params, $fileParam)
     {
         $ch = $this->_ch;
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_URL, $this->_urls["apiEndpoint"]);
 
-        $params = array("imageFile" => "@" . $file, "method" => $method, "errorsAsOK" => "false") + $params;
+        $file = $params[$fileParam];
+        unset($params[$fileParam]);
+
+        $params =
+            array($fileParam => "@" . $file,
+                  "method" => $method,
+                  "errorsAsOK" => "false"
+            ) + $params;
 
         curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
 
-        if ($this->_logger) $this->_logger->logDebug("Request: " . print_r($params, true));
+        if ($this->_logger) {
+            $this->_logger->logDebug("Request: " . print_r($params, true));
+        }
         $rawResponse = curl_exec($ch);
-        if ($this->_logger) $this->_logger->logDebug("Response: " . $rawResponse);
+        if ($this->_logger) {
+            $this->_logger->logDebug("Response: " . $rawResponse);
+        }
 
         $errno = curl_errno($ch);
         if (!$rawResponse || $errno != CURLE_OK) {
@@ -133,13 +154,20 @@ class OAuthSigningClient implements Client
         curl_setopt($ch, CURLOPT_HTTPGET, true);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-        $params = array("method" => $method, "errorsAsOK" => "false") + $params;
+        $params =
+            array("method" => $method,
+                  "errorsAsOK" => "false"
+            ) + $params;
         $url = $this->_urls["apiEndpoint"] . '?' . http_build_query($params);
 
         curl_setopt($ch, CURLOPT_URL, $url);
-        if ($this->_logger) $this->_logger->logDebug("Request: " . print_r($params, true));
+        if ($this->_logger) {
+            $this->_logger->logDebug("Request: " . print_r($params, true));
+        }
         $rawResponse = curl_exec($ch);
-        if ($this->_logger) $this->_logger->logDebug("Response: " . $rawResponse);
+        if ($this->_logger) {
+            $this->_logger->logDebug("Response: " . $rawResponse);
+        }
 
         $errno = curl_errno($ch);
         if (!$rawResponse || $errno != CURLE_OK) {

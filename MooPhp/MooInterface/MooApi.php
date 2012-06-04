@@ -48,13 +48,33 @@ interface MooApi
     const IMAGE_TYPE_DETECT = "detect";
 
     /**
-     * Send a request object to the Moo API, and deserialize the response as $responseType.
+     * Send a signed request object to the Moo API, and deserialize the response as $responseType.
      *
      * @abstract
-     * @param Request\Request $request
-     * @param $responseType
+     * @param Request\Request $request The request to send
+     * @param string $responseType The response type to deserialize as
+     * @return Response\Response
      */
     public function makeRequest(\MooPhp\MooInterface\Request\Request $request, $responseType);
+
+    /**
+     * Send an unsigned request object to the Moo API, and return the raw response.
+     *
+     * @abstract
+     * @param Request\Request $request The request to send
+     * @return string
+     */
+    public function getFile(\MooPhp\MooInterface\Request\Request $request);
+
+    /**
+     * Send an unsigned request object that contains a file to the Moo API, and deserialize the response as $responseType.
+     * @abstract
+     * @param Request\Request $request The request to send
+     * @param string $fileParam The name of the property containing the path to the file to send
+     * @param string $responseType The response type to deserialize as
+     * @return Response\Response
+     */
+    public function sendFile(\MooPhp\MooInterface\Request\Request $request, $fileParam, $responseType);
 
     /**
      * Create a new Moo pack.
@@ -68,7 +88,8 @@ interface MooApi
      * @param string $startAgainUrl Absolute URL to send the user to if they hit the start again button
      * @return Response\CreatePack
      */
-    public function packCreatePack(\MooPhp\MooInterface\Data\PhysicalSpec $physicalSpec, Data\Pack $pack = null, $friendlyName = null, $trackingId = null, $startAgainUrl = null);
+    public function packCreatePack(\MooPhp\MooInterface\Data\PhysicalSpec $physicalSpec, Data\Pack $pack = null,
+                                   $friendlyName = null, $trackingId = null, $startAgainUrl = null);
 
     /**
      * Get a Moo pack from the builder store.
