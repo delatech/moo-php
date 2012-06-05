@@ -46,7 +46,11 @@ class ColourCMYK extends Colour
 
     public function getColour()
     {
-        return array($this->_c, $this->_m, $this->_y, $this->_k);
+        return array($this->_c,
+                     $this->_m,
+                     $this->_y,
+                     $this->_k
+        );
     }
 
     public function setColour($c, $m, $y, $k)

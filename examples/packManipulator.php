@@ -1,5 +1,6 @@
 <?php
 use \MooPhp\MooInterface\Data as Data;
+
 /**
  * Demo of fiddling about with a pack on the commandline.
  * This will create a businesscard with an image side, and a details side.
@@ -14,13 +15,13 @@ use \MooPhp\MooInterface\Data as Data;
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-require __DIR__ . '/../MooPhp/MooPhpAutoloader.php';
+require __DIR__ . '/../lib/MooPhpAutoloader.php';
 require_once "WeaselAutoloader.php";
 
 $opts = getopt("k:s:");
 
 if (!isset($opts["k"]) || !isset($opts['s'])) {
-	die("Need to provide key and secret.");
+    die("Need to provide key and secret.");
 }
 
 $key = $opts['k'];

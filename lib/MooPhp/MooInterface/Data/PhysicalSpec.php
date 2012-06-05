@@ -13,7 +13,8 @@ use Weasel\JsonMarshaller\Config\Annotations\JsonInclude;
 class PhysicalSpec
 {
 
-    public function __construct($productType = \MooPhp\MooInterface\MooApi::PRODUCT_TYPE_BUSINESSCARD, $paperClassName = null, $finishingOptionName = null, $packSize = null)
+    public function __construct($productType = \MooPhp\MooInterface\MooApi::PRODUCT_TYPE_BUSINESSCARD,
+                                $paperClassName = null, $finishingOptionName = null, $packSize = null)
     {
         $this->_productType = $productType;
         $this->_paperClassName = $paperClassName;

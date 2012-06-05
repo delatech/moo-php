@@ -41,7 +41,10 @@ class ColourRGB extends Colour
 
     public function getColour()
     {
-        return array($this->_r, $this->_g, $this->_b);
+        return array($this->_r,
+                     $this->_g,
+                     $this->_b
+        );
     }
 
     /**

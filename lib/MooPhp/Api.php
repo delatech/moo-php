@@ -30,7 +30,7 @@ class Api implements MooInterface\MooApi
         $this->_templateMarshaller =
             new \Weasel\XmlMarshaller\XmlMapper(new \Weasel\XmlMarshaller\Config\AnnotationDriver($this->_logger));
         $this->_marshaller =
-            new \Weasel\JsonMarshaller\JsonMapper(new \Weasel\JsonMarshaller\Config\AnnotationDriver($this->_logger));
+            new \Weasel\JsonMarshaller\JsonMapper(new \Weasel\JsonMarshaller\Config\ArrayCachingAnnotationDriver($this->_logger));
     }
 
     public function getClient()
@@ -72,7 +72,7 @@ class Api implements MooInterface\MooApi
     /**
      * @param MooInterface\Request\Request $request
      * @param string $responseType
-     * @return string
+     * @return \MooPhp\MooInterface\Response\Response
      */
     public function makeRequest(\MooPhp\MooInterface\Request\Request $request, $responseType)
     {

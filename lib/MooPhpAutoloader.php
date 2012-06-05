@@ -16,7 +16,8 @@ function autoLoad($name)
         return;
     }
     $exploded = explode("\\", $name);
-    if (array_shift($exploded) != "MooPhp") {
+    $vendor = $exploded[0];
+    if ($vendor != "MooPhp") {
         return;
     }
     $path = implode('/', $exploded);
