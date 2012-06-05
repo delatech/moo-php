@@ -14,11 +14,11 @@ class PhysicalSpec
 {
 
     public function __construct($productType = \MooPhp\MooInterface\MooApi::PRODUCT_TYPE_BUSINESSCARD,
-                                $paperClassName = null, $finishingOptionName = null, $packSize = null)
+                                $paperClass = null, $finishingOption = null, $packSize = null)
     {
         $this->_productType = $productType;
-        $this->_paperClassName = $paperClassName;
-        $this->_finishingOptionName = $finishingOptionName;
+        $this->_paperClass = $paperClass;
+        $this->_finishingOption = $finishingOption;
         $this->_packSize = $packSize;
     }
 
@@ -30,12 +30,12 @@ class PhysicalSpec
     /**
      * @var string
      */
-    protected $_paperClassName;
+    protected $_paperClass;
 
     /**
      * @var string
      */
-    protected $_finishingOptionName;
+    protected $_finishingOption;
 
     /**
      * @var int
@@ -43,13 +43,13 @@ class PhysicalSpec
     protected $_packSize;
 
     /**
-     * @param string $finishingOptionName
+     * @param string $finishingOption
      * @return \MooPhp\MooInterface\Data\PhysicalSpec
      * @JsonProperty(type="string")
      */
-    public function setFinishingOptionName($finishingOptionName)
+    public function setFinishingOption($finishingOption)
     {
-        $this->_finishingOptionName = $finishingOptionName;
+        $this->_finishingOption = $finishingOption;
         return $this;
     }
 
@@ -57,9 +57,9 @@ class PhysicalSpec
      * @return string
      * @JsonProperty(type="string")
      */
-    public function getFinishingOptionName()
+    public function getFinishingOption()
     {
-        return $this->_finishingOptionName;
+        return $this->_finishingOption;
     }
 
     /**
@@ -83,13 +83,13 @@ class PhysicalSpec
     }
 
     /**
-     * @param string $paperClassName
+     * @param string $paperClass
      * @return \MooPhp\MooInterface\Data\PhysicalSpec
      * @JsonProperty(type="string")
      */
-    public function setPaperClassName($paperClassName)
+    public function setPaperClass($paperClass)
     {
-        $this->_paperClassName = $paperClassName;
+        $this->_paperClass = $paperClass;
         return $this;
     }
 
@@ -97,9 +97,9 @@ class PhysicalSpec
      * @return string
      * @JsonProperty(type="string")
      */
-    public function getPaperClassName()
+    public function getPaperClass()
     {
-        return $this->_paperClassName;
+        return $this->_paperClass;
     }
 
     /**
