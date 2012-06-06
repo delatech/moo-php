@@ -4,8 +4,8 @@ use Weasel\JsonMarshaller\Config\Annotations\JsonProperty;
 
 /**
  * @package MooPhp
- * @author Jonathan Oddy <jonathan at woaf.net>
- * @copyright Copyright (c) 2011, Jonathan Oddy
+ * @author Jonathan Oddy <jonathan@moo.com>
+ * @copyright Copyright (c) 2012, Moo Print Ltd.
  */
 
 abstract class CommonImage extends Response

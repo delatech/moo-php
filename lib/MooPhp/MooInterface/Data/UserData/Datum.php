@@ -6,8 +6,8 @@ use Weasel\JsonMarshaller\Config\Annotations\JsonSubTypes;
 
 /**
  * @package MooPhp
- * @author Jonathan Oddy <jonathan at woaf.net>
- * @copyright Copyright (c) 2011, Jonathan Oddy
+ * @author Jonathan Oddy <jonathan@moo.com>
+ * @copyright Copyright (c) 2012, Moo Print Ltd.
  *
  * @JsonTypeInfo(use=JsonTypeInfo.Id.NAME, as=JsonTypeInfo.As.PROPERTY, property="type")
  * @JsonSubTypes({@JsonSubTypes\Type("\MooPhp\MooInterface\Data\UserData\BoxData"),

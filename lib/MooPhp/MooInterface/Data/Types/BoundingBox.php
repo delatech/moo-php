@@ -7,8 +7,8 @@ use Weasel\XmlMarshaller\Config\Annotations\XmlRootElement;
 
 /**
  * @package MooPhp
- * @author Jonathan Oddy <jonathan at woaf.net>
- * @copyright Copyright (c) 2011, Jonathan Oddy
+ * @author Jonathan Oddy <jonathan@moo.com>
+ * @copyright Copyright (c) 2012, Moo Print Ltd.
  * @XmlRootElement(namespace="http://www.moo.com/xsd/template-1.0")
  */
 

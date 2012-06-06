@@ -1,8 +1,8 @@
 <?php
 /**
  * @package MooPhp
- * @author Jonathan Oddy <jonathan at woaf.net>
- * @copyright Copyright (c) 2011, Jonathan Oddy
+ * @author Jonathan Oddy <jonathan@moo.com>
+ * @copyright Copyright (c) 2012, Moo Print Ltd.
  */
 
 ini_set("display_errors", true);

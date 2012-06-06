@@ -7,8 +7,8 @@ use \MooPhp\MooInterface\Data as Data;
  * There'll be an image on both sides, and some text on the details side.
  *
  * @package packManipulator
- * @author Jonathan Oddy <jonathan at woaf.net>
- * @copyright Copyright (c) 2011, Jonathan Oddy
+ * @author Jonathan Oddy <jonathan@moo.com>
+ * @copyright Copyright (c) 2012, Moo Print Ltd.
  */
 
 
