@@ -38,7 +38,7 @@ abstract class CommonPack extends Response
     }
 
     /**
-     * @return \MooPhp\MooInterface\Warning[] Any warnings we've triggered
+     * @return \MooPhp\MooInterface\Response\Warning[] Any warnings we've triggered
      */
     public function getWarnings()
     {

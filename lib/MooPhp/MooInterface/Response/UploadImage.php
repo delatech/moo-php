@@ -7,7 +7,6 @@ use Weasel\JsonMarshaller\Config\Annotations\JsonIgnoreProperties;
  * @author Jonathan Oddy <jonathan@moo.com>
  * @copyright Copyright (c) 2012, Moo Print Ltd.
  *
- * @JsonIgnoreProperties(names={"warnings", "uploadImageError"})
  */
 class UploadImage extends CommonImage
 {
