@@ -18,19 +18,27 @@ class Api implements MooInterface\MooApi
     protected $_templateMarshaller;
 
     /**
-     * @var \Weasel\Logger\Logger
+     * @var \Weasel\Common\Logger\Logger
      */
     protected $_logger;
 
-    public function __construct(Client\Client $client)
+    public function __construct(Client\Client $client, \Weasel\Common\Cache\Cache $cache = null)
     {
         $this->_client = $client;
         // TODO: caching of the configs
         $this->_logger = $client->getLogger();
+
+        if (!isset($cache)) {
+            $cache = new \Weasel\Common\Cache\ArrayCache();
+        }
+
+        $annotationConfigurator = new \Weasel\Annotation\AnnotationConfigurator($this->_logger, $cache);
+
         $this->_templateMarshaller =
-            new \Weasel\XmlMarshaller\XmlMapper(new \Weasel\XmlMarshaller\Config\AnnotationDriver($this->_logger));
+            new \Weasel\XmlMarshaller\XmlMapper(new \Weasel\XmlMarshaller\Config\AnnotationDriver($this->_logger, $annotationConfigurator, $cache));
         $this->_marshaller =
-            new \Weasel\JsonMarshaller\JsonMapper(new \Weasel\JsonMarshaller\Config\ArrayCachingAnnotationDriver($this->_logger));
+            new \Weasel\JsonMarshaller\JsonMapper(new \Weasel\JsonMarshaller\Config\AnnotationDriver($this->_logger, $annotationConfigurator, $cache));
+
     }
 
     public function getClient()

@@ -20,7 +20,7 @@ class OAuthSigningClient implements Client
     protected $_ch;
 
     /**
-     * @var \Weasel\Logger\Logger
+     * @var \Weasel\Common\Logger\Logger
      */
     protected $_logger;
 
