@@ -11,11 +11,11 @@ This is one developer's crazed thrashings after consuming one too many cups of t
 shape, or form derived from any internal stuff at Moo, or representative of anything that might happen at Moo. It is not
 supported by Moo. Blah, blah, etc. Basically, if it explodes, don't contact Moo.
 
-It requires the php-weasel library (https://github.com/JonathanO/php-weasel) to be available via autoloading.
+It requires the php-weasel library (https://github.com/moodev/php-weasel) to be available via autoloading.
 
 Usage
 -----
-Grab the php-weasel library (https://github.com/JonathanO/php-weasel) and arrange for the packages within it
+Grab the php-weasel library (https://github.com/moodev/php-weasel) and arrange for the packages within it
 to be autoloadable.
 
 There's an example called packManipulator.php in the examples directory. It sets up the API client and creates a
