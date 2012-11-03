@@ -70,6 +70,7 @@ class Font
     /**
      * @param boolean $bold
      * @JsonProperty(type="bool")
+     * @XmlElement(type="bool")
      */
     public function setBold($bold)
     {
@@ -79,6 +80,7 @@ class Font
     /**
      * @param string $family
      * @JsonProperty(name="fontFamily", type="string")
+     * @XmlElement(type="string")
      */
     public function setFamily($family)
     {
@@ -88,6 +90,7 @@ class Font
     /**
      * @param boolean $italic
      * @JsonProperty(type="bool")
+     * @XmlElement(type="bool")
      */
     public function setItalic($italic)
     {

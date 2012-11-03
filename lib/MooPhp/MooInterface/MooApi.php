@@ -47,6 +47,9 @@ interface MooApi
      */
     const IMAGE_TYPE_DETECT = "detect";
 
+    const UNIT_MILLIMETERS = "millimeters";
+    const UNIT_POINTS = "points";
+
     /**
      * Send a signed request object to the Moo API, and deserialize the response as $responseType.
      *
@@ -170,16 +173,18 @@ interface MooApi
 
     /**
      * @param string $text The text to measure
-     * @param float $fontsize The font size in points
+     * @param float $fontsize The font size in $units
      * @param \MooPhp\MooInterface\Data\FontSpec $fontSpec Font to use for the measurement
      * @param float $wrappingWidth Width in mm after which to wrap to a new line (for multi-line text areas)
      * @param float $leading line spacing as a multiple of the default for the font.
+     * @param string $fontUnits Unit of measurement for the font size
      * @return \MooPhp\MooInterface\Response\TextMeasure
      */
     public function textMeasure($text,
                                 $fontsize,
                                 \MooPhp\MooInterface\Data\FontSpec $fontSpec,
                                 $wrappingWidth = null,
-                                $leading = null);
+                                $leading = null,
+                                $fontUnits = self::UNIT_MILLIMETERS);
 
 }

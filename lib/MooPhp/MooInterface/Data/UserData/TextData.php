@@ -72,6 +72,8 @@ class TextData extends Datum
     }
 
     /**
+     * Get the size of the text in whatever units of measurement the template uses.
+     * This WILL ALMOST CERTAINLY not return the size in points, despite the name!
      * @return float
      * @JsonProperty(type="float")
      */
@@ -117,6 +119,8 @@ class TextData extends Datum
     }
 
     /**
+     * Set the size of the text in whatever units of measurement the template uses.
+     * This WILL ALMOST CERTAINLY not want the size in points, despite the name!
      * @param float $pointSize
      * @JsonProperty(type="float")
      */

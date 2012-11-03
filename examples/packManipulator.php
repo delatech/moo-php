@@ -50,6 +50,7 @@ $client->getAccessToken();
 
 $api = new \MooPhp\Api($client);
 
+$textHelper = new \MooPhp\Text\TextHelper($api);
 
 $packResp = $api->packCreatePack(new \MooPhp\MooInterface\Data\PhysicalSpec());
 $packId = $packResp->getPackId();
@@ -62,16 +63,18 @@ $basketItem = $uploadImageResp->getImageBasketItem();
 
 $pack->getImageBasket()->addItem($basketItem);
 
-$template = $api->templateGetTemplate("businesscard_full_image_landscape");
+$imageTemplate = $api->templateGetTemplate("businesscard_full_image_landscape");
+$detailsTemplate = $api->templateGetTemplate("businesscard_right_image_landscape");
+
 $imageSide = new Data\Side();
 $imageSide->setType("image");
-$imageSide->setTemplateCode($template->getTemplateCode());
+$imageSide->setTemplateCode($imageTemplate->getTemplateCode());
 
 
 /**
  * @var \MooPhp\MooInterface\Data\Template\Items\ImageItem $item
  */
-$item = $template->getItemByLinkId("variable_image_front");
+$item = $imageTemplate->getItemByLinkId("variable_image_front");
 
 $printImage = $basketItem->getImageItem("print");
 
@@ -101,9 +104,9 @@ $detailsSide->addDatum($imageData);
 $textLine = new Data\UserData\TextData();
 $textLine->setFont(new Data\Types\Font("radio"));
 $textLine->setText("Kettles should not burn this well;");
-$textLine->setPointSize(3.35);
 $textLine->setColour(new Data\Types\ColourRGB(255, 0, 0));
 $textLine->setLinkId("back_line_1");
+$textHelper->fitTextData($textLine, $detailsTemplate);
 $detailsSide->addDatum($textLine);
 
 $textLine = new Data\UserData\TextData();

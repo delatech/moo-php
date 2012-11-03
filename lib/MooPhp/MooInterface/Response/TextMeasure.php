@@ -11,48 +11,101 @@ use Weasel\JsonMarshaller\Config\Annotations\JsonProperty;
 class TextMeasure extends Response
 {
 
-    protected $_packId;
-    protected $_dropIns;
+    /**
+     * @var float
+     */
+    protected $_textWidth;
 
     /**
-     * @var \MooPhp\MooInterface\Data\PhysicalSpec
+     * @var float
      */
-    private $_physicalSpec;
+    protected $_textHeight;
 
     /**
-     * @return string the builder ID
+     * @var int
      */
-    public function getPackId()
+    protected $_numberOfLines;
+
+    /**
+     * @var bool
+     */
+    protected $_fontSubstituted;
+
+    /**
+     * @param boolean $fontSubstituted
+     * @return TextMeasure
+     * @JsonProperty(type="bool")
+     */
+    public function setFontSubstituted($fontSubstituted)
     {
-        return $this->_packId;
-    }
-
-    /**
-     * @param $packId
-     * @JsonProperty(type="string")
-     */
-    public function setPackId($packId)
-    {
-        $this->_packId = $packId;
-    }
-
-    /**
-     * @param \MooPhp\MooInterface\Data\PhysicalSpec $physicalSpec
-     * @return \MooPhp\MooInterface\Response\UpdatePhysicalSpec
-     * @JsonProperty(type="\MooPhp\MooInterface\Data\PhysicalSpec")
-     */
-    public function setPhysicalSpec($physicalSpec)
-    {
-        $this->_physicalSpec = $physicalSpec;
+        $this->_fontSubstituted = $fontSubstituted;
         return $this;
     }
 
     /**
-     * @return \MooPhp\MooInterface\Data\PhysicalSpec
+     * @return boolean
      */
-    public function getPhysicalSpec()
+    public function getFontSubstituted()
     {
-        return $this->_physicalSpec;
+        return $this->_fontSubstituted;
     }
+
+    /**
+     * @param int $numberOfLines
+     * @return TextMeasure
+     * @JsonProperty(type="int")
+     */
+    public function setNumberOfLines($numberOfLines)
+    {
+        $this->_numberOfLines = $numberOfLines;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getNumberOfLines()
+    {
+        return $this->_numberOfLines;
+    }
+
+    /**
+     * @param float $textHeight
+     * @return TextMeasure
+     * @JsonProperty(type="float")
+     */
+    public function setTextHeight($textHeight)
+    {
+        $this->_textHeight = $textHeight;
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getTextHeight()
+    {
+        return $this->_textHeight;
+    }
+
+    /**
+     * @param float $textWidth
+     * @return TextMeasure
+     * @JsonProperty(type="float")
+     */
+    public function setTextWidth($textWidth)
+    {
+        $this->_textWidth = $textWidth;
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getTextWidth()
+    {
+        return $this->_textWidth;
+    }
+
 
 }

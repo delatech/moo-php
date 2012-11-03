@@ -1,5 +1,7 @@
 <?php
 namespace MooPhp;
+use MooPhp\MooInterface\Data\FontSpec;
+
 /**
  * @package Api.php
  * @author Jonathan Oddy <jonathan@moo.com>
@@ -71,7 +73,9 @@ class Api implements MooInterface\MooApi
                 } else {
                     $value = $rawValue;
                 }
-                $requestParams[$property] = $value;
+                if (isset($value)) {
+                    $requestParams[$property] = $value;
+                }
             }
         }
         return $requestParams;
@@ -269,21 +273,37 @@ class Api implements MooInterface\MooApi
 
     /**
      * @param string $text The text to measure
-     * @param float $fontsize The font size in points
+     * @param float $fontSize The font size in $units
      * @param \MooPhp\MooInterface\Data\FontSpec $fontSpec Font to use for the measurement
      * @param float $wrappingWidth Width in mm after which to wrap to a new line (for multi-line text areas)
      * @param float $leading line spacing as a multiple of the default for the font.
+     * @param string $fontUnits Unit of measurement for the font size
+     * @throws \InvalidArgumentException
      * @return \MooPhp\MooInterface\Response\TextMeasure
      */
     public function textMeasure($text,
-                                $fontsize,
+                                $fontSize,
                                 \MooPhp\MooInterface\Data\FontSpec $fontSpec,
                                 $wrappingWidth = null,
-                                $leading = null)
+                                $leading = null,
+                                $fontUnits = self::UNIT_MILLIMETERS)
     {
+        // The API call currently takes points, which is incredibly inconsistent as you're almost always working in
+        // mm when dealing with the API. To make life a bit simpler we'll provide the ability to do the conversion here.
+        switch ($fontUnits) {
+            case self::UNIT_MILLIMETERS:
+                $pointSize = $fontSize * 72 / 25.4;
+                break;
+            case self::UNIT_POINTS:
+                $pointSize = $fontSize;
+                break;
+            default:
+                throw new \InvalidArgumentException("Unknown unit of measurement, $fontUnits");
+        }
+
         $request = new MooInterface\Request\TextMeasure();
         $request->setText($text);
-        $request->setFontSize($fontsize);
+        $request->setFontSize($pointSize);
         $request->setFontSpec($fontSpec);
         $request->setWrappingWidth($wrappingWidth);
         $request->setLeading($leading);
