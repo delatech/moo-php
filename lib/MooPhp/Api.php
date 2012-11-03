@@ -133,7 +133,9 @@ class Api implements MooInterface\MooApi
      * @return \MooPhp\MooInterface\Response\CreatePack
      */
     public function packCreatePack(\MooPhp\MooInterface\Data\PhysicalSpec $physicalSpec,
-                                   MooInterface\Data\Pack $pack = null, $friendlyName = null, $trackingId = null,
+                                   MooInterface\Data\Pack $pack = null,
+                                   $friendlyName = null,
+                                   $trackingId = null,
                                    $startAgainUrl = null)
     {
         $request = new MooInterface\Request\CreatePack();
@@ -204,7 +206,8 @@ class Api implements MooInterface\MooApi
         $request->setTemplateCode($templateCode);
 
         $rawResponse = $this->getFile($request);
-        return $this->_templateMarshaller->readString($rawResponse, '\MooPhp\MooInterface\Data\Template\Template',
+        return $this->_templateMarshaller->readString($rawResponse,
+                                                      '\MooPhp\MooInterface\Data\Template\Template',
                                                       'http://www.moo.com/xsd/template-1.0'
         );
     }
@@ -262,6 +265,29 @@ class Api implements MooInterface\MooApi
         $request->setPackId($packId);
         $request->setPhysicalSpec($physicalSpec);
         return $this->makeRequest($request, "UpdatePhsyicalSpec");
+    }
+
+    /**
+     * @param string $text The text to measure
+     * @param float $fontsize The font size in points
+     * @param \MooPhp\MooInterface\Data\FontSpec $fontSpec Font to use for the measurement
+     * @param float $wrappingWidth Width in mm after which to wrap to a new line (for multi-line text areas)
+     * @param float $leading line spacing as a multiple of the default for the font.
+     * @return \MooPhp\MooInterface\Response\TextMeasure
+     */
+    public function textMeasure($text,
+                                $fontsize,
+                                \MooPhp\MooInterface\Data\FontSpec $fontSpec,
+                                $wrappingWidth = null,
+                                $leading = null)
+    {
+        $request = new MooInterface\Request\TextMeasure();
+        $request->setText($text);
+        $request->setFontSize($fontsize);
+        $request->setFontSpec($fontSpec);
+        $request->setWrappingWidth($wrappingWidth);
+        $request->setLeading($leading);
+        return $this->makeRequest($request, "TextMeasure");
     }
 }
 

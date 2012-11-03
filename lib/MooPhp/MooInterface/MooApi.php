@@ -90,8 +90,11 @@ interface MooApi
      * @param string $startAgainUrl Absolute URL to send the user to if they hit the start again button
      * @return Response\CreatePack
      */
-    public function packCreatePack(\MooPhp\MooInterface\Data\PhysicalSpec $physicalSpec, Data\Pack $pack = null,
-                                   $friendlyName = null, $trackingId = null, $startAgainUrl = null);
+    public function packCreatePack(\MooPhp\MooInterface\Data\PhysicalSpec $physicalSpec,
+                                   Data\Pack $pack = null,
+                                   $friendlyName = null,
+                                   $trackingId = null,
+                                   $startAgainUrl = null);
 
     /**
      * Get a Moo pack from the builder store.
@@ -161,7 +164,22 @@ interface MooApi
      * @abstract
      * @param string $packId
      * @param Data\PhysicalSpec $physicalSpec
+     * @return \MooPhp\MooInterface\Response\UpdatePhysicalSpec
      */
     public function updatePhysicalSpec($packId, \MooPhp\MooInterface\Data\PhysicalSpec $physicalSpec);
+
+    /**
+     * @param string $text The text to measure
+     * @param float $fontsize The font size in points
+     * @param \MooPhp\MooInterface\Data\FontSpec $fontSpec Font to use for the measurement
+     * @param float $wrappingWidth Width in mm after which to wrap to a new line (for multi-line text areas)
+     * @param float $leading line spacing as a multiple of the default for the font.
+     * @return \MooPhp\MooInterface\Response\TextMeasure
+     */
+    public function textMeasure($text,
+                                $fontsize,
+                                \MooPhp\MooInterface\Data\FontSpec $fontSpec,
+                                $wrappingWidth = null,
+                                $leading = null);
 
 }
