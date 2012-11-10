@@ -17,7 +17,7 @@ class GetPack extends Request
 
     public function __construct()
     {
-        parent::__construct("moo.pack.getPack");
+        parent::__construct("moo.pack.getPack", self::HTTP_GET);
     }
 
     /**
