@@ -82,9 +82,11 @@ class OAuthSigningClient implements Client
 
     /**
      * @param array $params
+     * @param string $method
+     * @throws \InvalidArgumentException
      * @return string
      */
-    public function makeRequest(array $params)
+    public function makeRequest(array $params, $method = self::HTTP_POST)
     {
 
         $target = $this->_urls["apiEndpoint"];
@@ -92,9 +94,28 @@ class OAuthSigningClient implements Client
         if ($this->_logger) {
             $this->_logger->logDebug("Request: " . print_r($params, true));
         }
-        $this->_oauth->fetch($target, $params, OAUTH_HTTP_METHOD_POST, array());
+        switch ($method) {
+            case self::HTTP_POST:
+                $httpMethod = OAUTH_HTTP_METHOD_POST;
+                break;
+            case self::HTTP_GET:
+                $httpMethod = OAUTH_HTTP_METHOD_GET;
+                break;
+            default:
+                throw new \InvalidArgumentException("Invalid http method");
+        }
 
-        $rawResponse = $this->_oauth->getLastResponse();
+        try {
+            $this->_oauth->fetch($target, $params, $httpMethod, array());
+            $rawResponse = $this->_oauth->getLastResponse();
+        } catch (\OAuthException $e) {
+            if (!empty($e->lastResponse)) {
+                $rawResponse = $e->lastResponse;
+            } else {
+                throw $e;
+            }
+        }
+
         if ($this->_logger) {
             $this->_logger->logDebug("Response: " . $rawResponse);
         }

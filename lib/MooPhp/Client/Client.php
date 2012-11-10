@@ -9,11 +9,15 @@ namespace MooPhp\Client;
 interface Client
 {
 
+    const HTTP_POST = "POST";
+    const HTTP_GET = "GET";
+
     /**
      * @param array $params
+     * @param string $method HTTP method to use (one of the HTTP_ consts)
      * @return string
      */
-    public function makeRequest(array $params);
+    public function makeRequest(array $params, $method = self::HTTP_POST);
 
     /**
      * @abstract

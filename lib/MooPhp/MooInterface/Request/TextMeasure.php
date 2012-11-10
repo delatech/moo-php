@@ -36,7 +36,7 @@ class TextMeasure extends Request
 
     public function __construct()
     {
-        parent::__construct("moo.text.measure");
+        parent::__construct("moo.text.measure", self::HTTP_GET);
     }
 
     /**

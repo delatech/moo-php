@@ -47,8 +47,8 @@ interface MooApi
      */
     const IMAGE_TYPE_DETECT = "detect";
 
-    const UNIT_MILLIMETERS = "millimeters";
-    const UNIT_POINTS = "points";
+    const UNIT_MILLIMETERS = "mm";
+    const UNIT_POINTS = "pts";
 
     /**
      * Send a signed request object to the Moo API, and deserialize the response as $responseType.

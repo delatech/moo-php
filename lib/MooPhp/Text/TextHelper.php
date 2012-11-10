@@ -66,9 +66,8 @@ class TextHelper
             } else {
                 $newFontSize = ($maxHeight / $height) * $fontSize;
             }
-            if ($newFontSize > $fontSize || $newFontSize - $fontSize < 0.001) {
-                // Fiddle to avoid any fun with floats
-                $newFontSize = $fontSize - 0.001;
+            if ($newFontSize > $fontSize || $newFontSize - $fontSize < 0.1) {
+                $newFontSize = $fontSize - 0.1;
             }
             if ($newFontSize < 0) {
                 throw new \RuntimeException("Unable to size text to fit.");

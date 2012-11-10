@@ -1,6 +1,7 @@
 <?php
 namespace MooPhp;
 use MooPhp\MooInterface\Data\FontSpec;
+use MooPhp\MooInterface\Request\Request;
 
 /**
  * @package Api.php
@@ -73,7 +74,7 @@ class Api implements MooInterface\MooApi
                 } else {
                     $value = $rawValue;
                 }
-                if (isset($value)) {
+                if ($property != 'httpMethod' && isset($value)) {
                     $requestParams[$property] = $value;
                 }
             }
@@ -88,7 +89,11 @@ class Api implements MooInterface\MooApi
      */
     public function makeRequest(\MooPhp\MooInterface\Request\Request $request, $responseType)
     {
-        $rawResponse = $this->_client->makeRequest($this->_getRequestParams($request));
+        $rawResponse =
+            $this->_client->makeRequest($this->_getRequestParams($request),
+                                        $request->getHttpMethod() == Request::HTTP_GET ? Client\Client::HTTP_GET :
+                                            Client\Client::HTTP_POST
+            );
         return $this->_handleResponse($rawResponse, $responseType);
     }
 
@@ -299,6 +304,14 @@ class Api implements MooInterface\MooApi
                 break;
             default:
                 throw new \InvalidArgumentException("Unknown unit of measurement, $fontUnits");
+        }
+
+        // API call also requires the optional parameters (oopse.)
+        if (!isset($wrappingWidth)) {
+            $wrappingWidth = 0;
+        }
+        if (!isset($leading)) {
+            $leading = 1;
         }
 
         $request = new MooInterface\Request\TextMeasure();
