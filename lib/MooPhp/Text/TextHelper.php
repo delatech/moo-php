@@ -61,13 +61,20 @@ class TextHelper
         $width = $measure->getTextWidth();
 
         while ($height > $maxHeight || $width > $maxWidth) {
+            $newFontSizeA = null;
+            $newFontSizeB = null;
+            $newFontSize = $fontSize;
             if ($width > $maxWidth) {
-                $newFontSize = ($maxWidth / $width) * $fontSize;
-            } else {
-                $newFontSize = ($maxHeight / $height) * $fontSize;
+                $newFontSize = $newFontSizeA = ($maxWidth / $width) * $fontSize;
             }
-            if ($newFontSize > $fontSize || $newFontSize - $fontSize < 0.1) {
-                $newFontSize = $fontSize - 0.1;
+            if ($height > $maxHeight) {
+                $newFontSize = $newFontSizeB = ($maxHeight / $height) * $fontSize;
+            }
+            if (isset($newFontSizeA) && isset($newFontSizeB)) {
+                $newFontSize = min($newFontSizeA, $newFontSizeB);
+            }
+            if ($newFontSize > $fontSize || $fontSize - $newFontSize < 0.5) {
+                $newFontSize = $fontSize - 0.5;
             }
             if ($newFontSize < 0) {
                 throw new \RuntimeException("Unable to size text to fit.");
@@ -88,15 +95,10 @@ class TextHelper
         }
         $itemFont = $item->getFont();
 
-        if (!isset($fontSpec)) {
-            $family = $itemFont->getFamily();
-            $bold = $itemFont->getBold();
-            $italic = $itemFont->getItalic();
-        } else {
-            $family = $family ? : $itemFont->getFamily();
-            $bold = $bold ? : $itemFont->getBold();
-            $italic = $italic ? : $itemFont->getItalic();
-        }
+        $family = isset($family) ? $family : $itemFont->getFamily();
+        $bold = isset($bold) ? $bold : $itemFont->getBold();
+        $italic = isset($italic) ? $italic : $itemFont->getItalic();
+
         return new FontSpec($family, $bold, $italic);
     }
 }
