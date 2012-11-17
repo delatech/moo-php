@@ -25,6 +25,12 @@ class TextHelper
         $this->_api = $api;
     }
 
+    /**
+     * Populate the pointSize attribute of a TextData.
+     * @param \MooPhp\MooInterface\Data\UserData\TextData $textData
+     * @param \MooPhp\MooInterface\Data\Template\Template $template
+     * @throws \InvalidArgumentException
+     */
     public function fitTextData(TextData $textData, Template $template)
     {
         $item = $template->getItemByLinkId($textData->getLinkId());
@@ -42,6 +48,18 @@ class TextHelper
         $textData->setPointSize($size);
     }
 
+    /**
+     * If the item will not fit, find a font size that does.
+     * Find the largest font size <= $fontSize (or default font size of the TextItem if $fontSize is null) which allows
+     * the text to fit in the TextItem.
+     *
+     * @param string $text Text to fit
+     * @param \MooPhp\MooInterface\Data\Template\Items\TextItem $item Template item to fit the text to.
+     * @param float $fontSize font size you'd ideally like your text to be (null for template item default)
+     * @param \MooPhp\MooInterface\Data\Types\Font $font Font to use
+     * @return float Font size you should use if you want your text to fit
+     * @throws \RuntimeException
+     */
     public function fitTextToTextItem($text,
                                       \MooPhp\MooInterface\Data\Template\Items\TextItem $item,
                                       $fontSize = null,
@@ -63,6 +81,8 @@ class TextHelper
         $lastLarge = null;
 
         while ($height > $maxHeight || $width > $maxWidth) {
+            // If the text doesn't fit we need to try to find a font size that's close to (but smaller than) the ideal
+            // value.
             $lastLarge = $fontSize;
             $newFontSizeA = null;
             $newFontSizeB = null;
@@ -88,7 +108,11 @@ class TextHelper
             $width = $measure->getTextWidth();
         }
 
+        // TODO: Above estimate tends to immediately guess a good min value. Unfortunately this leaves us without a good max value!
+
         if (isset($lastLarge)) {
+            // Based on the values we've already found, we now want to find the largest font size that still fits in
+            // the text field.
             $min = $fontSize;
             $max = $lastLarge;
             $wdiff = $maxWidth - $width;
