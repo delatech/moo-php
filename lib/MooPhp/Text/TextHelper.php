@@ -60,7 +60,10 @@ class TextHelper
         $height = $measure->getTextHeight();
         $width = $measure->getTextWidth();
 
+        $lastLarge = null;
+
         while ($height > $maxHeight || $width > $maxWidth) {
+            $lastLarge = $fontSize;
             $newFontSizeA = null;
             $newFontSizeB = null;
             $newFontSize = $fontSize;
@@ -83,6 +86,28 @@ class TextHelper
             $measure = $this->_api->textMeasure($text, $fontSize, $fontSpec);
             $height = $measure->getTextHeight();
             $width = $measure->getTextWidth();
+        }
+
+        if (isset($lastLarge)) {
+            $min = $fontSize;
+            $max = $lastLarge;
+            $wdiff = $maxWidth - $width;
+            $hdiff = $maxHeight - $height;
+            while (($wdiff > 1 && $hdiff > 0.2) || $height > $maxHeight || $width > $maxWidth) {
+                $fontSize = ($min + $max) / 2;
+                $measure = $this->_api->textMeasure($text, $fontSize, $fontSpec);
+                $height = $measure->getTextHeight();
+                $width = $measure->getTextWidth();
+
+                if ($height > $maxHeight || $width > $maxWidth) {
+                    $max = $fontSize;
+                } else {
+                    $min = $fontSize;
+                }
+
+                $wdiff = $maxWidth - $width;
+                $hdiff = $maxHeight - $height;
+            }
         }
 
         return $fontSize;
