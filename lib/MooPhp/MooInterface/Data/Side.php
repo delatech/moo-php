@@ -47,6 +47,7 @@ class Side
             throw new \InvalidArgumentException("A datum with this link ID already exists");
         }
         $this->_dataByLinkId[$datum->getLinkId()] = $datum;
+        return $this;
     }
 
     /**
@@ -87,6 +88,7 @@ class Side
 
     /**
      * @param \MooPhp\MooInterface\Data\UserData\Datum[] $data
+     * @return \MooPhp\MooInterface\Data\Side
      * @JsonProperty(type="\MooPhp\MooInterface\Data\UserData\Datum[]")
      */
     public function setData($data)
@@ -94,33 +96,40 @@ class Side
         foreach ($data as $datum) {
             $this->_dataByLinkId[$datum->getLinkId()] = $datum;
         }
+        return $this;
     }
 
     /**
      * @param int $sideNum
+     * @return \MooPhp\MooInterface\Data\Side
      * @JsonProperty(type="int")
      */
     public function setSideNum($sideNum)
     {
         $this->_sideNum = $sideNum;
+        return $this;
     }
 
     /**
      * @param string $templateCode
+     * @return \MooPhp\MooInterface\Data\Side
      * @JsonProperty(type="string")
      */
     public function setTemplateCode($templateCode)
     {
         $this->_templateCode = $templateCode;
+        return $this;
     }
 
     /**
      * @param string $type
+     * @return \MooPhp\MooInterface\Data\Side
      * @JsonProperty(type="string")
      */
     public function setType($type)
     {
         $this->_type = $type;
+        return $this;
     }
 
 }

@@ -47,34 +47,48 @@ class ColourRGB extends Colour
         );
     }
 
+    public function setColour($r, $g, $b)
+    {
+        $this->_r = $r;
+        $this->_g = $g;
+        $this->_b = $b;
+        return $this;
+    }
+
     /**
      * @param int $b
+     * @return \MooPhp\MooInterface\Data\Types\ColourRGB
      * @JsonProperty(type="int")
      * @XmlElement(type="float", name="Blue")
      */
     public function setB($b)
     {
         $this->_b = $b;
+        return $this;
     }
 
     /**
      * @param int $g
+     * @return \MooPhp\MooInterface\Data\Types\ColourRGB
      * @JsonProperty(type="int")
      * @XmlElement(type="float", name="Green")
      */
     public function setG($g)
     {
         $this->_g = $g;
+        return $this;
     }
 
     /**
      * @param int $r
+     * @return \MooPhp\MooInterface\Data\Types\ColourRGB
      * @JsonProperty(type="int")
      * @XmlElement(type="float", name="Red")
      */
     public function setR($r)
     {
         $this->_r = $r;
+        return $this;
     }
 
     /**

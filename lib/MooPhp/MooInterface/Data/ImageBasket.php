@@ -31,12 +31,17 @@ class ImageBasket
      */
     protected $_immutable;
 
+    /**
+     * Add an ImageBasketItem to the image basket
+     * @param ImageBasketItem $item
+     * @return ImageBasket
+     */
     public function addItem(ImageBasketItem $item)
     {
         $items = $this->getItems();
         $items[] = $item;
         $this->setItems($items);
-        return $item;
+        return $this;
     }
 
     /**
@@ -77,38 +82,46 @@ class ImageBasket
 
     /**
      * @param boolean $immutable
+     * @return \MooPhp\MooInterface\Data\ImageBasket
      * @JsonProperty(type="bool")
      */
     public function setImmutable($immutable)
     {
         $this->_immutable = $immutable;
+        return $this;
     }
 
     /**
      * @param $items
+     * @return \MooPhp\MooInterface\Data\ImageBasket
      * @JsonProperty(type="\MooPhp\MooInterface\Data\ImageBasketItem[]")
      */
     public function setItems($items)
     {
         $this->_items = $items;
+        return $this;
     }
 
     /**
      * @param string $name
+     * @return \MooPhp\MooInterface\Data\ImageBasket
      * @JsonProperty(type="string")
      */
     public function setName($name)
     {
         $this->_name = $name;
+        return $this;
     }
 
     /**
      * @param string $type
+     * @return \MooPhp\MooInterface\Data\ImageBasket
      * @JsonProperty(type="string")
      */
     public function setType($type)
     {
         $this->_type = $type;
+        return $this;
     }
 
 }

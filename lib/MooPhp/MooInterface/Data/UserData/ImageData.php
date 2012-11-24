@@ -34,9 +34,10 @@ class ImageData extends Datum
      */
     protected $_enhance;
 
-    public function __construct()
+    public function __construct($linkId = null)
     {
         $this->_type = "imageData";
+        parent::__construct($linkId);
     }
 
     /**
@@ -77,38 +78,46 @@ class ImageData extends Datum
 
     /**
      * @param boolean $enhance
+     * @return \MooPhp\MooInterface\Data\UserData\ImageData
      * @JsonProperty(type="bool")
      */
     public function setEnhance($enhance)
     {
         $this->_enhance = $enhance;
+        return $this;
     }
 
     /**
      * @param \MooPhp\MooInterface\Data\Types\BoundingBox $imageBox
+     * @return \MooPhp\MooInterface\Data\UserData\ImageData
      * @JsonProperty(type="\MooPhp\MooInterface\Data\Types\BoundingBox")
      */
     public function setImageBox($imageBox)
     {
         $this->_imageBox = $imageBox;
+        return $this;
     }
 
     /**
      * @param string $imageStoreFileId
+     * @return \MooPhp\MooInterface\Data\UserData\ImageData
      * @JsonProperty(type="string")
      */
     public function setImageStoreFileId($imageStoreFileId)
     {
         $this->_imageStoreFileId = $imageStoreFileId;
+        return $this;
     }
 
     /**
      * @param string $resourceUri
+     * @return \MooPhp\MooInterface\Data\UserData\ImageData
      * @JsonProperty(type="string")
      */
     public function setResourceUri($resourceUri)
     {
         $this->_resourceUri = $resourceUri;
+        return $this;
     }
 
 }

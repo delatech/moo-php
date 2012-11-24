@@ -41,20 +41,24 @@ class Card
 
     /**
      * @param int $cardNum
+     * @return \MooPhp\MooInterface\Data\Card
      * @JsonProperty(type="int")
      */
     public function setCardNum($cardNum)
     {
         $this->_cardNum = $cardNum;
+        return $this;
     }
 
     /**
      * @JsonProperty(type="\MooPhp\MooInterface\Data\CardSide[]")
      * @param $cardSides
+     * @return \MooPhp\MooInterface\Data\Card
      */
     public function setCardSides($cardSides)
     {
         $this->_cardSides = $cardSides;
+        return $this;
     }
 
 }

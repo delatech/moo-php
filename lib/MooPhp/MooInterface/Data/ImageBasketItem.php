@@ -137,33 +137,40 @@ class ImageBasketItem
 
     /**
      * @param string $cacheId
+     * @return \MooPhp\MooInterface\Data\ImageBasketItem
      * @JsonProperty(type="string")
      */
     public function setCacheId($cacheId)
     {
         $this->_cacheId = $cacheId;
+        return $this;
     }
 
     /**
      * @param string $copyrightOwner
+     * @return \MooPhp\MooInterface\Data\ImageBasketItem
      * @JsonProperty(type="string")
      */
     public function setCopyrightOwner($copyrightOwner)
     {
         $this->_copyrightOwner = $copyrightOwner;
+        return $this;
     }
 
     /**
      * @param boolean $croppable
+     * @return \MooPhp\MooInterface\Data\ImageBasketItem
      * @JsonProperty(type="bool")
      */
     public function setCroppable($croppable)
     {
         $this->_croppable = $croppable;
+        return $this;
     }
 
     /**
      * @param \MooPhp\MooInterface\Data\ImageBasketItemImage[] $imageItems
+     * @return \MooPhp\MooInterface\Data\ImageBasketItem
      * @JsonProperty(type="\MooPhp\MooInterface\Data\ImageBasketItemImage[]")
      */
     public function setImageItems($imageItems)
@@ -171,41 +178,50 @@ class ImageBasketItem
         foreach ($imageItems as $imageItem) {
             $this->_imageItemsByType[$imageItem->getType()] = $imageItem;
         }
+        return $this;
     }
 
     /**
      * @param boolean $removable
+     * @return \MooPhp\MooInterface\Data\ImageBasketItem
      * @JsonProperty(type="bool")
      */
     public function setRemovable($removable)
     {
         $this->_removable = $removable;
+        return $this;
     }
 
     /**
      * @param string $resourceUri
+     * @return \MooPhp\MooInterface\Data\ImageBasketItem
      * @JsonProperty(type="string")
      */
     public function setResourceUri($resourceUri)
     {
         $this->_resourceUri = $resourceUri;
+        return $this;
     }
 
     /**
      * @param boolean $shouldEnhance
+     * @return \MooPhp\MooInterface\Data\ImageBasketItem
      * @JsonProperty(type="bool")
      */
     public function setShouldEnhance($shouldEnhance)
     {
         $this->_shouldEnhance = $shouldEnhance;
+        return $this;
     }
 
     /**
      * @param string $type
+     * @return \MooPhp\MooInterface\Data\ImageBasketItem
      * @JsonProperty(type="string")
      */
     public function setType($type)
     {
         $this->_type = $type;
+        return $this;
     }
 }

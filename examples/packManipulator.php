@@ -27,13 +27,16 @@ if (!isset($opts["k"]) || !isset($opts['s'])) {
 $key = $opts['k'];
 $secret = $opts['s'];
 
+// Logger isn't actually required. This implementation will just spam stuff to stderr.
 $logger = new \Weasel\Common\Logger\FileLogger();
 $logger->setLogLevel(\Weasel\Common\Logger\Logger::LOG_LEVEL_DEBUG);
 
 $client = new \MooPhp\Client\OAuthSigningClient($key, $secret, $logger);
 
 /*
-// If we want to do three legged we'd need to jump about a bit
+// If we want to do three legged we'd need to jump about a bit.
+// Since most of the API calls no longer need 3 legged, this block of code is not required.
+
 $request_token = $client->getRequestToken();
 
 // At this point if you were writing a web app you'd want to store the request token data.
@@ -50,71 +53,80 @@ $client->getAccessToken();
 
 $api = new \MooPhp\Api($client);
 
+// Helper that allows us to calculate text sizes
 $textHelper = new \MooPhp\Text\TextHelper($api);
 
+// First we'll create a pack, using the default physical spec (a businesscard product.)
 $packResp = $api->packCreatePack(new \MooPhp\MooInterface\Data\PhysicalSpec());
 $packId = $packResp->getPackId();
 $pack = $packResp->getPack();
 
 
-// Right, lets make ourselves an image side containing a picture.
+// Lets upload a photo
 $uploadImageResp = $api->imageUploadImage(__DIR__ . '/poor_kettle_purchasing_decision.jpg');
 $basketItem = $uploadImageResp->getImageBasketItem();
 
+// And add it to our pack's imagebasket so we can use it on our cards.
 $pack->getImageBasket()->addItem($basketItem);
 
-$imageTemplate = $api->templateGetTemplate("businesscard_full_image_landscape");
-$detailsTemplate = $api->templateGetTemplate("businesscard_right_image_landscape");
+// Lets make an image side
+$imageTemplateCode = "businesscard_full_image_landscape";
 
 $imageSide = new Data\Side();
-$imageSide->setType("image");
-$imageSide->setTemplateCode($imageTemplate->getTemplateCode());
-
+$imageSide->setType("image")->setTemplateCode($imageTemplateCode);
 
 /**
- * @var \MooPhp\MooInterface\Data\Template\Items\ImageItem $item
+ * @var \MooPhp\MooInterface\Data\Template\Items\ImageItem $imageTemplateItem
  */
-$item = $imageTemplate->getItemByLinkId("variable_image_front");
-
+// We need to work out how to position our image. The TemplateItem for the image allows us to calculate a sane default.
+$imageTemplate = $api->templateGetTemplate($imageTemplateCode);
+$imageTemplateItem = $imageTemplate->getItemByLinkId("variable_image_front");
 $printImage = $basketItem->getImageItem("print");
+$imageBox = $imageTemplateItem->calculateDefaultImageBox($printImage->getWidth(), $printImage->getHeight());
 
 $imageData = new Data\UserData\ImageData();
 $imageData->setLinkId("variable_image_front");
-$imageData->setImageBox($item->calculateDefaultImageBox($printImage->getWidth(), $printImage->getHeight()));
-$imageData->setResourceUri($uploadImageResp->getImageBasketItem()->getResourceUri());
+$imageData->setImageBox($imageBox);
+$imageData->setResourceUri($basketItem->getResourceUri());
 
-$imageSide->addDatum($imageData);
-$pack->addSide($imageSide);
+$pack->addSide($imageSide->addDatum($imageData));
+
+// That's an image side done, move onto the details side.
+
+$detailsTemplateCode = "businesscard_right_image_landscape";
 
 $detailsSide = new Data\Side();
-$detailsSide->setType("details");
-$detailsSide->setTemplateCode("businesscard_right_image_landscape");
+$detailsSide->setType("details")->setTemplateCode($detailsTemplateCode);
 
-// First off, lets put our image on the details side too
+// OK, lets put the same image we've already used on the details side.
 $imageData = new Data\UserData\ImageData();
 $imageData->setLinkId("variable_image_back");
-$imageData->setImageBox($item->calculateDefaultImageBox($printImage->getWidth(), $printImage->getHeight()));
 
-// OK, so you may wonder where these numbers came from... well I had to use the Moo flash canvas to make it look right,
+// You may wonder where these numbers came from... well I had to use the Moo flash canvas to make it look right,
 // and then pull the data out of the pack data that wrote.
 $imageData->setImageBox(new Data\Types\BoundingBox(new Data\Types\Point(78.09, 29.85), 81.81, 61.36));
-$imageData->setResourceUri($uploadImageResp->getImageBasketItem()->getResourceUri());
+$imageData->setResourceUri($basketItem->getResourceUri());
 $detailsSide->addDatum($imageData);
 
-$textLine = new Data\UserData\TextData();
-$textLine->setFont(new Data\Types\Font("radio"));
-$textLine->setText("Kettles should not burn this well;");
+// We're going to need the template loaded to make use of the TextHelper
+$detailsTemplate = $api->templateGetTemplate($detailsTemplateCode);
+
+// We'll add some text too:
+$textLine = new Data\UserData\TextData("back_line_1");
+$textLine->setFont(new Data\Types\Font("radio"))->setText("Kettles should not burn this well;");
 $textLine->setColour(new Data\Types\ColourRGB(255, 0, 0));
-$textLine->setLinkId("back_line_1");
+
+// Rather than specifying our own font size, we'll let the text helper fit the text for us.
 $textHelper->fitTextData($textLine, $detailsTemplate);
+
 $detailsSide->addDatum($textLine);
 
-$textLine = new Data\UserData\TextData();
+// More text, this time with a hardcoded font size
+$textLine = new Data\UserData\TextData("back_line_2");
 $textLine->setFont(new Data\Types\Font("meta"));
 $textLine->setText("Especially if they turn themselves on;");
 $textLine->setPointSize(2.65);
 $textLine->setColour(new Data\Types\ColourRGB(0, 255, 0));
-$textLine->setLinkId("back_line_2");
 $detailsSide->addDatum($textLine);
 
 $textLine = new Data\UserData\TextData();
@@ -132,9 +144,7 @@ $textLine->setPointSize(3.35);
 $textLine->setLinkId("back_line_4");
 $detailsSide->addDatum($textLine);
 
-$pack->addSide($detailsSide);
-
-$updateResp = $api->packUpdatePack($packId, $pack);
+$updateResp = $api->packUpdatePack($packId, $pack->addSide($detailsSide));
 
 
 // OK, all done.

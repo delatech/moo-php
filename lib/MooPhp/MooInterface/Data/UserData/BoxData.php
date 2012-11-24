@@ -19,9 +19,10 @@ class BoxData extends Datum
      */
     protected $_colour;
 
-    public function __construct()
+    public function __construct($linkId = null)
     {
         $this->_type = "boxData";
+        parent::__construct($linkId);
     }
 
     /**
@@ -35,11 +36,13 @@ class BoxData extends Datum
 
     /**
      * @param \MooPhp\MooInterface\Data\Types\Colour $colour
+     * @return \MooPhp\MooInterface\Data\UserData\BoxData
      * @JsonProperty(type="\MooPhp\MooInterface\Data\Types\Colour")
      */
     public function setColour($colour)
     {
         $this->_colour = $colour;
+        return $this;
     }
 
 }

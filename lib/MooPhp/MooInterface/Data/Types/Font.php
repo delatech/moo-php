@@ -69,31 +69,37 @@ class Font
 
     /**
      * @param boolean $bold
+     * @return \MooPhp\MooInterface\Data\Types\Font
      * @JsonProperty(type="bool")
      * @XmlElement(type="bool")
      */
     public function setBold($bold)
     {
         $this->_bold = $bold;
+        return $this;
     }
 
     /**
      * @param string $family
+     * @return \MooPhp\MooInterface\Data\Types\Font
      * @JsonProperty(name="fontFamily", type="string")
      * @XmlElement(type="string")
      */
     public function setFamily($family)
     {
         $this->_family = $family;
+        return $this;
     }
 
     /**
      * @param boolean $italic
+     * @return \MooPhp\MooInterface\Data\Types\Font
      * @JsonProperty(type="bool")
      * @XmlElement(type="bool")
      */
     public function setItalic($italic)
     {
         $this->_italic = $italic;
+        return $this;
     }
 }

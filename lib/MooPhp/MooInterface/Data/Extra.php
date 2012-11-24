@@ -41,20 +41,24 @@ class Extra
 
     /**
      * @param string $key
+     * @return \MooPhp\MooInterface\Data\Extra
      * @JsonProperty(type="string")
      */
     public function setKey($key)
     {
         $this->_key = $key;
+        return $this;
     }
 
     /**
      * @param string $value
+     * @return \MooPhp\MooInterface\Data\Extra
      * @JsonProperty(type="string")
      */
     public function setValue($value)
     {
         $this->_value = $value;
+        return $this;
     }
 
 }

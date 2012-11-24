@@ -34,20 +34,24 @@ class CardSide
 
     /**
      * @param int $sideNum
+     * @return \MooPhp\MooInterface\Data\CardSide
      * @JsonProperty(type="int")
      */
     public function setSideNum($sideNum)
     {
         $this->_sideNum = $sideNum;
+        return $this;
     }
 
     /**
      * @param string $sideType
+     * @return \MooPhp\MooInterface\Data\CardSide
      * @JsonProperty(type="string")
      */
     public function setSideType($sideType)
     {
         $this->_sideType = $sideType;
+        return $this;
     }
 
 }

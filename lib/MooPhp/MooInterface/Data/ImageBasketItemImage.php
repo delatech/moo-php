@@ -85,46 +85,56 @@ class ImageBasketItemImage
     /**
      * @JsonProperty(type="int")
      * @param int $height
+     * @return \MooPhp\MooInterface\Data\ImageBasketItemImage
      */
     public function setHeight($height)
     {
         $this->_height = $height;
+        return $this;
     }
 
     /**
      * @JsonProperty(type="string")
      * @param string $resourceUri
+     * @return \MooPhp\MooInterface\Data\ImageBasketItemImage
      */
     public function setResourceUri($resourceUri)
     {
         $this->_resourceUri = $resourceUri;
+        return $this;
     }
 
     /**
      * @JsonProperty(type="float")
      * @param float $rotation
+     * @return \MooPhp\MooInterface\Data\ImageBasketItemImage
      */
     public function setRotation($rotation)
     {
         $this->_rotation = $rotation;
+        return $this;
     }
 
     /**
      * @JsonProperty(type="string")
      * @param string $type
+     * @return \MooPhp\MooInterface\Data\ImageBasketItemImage
      */
     public function setType($type)
     {
         $this->_type = $type;
+        return $this;
     }
 
     /**
      * @JsonProperty(type="int")
      * @param int $width
+     * @return \MooPhp\MooInterface\Data\ImageBasketItemImage
      */
     public function setWidth($width)
     {
         $this->_width = $width;
+        return $this;
     }
 }
 

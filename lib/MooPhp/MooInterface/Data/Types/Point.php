@@ -51,22 +51,26 @@ class Point
 
     /**
      * @param float $y
+     * @return \MooPhp\MooInterface\Data\Types\Point
      * @JsonProperty(type="float")
      * @XmlAttribute(type="float")
      */
     public function setY($y)
     {
         $this->_y = $y;
+        return $this;
     }
 
     /**
      * @param float $x
+     * @return \MooPhp\MooInterface\Data\Types\Point
      * @JsonProperty(type="float")
      * @XmlAttribute(type="float")
      */
     public function setX($x)
     {
         $this->_x = $x;
+        return $this;
     }
 
 }

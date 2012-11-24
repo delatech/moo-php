@@ -41,10 +41,12 @@ class Colour
 
     /**
      * @param string $type
+     * @return \MooPhp\MooInterface\Data\Types\Colour
      * @JsonProperty(type="string")
      */
     public function setType($type)
     {
         $this->_type = $type;
+        return $this;
     }
 }

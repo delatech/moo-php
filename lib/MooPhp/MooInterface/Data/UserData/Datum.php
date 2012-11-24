@@ -20,6 +20,11 @@ use Weasel\JsonMarshaller\Config\Annotations\JsonSubTypes;
 class Datum
 {
 
+    public function __construct($linkId = null)
+    {
+        $this->setLinkId($linkId);
+    }
+
     /**
      * @return string
      * @JsonProperty(type="string")
@@ -31,20 +36,24 @@ class Datum
 
     /**
      * @param string $linkId
+     * @return \MooPhp\MooInterface\Data\UserData\Datum
      * @JsonProperty(type="string")
      */
     public function setLinkId($linkId)
     {
         $this->_linkId = $linkId;
+        return $this;
     }
 
     /**
      * @param string $type
+     * @return \MooPhp\MooInterface\Data\UserData\Datum
      * @JsonProperty(type="string")
      */
     public function setType($type)
     {
         $this->_type = $type;
+        return $this;
     }
 
     /**

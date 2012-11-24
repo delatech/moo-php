@@ -42,7 +42,7 @@ class Pack
      * It requires a type to be set. If sidenum is unset a new one will be generated.
      * If sidenum is set then it MUST be unique.
      * @param Side $side
-     * @return Side
+     * @return Pack
      * @throws \InvalidArgumentException
      */
     public function addSide(Side $side)
@@ -59,7 +59,7 @@ class Pack
         }
         $this->_sidesByType[$side->getType()][$side->getSideNum()] = $side;
         ksort($this->_sidesByType[$side->getType()]);
-        return $side;
+        return $this;
     }
 
     /**
@@ -132,60 +132,73 @@ class Pack
 
     /**
      * @param array|null $cards
+     * @return \MooPhp\MooInterface\Data\Pack
      * @JsonProperty(type="\MooPhp\MooInterface\Data\Cards[]")
      */
     public function setCards($cards)
     {
         $this->_cards = $cards;
+        return $this;
     }
 
     /**
      * @param array $extras
+     * @return \MooPhp\MooInterface\Data\Pack
      * @JsonProperty(type="\MooPhp\MooInterface\Data\Extras[]")
      */
     public function setExtras($extras)
     {
         $this->_extras = $extras;
+        return $this;
     }
 
     /**
      * @param \MooPhp\MooInterface\Data\ImageBasket $imageBasket
+     * @return \MooPhp\MooInterface\Data\Pack
      * @JsonProperty(type="\MooPhp\MooInterface\Data\ImageBasket")
      */
     public function setImageBasket($imageBasket)
     {
         $this->_imageBasket = $imageBasket;
+        return $this;
     }
 
     /**
      * @param int $numCards
+     * @return \MooPhp\MooInterface\Data\Pack
      * @JsonProperty(type="int")
      */
     public function setNumCards($numCards)
     {
         $this->_numCards = $numCards;
+        return $this;
     }
 
     /**
      * @param string $productCode
+     * @return \MooPhp\MooInterface\Data\Pack
      * @JsonProperty(type="string")
      */
     public function setProductCode($productCode)
     {
         $this->_productCode = $productCode;
+        return $this;
     }
 
     /**
      * @param int $productVersion
+     * @return \MooPhp\MooInterface\Data\Pack
      * @JsonProperty(type="int")
      */
     public function setProductVersion($productVersion)
     {
         $this->_productVersion = $productVersion;
+        return $this;
     }
 
     /**
      * @param Side[] $sides
+     * @return \MooPhp\MooInterface\Data\Pack
      * @JsonProperty(type="\MooPhp\MooInterface\Data\Side[]")
      */
     public function setSides($sides)
@@ -196,6 +209,7 @@ class Pack
         foreach ($this->_sidesByType as $type => $sides) {
             ksort($this->_sidesByType[$type]);
         }
+        return $this;
     }
 
     /**

@@ -59,46 +59,55 @@ class ColourCMYK extends Colour
         $this->_m = $m;
         $this->_y = $y;
         $this->_k = $k;
+        return $this;
     }
 
     /**
      * @param float $c
+     * @return \MooPhp\MooInterface\Data\Types\ColourCMYK
      * @JsonProperty(type="float")
      * @XmlElement(name="Cyan", type="float")
      */
     public function setC($c)
     {
         $this->_c = $c;
+        return $this;
     }
 
     /**
      * @param float $k
+     * @return \MooPhp\MooInterface\Data\Types\ColourCMYK
      * @JsonProperty(type="float")
      * @XmlElement(name="Black", type="float")
      */
     public function setK($k)
     {
         $this->_k = $k;
+        return $this;
     }
 
     /**
      * @param float $m
+     * @return \MooPhp\MooInterface\Data\Types\ColourCMYK
      * @JsonProperty(type="float")
      * @XmlElement(name="Magenta", type="float")
      */
     public function setM($m)
     {
         $this->_m = $m;
+        return $this;
     }
 
     /**
      * @param float $y
+     * @return \MooPhp\MooInterface\Data\Types\ColourCMYK
      * @JsonProperty(type="float")
      * @XmlElement(name="Yellow", type="float")
      */
     public function setY($y)
     {
         $this->_y = $y;
+        return $this;
     }
 
     /**
