@@ -46,6 +46,12 @@ speshul: that'll return a Template object.
 The above example makes use of 2-legged OAuth, which should be fine for most use-cases. If you need 3-legged you need
 to jump through a load of hoops which are documented in the packManipulator.
 
+In production usage you almost certainly want to pass a Weasel cache instance in to the Api() constructor. If you don't
+then it will use the default (ArrayCache) which will not persist the Weasel configuration, resulting in Weasel
+re-parsing everything every time you invoke PHP. This will be incredibly slow. The only downside to a persistent cache
+is that (a) they tend to be quite specific to your use case (there's an Apc driven implementation for example) and
+(b) cache invalidation is hard, which makes development work on MooPhp's internals annoying when caching is on.
+
 Design
 ------
 

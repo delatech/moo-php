@@ -14,13 +14,19 @@ class PhysicalSpec
 {
 
     public function __construct($productType = \MooPhp\MooInterface\MooApi::PRODUCT_TYPE_BUSINESSCARD,
-                                $paperClass = null, $finishingOption = null, $packSize = null)
+                                $paperClass = null, $finishingOption = null, $packSize = null, $paperLaminate = null)
     {
         $this->_productType = $productType;
         $this->_paperClass = $paperClass;
         $this->_finishingOption = $finishingOption;
         $this->_packSize = $packSize;
+        $this->_paperLaminate = $paperLaminate;
     }
+
+    /**
+     * @var string
+     */
+    protected $_paperLaminate;
 
     /**
      * @var string
@@ -121,4 +127,27 @@ class PhysicalSpec
     {
         return $this->_productType;
     }
+
+    /**
+     * @param string $paperLaminate
+     * @return \MooPhp\MooInterface\Data\PhysicalSpec
+     * @JsonProperty(type="string")
+     */
+    public function setPaperLaminate($paperLaminate)
+    {
+        $this->_paperLaminate = $paperLaminate;
+        return $this;
+    }
+
+    /**
+     * Get the paper laminate name.
+     * At time of writing this is NOT documented in the MOO API docs. It should not be relied upon.
+     * @return string
+     * @JsonProperty(type="string")
+     */
+    public function getPaperLaminate()
+    {
+        return $this->_paperLaminate;
+    }
+
 }
