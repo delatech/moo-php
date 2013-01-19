@@ -6,6 +6,8 @@ namespace MooPhp\MooInterface;
  * @copyright Copyright (c) 2012, Moo Print Ltd.
  */
 
+use MooPhp\MooInterface\Data\FontSpec;
+
 interface MooApi
 {
     /**
@@ -48,7 +50,7 @@ interface MooApi
     const IMAGE_TYPE_DETECT = "detect";
 
     const UNIT_MILLIMETERS = "mm";
-    const UNIT_POINTS = "pts";
+    const UNIT_POINTS = "pt";
 
     /**
      * Send a signed request object to the Moo API, and deserialize the response as $responseType.
@@ -177,14 +179,14 @@ interface MooApi
      * @param \MooPhp\MooInterface\Data\FontSpec $fontSpec Font to use for the measurement
      * @param float $wrappingWidth Width in mm after which to wrap to a new line (for multi-line text areas)
      * @param float $leading line spacing as a multiple of the default for the font.
-     * @param string $fontUnits Unit of measurement for the font size
+     * @param string $fontSizeUnits Unit of measurement for the font size
      * @return \MooPhp\MooInterface\Response\TextMeasure
      */
     public function textMeasure($text,
                                 $fontsize,
-                                \MooPhp\MooInterface\Data\FontSpec $fontSpec,
+                                FontSpec $fontSpec,
                                 $wrappingWidth = null,
                                 $leading = null,
-                                $fontUnits = self::UNIT_MILLIMETERS);
+                                $fontSizeUnits = self::UNIT_MILLIMETERS);
 
 }

@@ -15,14 +15,14 @@ class TextMeasure extends Request
     private $_text;
 
     /**
-     * @var float size in points
+     * @var float size in font size units
      */
     private $_fontSize;
 
     /**
      * @var \MooPhp\MooInterface\Data\FontSpec
      */
-    private $_fontSpec;
+    private $_font;
 
     /**
      * @var float wrap width in mm
@@ -33,6 +33,19 @@ class TextMeasure extends Request
      * @var float leading multiplier
      */
     private $_leading;
+
+    private $_fontSizeUnits;
+
+    public function setFontSizeUnits($fontSizeUnits)
+    {
+        $this->_fontSizeUnits = $fontSizeUnits;
+    }
+
+    public function getFontSizeUnits()
+    {
+        return $this->_fontSizeUnits;
+    }
+
 
     public function __construct()
     {
@@ -58,21 +71,21 @@ class TextMeasure extends Request
     }
 
     /**
-     * @param \MooPhp\MooInterface\Data\FontSpec $fontSpec
+     * @param \MooPhp\MooInterface\Data\FontSpec $font
      * @return TextMeasure
      */
-    public function setFontSpec($fontSpec)
+    public function setFont($font)
     {
-        $this->_fontSpec = $fontSpec;
+        $this->_font = $font;
         return $this;
     }
 
     /**
      * @return \MooPhp\MooInterface\Data\FontSpec
      */
-    public function getFontSpec()
+    public function getFont()
     {
-        return $this->_fontSpec;
+        return $this->_font;
     }
 
     /**
