@@ -1,15 +1,15 @@
 Moo-Php
 =======
 
-Moo-Php is a client library for the moo.com API. It provides a full (at time of writing) implementation of the Moo pack
+Moo-Php is a client library for the moo.com API. It provides a full (at time of writing) implementation of the MOO pack
 and template models.
 
 This is a very early stage implementation, I've released it because I've got to the point where I feel it's usable, and
 could do with more eyes on it.
 
 This is one developer's crazed thrashings after consuming one too many cups of tea over a long weekend. It is in no way,
-shape, or form derived from any internal stuff at Moo, or representative of anything that might happen at Moo. It is not
-supported by Moo. Blah, blah, etc. Basically, if it explodes, don't contact Moo.
+shape, or form derived from any internal stuff at MOO, or representative of anything that might happen at MOO. It is not
+supported by MOO. Blah, blah, etc. Basically, if it explodes, don't contact MOO.
 
 It requires the php-weasel library (https://github.com/moodev/php-weasel) to be available via autoloading.
 
@@ -22,7 +22,7 @@ There's an example called packManipulator.php in the examples directory. It sets
 businesscard pack with some stuff in it.
 
 The important bits to start with are a Client and a MooApi. The Client provides a simple interface for making requests
-to Moo. The MooApi interface actually provides the, errr, MooApi methods. It uses the Client to communicate with Moo.
+to MOO. The MooApi interface actually provides the, errr, MooApi methods. It uses the Client to communicate with MOO.
 
 The implementations currently provided are \MooPhp\Client\OAuthSigningClient, and \MooPhp\Api.
 
@@ -52,20 +52,20 @@ Design
 This has all been a bit fluid. The original serializer/deserializer became exceedingly complex, and was eventually
 rewritten as php-weasel. That has significantly cut down the quantity and complexity of code in this package.
 
-The MooInterface namespace contains various classes/interfaces that represent the raw Moo API and data model. A few of
-them do have a slightly more useful interface than the raw Moo model, just for ease of use (notably Side and Pack.) I'm
-not 100% convinced this is the correct design decision, as I cannot decide where to draw the line at adding to the Moo
+The MooInterface namespace contains various classes/interfaces that represent the raw MOO API and data model. A few of
+them do have a slightly more useful interface than the raw MOO model, just for ease of use (notably Side and Pack.) I'm
+not 100% convinced this is the correct design decision, as I cannot decide where to draw the line at adding to the MOO
 model? Is the ImageItem::calculateDefaultImageBox() method a step too far?
 
 Almost everything in MooInterface is "annotated" with serialization related information which is used to configure
 the Weasel\JsonMarshaller and Weasel\XmlMarshaller. These are responsible for marshalling and unmarshalling the
-communications with the Moo API.
+communications with the MOO API.
 
 The Client interface provides the ability to send requests to some API endpoint. It draws a distinction between
 normal API requests (`makeRequest()`), potentially unsigned get requests (`getFile()`), and file uploads (`sendFile()`.)
 Each of these methods expects an array of parameters to send in the request.
 
-The Api is the part which glues everything together. It builds Request objects, marshalls them, sends them to Moo using
+The Api is the part which glues everything together. It builds Request objects, marshalls them, sends them to MOO using
 the Client, and unmarshalls the responses.
 
 Extending
@@ -86,9 +86,9 @@ Where are the tests?
 > Oopse.
 
 If there are no tests, how do you know it's correct?
-> I don't. It probably isn't.
+> I don't.
 
 So is this safe to use?
-> Probably.
-
+> Probably. It relies on Weasel to do the heavy lifting, and that is tested. Plus Weasel is used internally without too
+> many horrible problems.
 
