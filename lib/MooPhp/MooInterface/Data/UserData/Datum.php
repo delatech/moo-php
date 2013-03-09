@@ -46,31 +46,6 @@ class Datum
     }
 
     /**
-     * @param string $type
-     * @return \MooPhp\MooInterface\Data\UserData\Datum
-     * @JsonProperty(type="string")
-     */
-    public function setType($type)
-    {
-        $this->_type = $type;
-        return $this;
-    }
-
-    /**
-     * @return string
-     * @JsonProperty(type="string")
-     */
-    public function getType()
-    {
-        return $this->_type;
-    }
-
-    /**
-     * @var string
-     */
-    protected $_type;
-
-    /**
      * @var string
      */
     protected $_linkId;

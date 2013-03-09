@@ -21,7 +21,6 @@ class BoxData extends Datum
 
     public function __construct($linkId = null)
     {
-        $this->_type = "boxData";
         parent::__construct($linkId);
     }
 

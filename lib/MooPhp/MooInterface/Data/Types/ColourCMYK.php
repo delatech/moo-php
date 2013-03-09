@@ -24,7 +24,6 @@ class ColourCMYK extends Colour
         $this->_m = $m;
         $this->_y = $y;
         $this->_k = $k;
-        $this->_type = "CMYK";
     }
 
     /**
@@ -47,9 +46,9 @@ class ColourCMYK extends Colour
     public function getColour()
     {
         return array($this->_c,
-                     $this->_m,
-                     $this->_y,
-                     $this->_k
+            $this->_m,
+            $this->_y,
+            $this->_k
         );
     }
 

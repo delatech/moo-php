@@ -86,7 +86,6 @@ class MultiLineTextData extends Datum
 
     public function __construct($linkId = null)
     {
-        $this->_type = "multiLineTextData";
         parent::__construct($linkId);
     }
 
