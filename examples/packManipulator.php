@@ -30,21 +30,7 @@ if ($localWeasel) {
 
 $key = $opts['k'];
 $secret = $opts['s'];
-
-$weaselLogger = null;
-$clientLogger = null;
-$apiLogger = null;
-if (class_exists('\Monolog\Logger')) {
-    $weaselLogger = new \Monolog\Logger("weasel");
-    $clientLogger = new \Monolog\Logger("client");
-    $apiLogger = new \Monolog\Logger("api");
-    $handler = new \Monolog\Handler\StreamHandler("php://stderr");
-    $weaselLogger->pushHandler($handler);
-    $clientLogger->pushHandler($handler);
-    $apiLogger->pushHandler($handler);
-}
-
-$client = new \MooPhp\Client\OAuthSigningClient($key, $secret, $clientLogger);
+$client = new \MooPhp\Client\OAuthSigningClient($key, $secret);
 
 
 /*
@@ -65,7 +51,25 @@ fgets(STDIN);
 $client->getAccessToken();
 */
 
-$api = new \MooPhp\Api($client, null, $apiLogger, $weaselLogger);
+$api = new \MooPhp\Api($client);
+$weaselFactory = new \Weasel\WeaselDefaultAnnotationDrivenFactory();
+
+if (class_exists('\Monolog\Logger')) {
+    $weaselLogger = new \Monolog\Logger("weasel");
+    $clientLogger = new \Monolog\Logger("client");
+    $apiLogger = new \Monolog\Logger("api");
+    $handler = new \Monolog\Handler\StreamHandler("php://stderr");
+    $weaselLogger->pushHandler($handler);
+    $clientLogger->pushHandler($handler);
+    $apiLogger->pushHandler($handler);
+
+    $weaselFactory->setLogger($weaselLogger);
+    $client->setLogger($clientLogger);
+    $api->setLogger($apiLogger);
+}
+
+$api->setWeaselFactory($weaselFactory);
+
 
 // Helper that allows us to calculate text sizes
 $textHelper = new \MooPhp\Helper\TextHelper($api);

@@ -2,15 +2,14 @@
 namespace MooPhp;
 use MooPhp\MooInterface\Data\FontSpec;
 use MooPhp\MooInterface\Request\Request;
-use Weasel\Common\Cache\ArrayCache;
 use Weasel\Annotation\AnnotationConfigurator;
-use Weasel\Common\Cache\Cache;
-use Weasel\XmlMarshaller\Config\AnnotationDriver as XmlAnnotationDriver;
-use Weasel\JsonMarshaller\Config\AnnotationDriver as JsonAnnotationDriver;
 use Weasel\JsonMarshaller\JsonMapper;
 use Weasel\XmlMarshaller\XmlMapper;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LoggerAwareInterface;
+use Weasel\WeaselDefaultAnnotationDrivenFactory;
+use Weasel\WeaselFactory;
+use MooPhp\MooInterface\Data\PhysicalSpec;
 
 /**
  * @package Api.php
@@ -18,7 +17,7 @@ use Psr\Log\LoggerAwareInterface;
  * @copyright Copyright (c) 2012, Moo Print Ltd.
  */
 
-class Api implements MooInterface\MooApi
+class Api implements MooInterface\MooApi, LoggerAwareInterface
 {
 
     /**
@@ -26,33 +25,51 @@ class Api implements MooInterface\MooApi
      */
     protected $_client;
 
-    protected $_marshaller;
-    protected $_templateMarshaller;
+    private $_jsonMapper;
+    private $_xmlMapper;
+
+    protected $_weaselFactory;
 
     /**
      * @var LoggerInterface
      */
     protected $_logger;
 
-    public function __construct(Client\Client $client, Cache $cache = null, LoggerInterface $logger = null, LoggerInterface $weaselLogger = null)
+    public function __construct(Client\Client $client = null)
     {
         $this->_client = $client;
+        $this->_weaselFactory = new WeaselDefaultAnnotationDrivenFactory();
+    }
 
-        $this->_logger = $logger;
-
-        if (!isset($cache)) {
-            $cache = new ArrayCache();
+    protected function _getJsonMapper()
+    {
+        if (!isset($this->_jsonMapper)) {
+            $this->_jsonMapper = $this->_weaselFactory->getJsonMapperInstance();
         }
+        return $this->_jsonMapper;
+    }
 
-        if (!isset($weaselLogger)) {
-            $weaselLogger = $logger;
+    protected function _getXmlMapper()
+    {
+        if (!isset($this->_xmlMapper)) {
+            $this->_xmlMapper = $this->_weaselFactory->getXmlMapperInstance();
         }
+        return $this->_xmlMapper;
+    }
 
-        $this->_templateMarshaller =
-            new XmlMapper(new XmlAnnotationDriver($weaselLogger, null, $cache));
-        $this->_marshaller =
-            new JsonMapper(new JsonAnnotationDriver($weaselLogger, null, $cache));
+    public function setWeaselFactory(WeaselFactory $weaselFactory)
+    {
+        $this->_weaselFactory = $weaselFactory;
+    }
 
+    public function setJsonMapper(JsonMapper $jsonMapper)
+    {
+        $this->_jsonMapper = $jsonMapper;
+    }
+
+    public function setXmlMapper(XmlMapper $xmlMapper)
+    {
+        $this->_xmlMapper = $xmlMapper;
     }
 
     public function getClient()
@@ -60,7 +77,7 @@ class Api implements MooInterface\MooApi
         return $this->_client;
     }
 
-    protected function _getRequestParams(\MooPhp\MooInterface\Request\Request $request)
+    protected function _getRequestParams(Request $request)
     {
         $rObject = new \ReflectionObject($request);
         $requestParams = array();
@@ -77,7 +94,7 @@ class Api implements MooInterface\MooApi
                 $rawValue = $request->$name();
                 $value = null;
                 if (is_object($rawValue)) {
-                    $value = $this->_marshaller->writeString($rawValue);
+                    $value = $this->_getJsonMapper()->writeString($rawValue);
                 } elseif (is_array($rawValue)) {
                     $value = json_encode($rawValue);
                 } elseif (is_bool($rawValue)) {
@@ -98,7 +115,7 @@ class Api implements MooInterface\MooApi
      * @param string $responseType
      * @return \MooPhp\MooInterface\Response\Response
      */
-    public function makeRequest(\MooPhp\MooInterface\Request\Request $request, $responseType)
+    public function makeRequest(Request $request, $responseType)
     {
         $rawResponse =
             $this->_client->makeRequest($this->_getRequestParams($request),
@@ -108,12 +125,12 @@ class Api implements MooInterface\MooApi
         return $this->_handleResponse($rawResponse, $responseType);
     }
 
-    public function getFile(\MooPhp\MooInterface\Request\Request $request)
+    public function getFile(Request $request)
     {
         return $this->_client->getFile($this->_getRequestParams($request));
     }
 
-    public function sendFile(\MooPhp\MooInterface\Request\Request $request, $fileParam, $responseType)
+    public function sendFile(Request $request, $fileParam, $responseType)
     {
         $rawResponse = $this->_client->sendFile($this->_getRequestParams($request), $fileParam);
         return $this->_handleResponse($rawResponse, $responseType);
@@ -128,7 +145,7 @@ class Api implements MooInterface\MooApi
         /**
          * @var \MooPhp\MooInterface\Response\Response $object
          */
-        $object = $this->_marshaller->readString($rawResponse, $type);
+        $object = $this->_getJsonMapper()->readString($rawResponse, $type);
 
         if (isset($this->_logger)) {
             $this->_logger->debug("Decoded response to ", array("object" => $object));
@@ -152,7 +169,7 @@ class Api implements MooInterface\MooApi
      * @param string $startAgainUrl Absolute URL to send the user to if they hit the start again button
      * @return \MooPhp\MooInterface\Response\CreatePack
      */
-    public function packCreatePack(\MooPhp\MooInterface\Data\PhysicalSpec $physicalSpec,
+    public function packCreatePack(PhysicalSpec $physicalSpec,
                                    MooInterface\Data\Pack $pack = null,
                                    $friendlyName = null,
                                    $trackingId = null,
@@ -226,7 +243,7 @@ class Api implements MooInterface\MooApi
         $request->setTemplateCode($templateCode);
 
         $rawResponse = $this->getFile($request);
-        return $this->_templateMarshaller->readString($rawResponse,
+        return $this->_getXmlMapper()->readString($rawResponse,
             '\MooPhp\MooInterface\Data\Template\Template',
             'http://www.moo.com/xsd/template-1.0'
         );
@@ -279,7 +296,7 @@ class Api implements MooInterface\MooApi
      * @param \MooPhp\MooInterface\Data\PhysicalSpec $physicalSpec
      * @return MooInterface\Response\UpdatePhysicalSpec
      */
-    public function updatePhysicalSpec($packId, \MooPhp\MooInterface\Data\PhysicalSpec $physicalSpec)
+    public function updatePhysicalSpec($packId, PhysicalSpec $physicalSpec)
     {
         $request = new MooInterface\Request\UpdatePhysicalSpec();
         $request->setPackId($packId);
@@ -312,6 +329,17 @@ class Api implements MooInterface\MooApi
         $request->setLeading($leading);
         $request->setFontSizeUnits($fontSizeUnits);
         return $this->makeRequest($request, "TextMeasure");
+    }
+
+    /**
+     * Sets a logger instance on the object
+     *
+     * @param LoggerInterface $logger
+     * @return null
+     */
+    public function setLogger(LoggerInterface $logger)
+    {
+        $this->_logger = $logger;
     }
 }
 
