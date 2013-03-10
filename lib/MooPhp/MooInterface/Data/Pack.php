@@ -14,8 +14,11 @@ class Pack
 
     private $_sidesByType = array();
 
-    public function getSidesByType($type)
+    public function getSidesByType($type = null)
     {
+        if ($type === null) {
+            return $this->_sidesByType;
+        }
         if (!isset($this->_sidesByType[$type])) {
             return array();
         }
@@ -37,6 +40,10 @@ class Pack
         }
     }
 
+    /**
+     * @param int $num
+     * @return Card
+     */
     public function getCard($num)
     {
         if (isset($this->_cardsByNum[$num])) {

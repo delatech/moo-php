@@ -50,4 +50,15 @@ class CardSide
         return sprintf("[CardSide type=%s num=%s]", $this->getSideType(), $this->getSideNum());
     }
 
+    /**
+     * Instantiate a new CardSide for a Side
+     * @param Side $side
+     * @return CardSide
+     */
+    public static function forSide(Side $side)
+    {
+        $className = get_called_class();
+        return new $className($side->getType(), $side->getSideNum());
+    }
+
 }

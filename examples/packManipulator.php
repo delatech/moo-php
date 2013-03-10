@@ -54,7 +54,7 @@ $client->getAccessToken();
 $api = new \MooPhp\Api($client);
 
 // Helper that allows us to calculate text sizes
-$textHelper = new \MooPhp\Text\TextHelper($api);
+$textHelper = new \MooPhp\Helper\TextHelper($api);
 
 // First we'll create a pack, using the default physical spec (a businesscard product.)
 $packResp = $api->packCreatePack(new \MooPhp\MooInterface\Data\PhysicalSpec());
