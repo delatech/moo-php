@@ -41,7 +41,6 @@ class TextData extends Datum
 
     public function __construct($linkId = null)
     {
-        $this->_type = "textData";
         parent::__construct($linkId);
     }
 

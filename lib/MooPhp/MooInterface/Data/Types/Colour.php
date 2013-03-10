@@ -25,28 +25,4 @@ use Weasel\XmlMarshaller\Config\Annotations\XmlDiscriminator;
 class Colour
 {
 
-    const COLOUR_RGB = "RGB";
-    const COLOUR_CMYK = "CMYK";
-
-    protected $_type;
-
-    /**
-     * @return string
-     * @JsonProperty(type="string")
-     */
-    public function getType()
-    {
-        return $this->_type;
-    }
-
-    /**
-     * @param string $type
-     * @return \MooPhp\MooInterface\Data\Types\Colour
-     * @JsonProperty(type="string")
-     */
-    public function setType($type)
-    {
-        $this->_type = $type;
-        return $this;
-    }
 }

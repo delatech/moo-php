@@ -36,7 +36,6 @@ class ImageData extends Datum
 
     public function __construct($linkId = null)
     {
-        $this->_type = "imageData";
         parent::__construct($linkId);
     }
 
