@@ -2,6 +2,7 @@
 namespace MooPhp\MooInterface\Data;
 use Weasel\JsonMarshaller\Config\Annotations\JsonProperty;
 use Weasel\JsonMarshaller\Config\Annotations\JsonInclude;
+use Weasel\JsonMarshaller\Config\Annotations\JsonCreator;
 
 /**
  * @package MooPhp
@@ -32,6 +33,7 @@ class FontSpec
      * @param string $fontFamily
      * @param bool $bold
      * @param bool $italic
+     * @JsonCreator({@JsonProperty(name="fontFamily", type="string"), @JsonProperty(name="bold", type="bool"), @JsonProperty(name="italic", type="bool")})
      */
     public function __construct($fontFamily, $bold, $italic)
     {
@@ -43,7 +45,6 @@ class FontSpec
     /**
      * @param boolean $bold
      * @return FontSpec
-     * @JsonProperty(type="bool")
      */
     public function setBold($bold)
     {
@@ -63,7 +64,6 @@ class FontSpec
     /**
      * @param string $fontFamily
      * @return FontSpec
-     * @JsonProperty(type="string")
      */
     public function setFontFamily($fontFamily)
     {
@@ -83,7 +83,6 @@ class FontSpec
     /**
      * @param boolean $italic
      * @return FontSpec
-     * @JsonProperty(type="bool")
      */
     public function setItalic($italic)
     {

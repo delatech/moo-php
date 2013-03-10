@@ -24,7 +24,7 @@ class ImageBasketItem
     /**
      * @var ImageBasketItemImage[]
      */
-    protected $_imageItemsByType;
+    protected $_imageItemsByType = array();
 
     /**
      * @var bool
@@ -175,6 +175,7 @@ class ImageBasketItem
      */
     public function setImageItems($imageItems)
     {
+        $this->_imageItemsByType = array();
         foreach ($imageItems as $imageItem) {
             $this->_imageItemsByType[$imageItem->getType()] = $imageItem;
         }

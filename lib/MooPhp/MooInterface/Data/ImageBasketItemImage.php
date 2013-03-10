@@ -37,6 +37,11 @@ class ImageBasketItemImage
      */
     protected $_rotation;
 
+    public function __construct($type = null)
+    {
+        $this->_type = $type;
+    }
+
     /**
      * @return int
      * @JsonProperty(type="int")

@@ -13,7 +13,6 @@ use Weasel\XmlMarshaller\Config\Annotations\XmlRootElement;
  * @JsonInclude(JsonInclude.Include.NON_NULL)
  * @XmlRootElement(namespace="http://www.moo.com/xsd/template-1.0")
  */
-
 class Font
 {
 
