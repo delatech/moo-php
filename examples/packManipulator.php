@@ -15,8 +15,8 @@ use \MooPhp\MooInterface\Data as Data;
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-require __DIR__ . '/../lib/MooPhpAutoloader.php';
-require_once "WeaselAutoloader.php";
+// You installed this with composer, right?
+require __DIR__ . '/../vendor/autoload.php';
 
 $opts = getopt("k:s:");
 

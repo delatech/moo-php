@@ -1,0 +1,17 @@
+{
+    "name": "moodev/moophp",
+    "type": "library",
+    "description": "A client library for the moo.com API",
+    "keywords": ["moo.com", "moo"],
+    "homepage": "http://github.com/JonathanO/moo-php",
+    "license": "ISC",
+    "require": {
+        "php": ">=5.3.0",
+        "moodev/weasel": ">=0.12.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "MooPhp": "lib"
+        }
+    }
+}
