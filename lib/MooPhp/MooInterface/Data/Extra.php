@@ -1,6 +1,7 @@
 <?php
 namespace MooPhp\MooInterface\Data;
 use Weasel\JsonMarshaller\Config\Annotations\JsonProperty;
+use Weasel\JsonMarshaller\Config\Annotations\JsonCreator;
 
 /**
  * @package MooPhp
@@ -10,6 +11,17 @@ use Weasel\JsonMarshaller\Config\Annotations\JsonProperty;
 
 class Extra
 {
+
+    /**
+     * @param string $key
+     * @param string $value
+     * @JsonCreator({@JsonProperty(name="key", type="string"), @JsonProperty(name="value", type="string")})
+     */
+    public function __construct($key, $value)
+    {
+        $this->_key = $key;
+        $this->_value = $value;
+    }
 
     /**
      * @var string
@@ -37,28 +49,6 @@ class Extra
     public function getValue()
     {
         return $this->_value;
-    }
-
-    /**
-     * @param string $key
-     * @return \MooPhp\MooInterface\Data\Extra
-     * @JsonProperty(type="string")
-     */
-    public function setKey($key)
-    {
-        $this->_key = $key;
-        return $this;
-    }
-
-    /**
-     * @param string $value
-     * @return \MooPhp\MooInterface\Data\Extra
-     * @JsonProperty(type="string")
-     */
-    public function setValue($value)
-    {
-        $this->_value = $value;
-        return $this;
     }
 
 }

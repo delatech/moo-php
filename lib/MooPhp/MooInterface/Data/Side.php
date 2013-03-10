@@ -30,6 +30,12 @@ class Side
      */
     private $_dataByLinkId = array();
 
+    public function __construct($type = null, $sideNum = null)
+    {
+        $this->_type = $type;
+        $this->_sideNum = $sideNum;
+    }
+
     public function getDatumByLinkId($linkId)
     {
         if (isset($this->_dataByLinkId[$linkId])) {

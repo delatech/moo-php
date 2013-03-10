@@ -1,6 +1,7 @@
 <?php
 namespace MooPhp\MooInterface\Data;
 use Weasel\JsonMarshaller\Config\Annotations\JsonProperty;
+use Weasel\JsonMarshaller\Config\Annotations\JsonCreator;
 
 /**
  * @package MooPhp
@@ -13,6 +14,18 @@ class CardSide
 
     protected $_sideNum;
     protected $_sideType;
+
+    /**
+     * @param string $sideType
+     * @param int $sideNum
+     * @return \MooPhp\MooInterface\Data\CardSide
+     * @JsonCreator({@JsonProperty(name="sideType", type="string"), @JsonProperty(name="sideNum", type="int")})
+     */
+    public function __construct($sideType, $sideNum)
+    {
+        $this->_sideType = $sideType;
+        $this->_sideNum = $sideNum;
+    }
 
     /**
      * @return string
@@ -32,26 +45,9 @@ class CardSide
         return $this->_sideNum;
     }
 
-    /**
-     * @param int $sideNum
-     * @return \MooPhp\MooInterface\Data\CardSide
-     * @JsonProperty(type="int")
-     */
-    public function setSideNum($sideNum)
+    public function __toString()
     {
-        $this->_sideNum = $sideNum;
-        return $this;
-    }
-
-    /**
-     * @param string $sideType
-     * @return \MooPhp\MooInterface\Data\CardSide
-     * @JsonProperty(type="string")
-     */
-    public function setSideType($sideType)
-    {
-        $this->_sideType = $sideType;
-        return $this;
+        return sprintf("[CardSide type=%s num=%s]", $this->getSideType(), $this->getSideNum());
     }
 
 }

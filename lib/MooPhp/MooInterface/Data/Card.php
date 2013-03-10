@@ -22,6 +22,16 @@ class Card
     protected $_cardSides;
 
     /**
+     * @param \MooPhp\MooInterface\Data\CardSide[] $cardSides
+     * @param int $cardNum
+     */
+    public function __construct(array $cardSides = array(), $cardNum = null)
+    {
+        $this->_cardSides = $cardSides;
+        $this->_cardNum = $cardNum;
+    }
+
+    /**
      * @return int
      * @JsonProperty(type="int")
      */
