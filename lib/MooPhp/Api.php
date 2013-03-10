@@ -2,6 +2,15 @@
 namespace MooPhp;
 use MooPhp\MooInterface\Data\FontSpec;
 use MooPhp\MooInterface\Request\Request;
+use Weasel\Common\Cache\ArrayCache;
+use Weasel\Annotation\AnnotationConfigurator;
+use Weasel\Common\Cache\Cache;
+use Weasel\XmlMarshaller\Config\AnnotationDriver as XmlAnnotationDriver;
+use Weasel\JsonMarshaller\Config\AnnotationDriver as JsonAnnotationDriver;
+use Weasel\JsonMarshaller\JsonMapper;
+use Weasel\XmlMarshaller\XmlMapper;
+use Psr\Log\LoggerInterface;
+use Psr\Log\LoggerAwareInterface;
 
 /**
  * @package Api.php
@@ -21,26 +30,28 @@ class Api implements MooInterface\MooApi
     protected $_templateMarshaller;
 
     /**
-     * @var \Weasel\Common\Logger\Logger
+     * @var LoggerInterface
      */
     protected $_logger;
 
-    public function __construct(Client\Client $client, \Weasel\Common\Cache\Cache $cache = null)
+    public function __construct(Client\Client $client, Cache $cache = null, LoggerInterface $logger = null, LoggerInterface $weaselLogger = null)
     {
         $this->_client = $client;
-        // TODO: caching of the configs
-        $this->_logger = $client->getLogger();
+
+        $this->_logger = $logger;
 
         if (!isset($cache)) {
-            $cache = new \Weasel\Common\Cache\ArrayCache();
+            $cache = new ArrayCache();
         }
 
-        $annotationConfigurator = new \Weasel\Annotation\AnnotationConfigurator($this->_logger, $cache);
+        if (!isset($weaselLogger)) {
+            $weaselLogger = $logger;
+        }
 
         $this->_templateMarshaller =
-            new \Weasel\XmlMarshaller\XmlMapper(new \Weasel\XmlMarshaller\Config\AnnotationDriver($this->_logger, $annotationConfigurator, $cache));
+            new XmlMapper(new XmlAnnotationDriver($weaselLogger, null, $cache));
         $this->_marshaller =
-            new \Weasel\JsonMarshaller\JsonMapper(new \Weasel\JsonMarshaller\Config\AnnotationDriver($this->_logger, $annotationConfigurator, $cache));
+            new JsonMapper(new JsonAnnotationDriver($weaselLogger, null, $cache));
 
     }
 
@@ -54,7 +65,7 @@ class Api implements MooInterface\MooApi
         $rObject = new \ReflectionObject($request);
         $requestParams = array();
         if (isset($this->_logger)) {
-            $this->_logger->logDebug("Encoding request " . print_r($request, true));
+            $this->_logger->debug("Encoding request", array("request" => $request));
         }
         foreach ($rObject->getMethods() as $method) {
             /**
@@ -120,7 +131,7 @@ class Api implements MooInterface\MooApi
         $object = $this->_marshaller->readString($rawResponse, $type);
 
         if (isset($this->_logger)) {
-            $this->_logger->logDebug("Decoded response to " . print_r($object, true));
+            $this->_logger->debug("Decoded response to ", array("object" => $object));
         }
 
         if ($object->getException()) {

@@ -16,22 +16,36 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 // You installed this with composer, right?
-require __DIR__ . '/../vendor/autoload.php';
-
-$opts = getopt("k:s:");
+$loader = require __DIR__ . '/../vendor/autoload.php';
+$opts = getopt("k:s:w:");
 
 if (!isset($opts["k"]) || !isset($opts['s'])) {
     die("Need to provide key and secret.");
 }
 
+$localWeasel = getenv("USE_LOCAL_WEASEL");
+if ($localWeasel) {
+    $loader->add('Weasel', $localWeasel, true);
+}
+
 $key = $opts['k'];
 $secret = $opts['s'];
 
-// Logger isn't actually required. This implementation will just spam stuff to stderr.
-$logger = new \Weasel\Common\Logger\FileLogger();
-$logger->setLogLevel(\Weasel\Common\Logger\Logger::LOG_LEVEL_DEBUG);
+$weaselLogger = null;
+$clientLogger = null;
+$apiLogger = null;
+if (class_exists('\Monolog\Logger')) {
+    $weaselLogger = new \Monolog\Logger("weasel");
+    $clientLogger = new \Monolog\Logger("client");
+    $apiLogger = new \Monolog\Logger("api");
+    $handler = new \Monolog\Handler\StreamHandler("php://stderr");
+    $weaselLogger->pushHandler($handler);
+    $clientLogger->pushHandler($handler);
+    $apiLogger->pushHandler($handler);
+}
 
-$client = new \MooPhp\Client\OAuthSigningClient($key, $secret, $logger);
+$client = new \MooPhp\Client\OAuthSigningClient($key, $secret, $clientLogger);
+
 
 /*
 // If we want to do three legged we'd need to jump about a bit.
@@ -51,7 +65,7 @@ fgets(STDIN);
 $client->getAccessToken();
 */
 
-$api = new \MooPhp\Api($client);
+$api = new \MooPhp\Api($client, null, $apiLogger, $weaselLogger);
 
 // Helper that allows us to calculate text sizes
 $textHelper = new \MooPhp\Helper\TextHelper($api);

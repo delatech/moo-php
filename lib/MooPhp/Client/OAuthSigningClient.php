@@ -6,7 +6,11 @@ namespace MooPhp\Client;
  * @copyright Copyright (c) 2012, Moo Print Ltd.
  */
 
-class OAuthSigningClient implements Client
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerInterface;
+use InvalidArgumentException;
+
+class OAuthSigningClient implements Client, LoggerAwareInterface
 {
 
     protected $_apiKey;
@@ -20,7 +24,7 @@ class OAuthSigningClient implements Client
     protected $_ch;
 
     /**
-     * @var \Weasel\Common\Logger\Logger
+     * @var LoggerInterface
      */
     protected $_logger;
 
@@ -34,14 +38,16 @@ class OAuthSigningClient implements Client
     );
 
 
-    public function __construct($apiKey, $apiSecret, $logger = null)
+    public function __construct($apiKey, $apiSecret, LoggerInterface $logger = null)
     {
         $this->_apiKey = $apiKey;
         $this->_apiSecret = $apiSecret;
         $this->_oauth = new \OAuth($apiKey, $apiSecret, OAUTH_SIG_METHOD_HMACSHA1, OAUTH_AUTH_TYPE_AUTHORIZATION);
         $this->_oauth->disableSSLChecks(); // Err, why?
 
-        $this->_logger = $logger;
+        if (isset($logger)) {
+            $this->setLogger($logger);
+        }
 
         $this->_ch = curl_init();
         curl_setopt($this->_ch, CURLOPT_SSL_VERIFYPEER, false);
@@ -64,7 +70,7 @@ class OAuthSigningClient implements Client
     public function getToken()
     {
         return array("token" => $this->_token,
-                     "secret" => $this->_tokenSecret
+            "secret" => $this->_tokenSecret
         );
     }
 
@@ -83,6 +89,7 @@ class OAuthSigningClient implements Client
     /**
      * @param array $params
      * @param string $method
+     * @throws \Exception|\OAuthException
      * @throws \InvalidArgumentException
      * @return string
      */
@@ -92,7 +99,7 @@ class OAuthSigningClient implements Client
         $target = $this->_urls["apiEndpoint"];
 
         if ($this->_logger) {
-            $this->_logger->logDebug("Request: " . print_r($params, true));
+            $this->_logger->debug("Making Request", array("params" => $params));
         }
         switch ($method) {
             case self::HTTP_POST:
@@ -102,7 +109,7 @@ class OAuthSigningClient implements Client
                 $httpMethod = OAUTH_HTTP_METHOD_GET;
                 break;
             default:
-                throw new \InvalidArgumentException("Invalid http method");
+                throw new InvalidArgumentException("Invalid http method");
         }
 
         try {
@@ -117,7 +124,7 @@ class OAuthSigningClient implements Client
         }
 
         if ($this->_logger) {
-            $this->_logger->logDebug("Response: " . $rawResponse);
+            $this->_logger->debug("Got Response", array("rawResponse" => $rawResponse));
         }
 
         return $rawResponse;
@@ -141,11 +148,11 @@ class OAuthSigningClient implements Client
         curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
 
         if ($this->_logger) {
-            $this->_logger->logDebug("Request: " . print_r($params, true));
+            $this->_logger->debug("Making Request", array("params" => $params));
         }
         $rawResponse = curl_exec($ch);
         if ($this->_logger) {
-            $this->_logger->logDebug("Response: " . $rawResponse);
+            $this->_logger->debug("Got Response", array("rawResponse" => $rawResponse));
         }
 
         $errno = curl_errno($ch);
@@ -166,11 +173,11 @@ class OAuthSigningClient implements Client
 
         curl_setopt($ch, CURLOPT_URL, $url);
         if ($this->_logger) {
-            $this->_logger->logDebug("Request: " . print_r($params, true));
+            $this->_logger->debug("Making Request", array("params" => $params));
         }
         $rawResponse = curl_exec($ch);
         if ($this->_logger) {
-            $this->_logger->logDebug("Response: " . $rawResponse);
+            $this->_logger->debug("Got Response", array("rawResponse" => $rawResponse));
         }
 
         $errno = curl_errno($ch);
@@ -185,5 +192,16 @@ class OAuthSigningClient implements Client
     public function getLogger()
     {
         return $this->_logger;
+    }
+
+    /**
+     * Sets a logger instance on the object
+     *
+     * @param LoggerInterface $logger
+     * @return null
+     */
+    public function setLogger(LoggerInterface $logger)
+    {
+        $this->_logger = $logger;
     }
 }

@@ -2,5 +2,9 @@
 
 ini_set("display_errors", true);
 error_reporting(E_ALL);
-require_once(__DIR__ . "/../vendor/autoload.php");
+$loader = require_once(__DIR__ . "/../vendor/autoload.php");
+$localWeasel = getenv("USE_LOCAL_WEASEL");
+if ($localWeasel) {
+    $loader->add('Weasel', $localWeasel, true);
+}
 

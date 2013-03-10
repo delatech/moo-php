@@ -6,6 +6,8 @@ namespace MooPhp\Client;
  * @copyright Copyright (c) 2012, Moo Print Ltd.
  */
 
+use Psr\Log\LoggerInterface;
+
 interface Client
 {
 
@@ -36,7 +38,7 @@ interface Client
 
     /**
      * @abstract
-     * @return \Weasel\Common\Logger\Logger
+     * @return LoggerInterface
      */
     public function getLogger();
 
