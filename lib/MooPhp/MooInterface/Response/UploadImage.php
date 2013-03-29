@@ -1,6 +1,6 @@
 <?php
 namespace MooPhp\MooInterface\Response;
-use Weasel\JsonMarshaller\Config\Annotations\JsonIgnoreProperties;
+use Weasel\JsonMarshaller\Config\DoctrineAnnotations\JsonIgnoreProperties;
 
 /**
  * @package MooPhp

@@ -1,7 +1,7 @@
 <?php
 namespace MooPhp\MooInterface\Data\UserData;
-use Weasel\JsonMarshaller\Config\Annotations\JsonProperty;
-use Weasel\JsonMarshaller\Config\Annotations\JsonTypeName;
+use Weasel\JsonMarshaller\Config\DoctrineAnnotations\JsonProperty;
+use Weasel\JsonMarshaller\Config\DoctrineAnnotations\JsonTypeName;
 
 /**
  * @package MooPhp

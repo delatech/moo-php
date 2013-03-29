@@ -7,7 +7,7 @@ use Weasel\JsonMarshaller\JsonMapper;
 use Weasel\XmlMarshaller\XmlMapper;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LoggerAwareInterface;
-use Weasel\WeaselDefaultAnnotationDrivenFactory;
+use Weasel\WeaselDoctrineAnnotationDrivenFactory;
 use Weasel\WeaselFactory;
 use MooPhp\MooInterface\Data\PhysicalSpec;
 
@@ -38,7 +38,7 @@ class Api implements MooInterface\MooApi, LoggerAwareInterface
     public function __construct(Client\Client $client = null)
     {
         $this->_client = $client;
-        $this->_weaselFactory = new WeaselDefaultAnnotationDrivenFactory();
+        $this->_weaselFactory = new WeaselDoctrineAnnotationDrivenFactory();
     }
 
     protected function _getJsonMapper()

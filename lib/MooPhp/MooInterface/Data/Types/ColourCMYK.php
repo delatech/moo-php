@@ -1,7 +1,7 @@
 <?php
 namespace MooPhp\MooInterface\Data\Types;
-use Weasel\JsonMarshaller\Config\Annotations\JsonProperty;
-use Weasel\JsonMarshaller\Config\Annotations\JsonTypeName;
+use Weasel\JsonMarshaller\Config\DoctrineAnnotations\JsonProperty;
+use Weasel\JsonMarshaller\Config\DoctrineAnnotations\JsonTypeName;
 use Weasel\XmlMarshaller\Config\Annotations\XmlElement;
 use Weasel\XmlMarshaller\Config\Annotations\XmlAttribute;
 use Weasel\XmlMarshaller\Config\Annotations\XmlRootElement;

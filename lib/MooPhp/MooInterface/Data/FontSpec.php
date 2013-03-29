@@ -1,15 +1,15 @@
 <?php
 namespace MooPhp\MooInterface\Data;
-use Weasel\JsonMarshaller\Config\Annotations\JsonProperty;
-use Weasel\JsonMarshaller\Config\Annotations\JsonInclude;
-use Weasel\JsonMarshaller\Config\Annotations\JsonCreator;
+use Weasel\JsonMarshaller\Config\DoctrineAnnotations\JsonProperty;
+use Weasel\JsonMarshaller\Config\DoctrineAnnotations\JsonInclude;
+use Weasel\JsonMarshaller\Config\DoctrineAnnotations\JsonCreator;
 
 /**
  * @package MooPhp
  * @author Jonathan Oddy <jonathan@moo.com>
  * @copyright Copyright (c) 2012, Moo Print Ltd.
  *
- * @JsonInclude(JsonInclude.Include.NON_NULL)
+ * @JsonInclude(JsonInclude::INCLUDE_NON_NULL)
  */
 class FontSpec
 {

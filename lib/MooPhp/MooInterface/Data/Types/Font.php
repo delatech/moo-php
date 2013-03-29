@@ -1,7 +1,7 @@
 <?php
 namespace MooPhp\MooInterface\Data\Types;
-use Weasel\JsonMarshaller\Config\Annotations\JsonProperty;
-use Weasel\JsonMarshaller\Config\Annotations\JsonInclude;
+use Weasel\JsonMarshaller\Config\DoctrineAnnotations\JsonProperty;
+use Weasel\JsonMarshaller\Config\DoctrineAnnotations\JsonInclude;
 use Weasel\XmlMarshaller\Config\Annotations\XmlElement;
 use Weasel\XmlMarshaller\Config\Annotations\XmlAttribute;
 use Weasel\XmlMarshaller\Config\Annotations\XmlRootElement;
@@ -10,7 +10,7 @@ use Weasel\XmlMarshaller\Config\Annotations\XmlRootElement;
  * @package MooPhp
  * @author Jonathan Oddy <jonathan@moo.com>
  * @copyright Copyright (c) 2012, Moo Print Ltd.
- * @JsonInclude(JsonInclude.Include.NON_NULL)
+ * @JsonInclude(JsonInclude::INCLUDE_NON_NULL)
  * @XmlRootElement(namespace="http://www.moo.com/xsd/template-1.0")
  */
 class Font

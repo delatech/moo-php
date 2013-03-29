@@ -1,9 +1,9 @@
 <?php
 namespace MooPhp\MooInterface\Data;
-use Weasel\JsonMarshaller\Config\Annotations\JsonProperty;
+use Weasel\JsonMarshaller\Config\DoctrineAnnotations\JsonProperty;
 
 /**
-use Weasel\JsonMarshaller\Config\Annotations\JsonProperty;
+use Weasel\JsonMarshaller\Config\DoctrineAnnotations\JsonProperty;
  * @package MooPhp
  * @author Jonathan Oddy <jonathan@moo.com>
  * @copyright Copyright (c) 2012, Moo Print Ltd.

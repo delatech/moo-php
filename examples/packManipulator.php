@@ -52,7 +52,7 @@ $client->getAccessToken();
 */
 
 $api = new \MooPhp\Api($client);
-$weaselFactory = new \Weasel\WeaselDefaultAnnotationDrivenFactory();
+$weaselFactory = new \Weasel\WeaselDoctrineAnnotationDrivenFactory();
 
 if (class_exists('\Monolog\Logger')) {
     $weaselLogger = new \Monolog\Logger("weasel");
