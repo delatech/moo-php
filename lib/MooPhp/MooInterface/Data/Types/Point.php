@@ -1,9 +1,9 @@
 <?php
 namespace MooPhp\MooInterface\Data\Types;
 use Weasel\JsonMarshaller\Config\DoctrineAnnotations\JsonProperty;
-use Weasel\XmlMarshaller\Config\Annotations\XmlElement;
-use Weasel\XmlMarshaller\Config\Annotations\XmlAttribute;
-use Weasel\XmlMarshaller\Config\Annotations\XmlRootElement;
+use Weasel\XmlMarshaller\Config\DoctrineAnnotations\XmlElement;
+use Weasel\XmlMarshaller\Config\DoctrineAnnotations\XmlAttribute;
+use Weasel\XmlMarshaller\Config\DoctrineAnnotations\XmlRootElement;
 
 /**
  * @package MooPhp

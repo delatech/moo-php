@@ -1,10 +1,10 @@
 <?php
 namespace MooPhp\MooInterface\Data\Template\Items;
-use Weasel\XmlMarshaller\Config\Annotations\XmlElement;
-use Weasel\XmlMarshaller\Config\Annotations\XmlAttribute;
-use Weasel\XmlMarshaller\Config\Annotations\XmlRootElement;
-use Weasel\XmlMarshaller\Config\Annotations\XmlSeeAlso;
-use Weasel\XmlMarshaller\Config\Annotations\XmlDiscriminator;
+use Weasel\XmlMarshaller\Config\DoctrineAnnotations\XmlElement;
+use Weasel\XmlMarshaller\Config\DoctrineAnnotations\XmlAttribute;
+use Weasel\XmlMarshaller\Config\DoctrineAnnotations\XmlRootElement;
+use Weasel\XmlMarshaller\Config\DoctrineAnnotations\XmlSeeAlso;
+use Weasel\XmlMarshaller\Config\DoctrineAnnotations\XmlDiscriminator;
 
 /**
  * @package MooPhp

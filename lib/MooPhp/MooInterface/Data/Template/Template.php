@@ -1,12 +1,12 @@
 <?php
 namespace MooPhp\MooInterface\Data\Template;
 
-use Weasel\XmlMarshaller\Config\Annotations\XmlRootElement;
-use Weasel\XmlMarshaller\Config\Annotations\XmlElement;
-use Weasel\XmlMarshaller\Config\Annotations\XmlElementWrapper;
-use Weasel\XmlMarshaller\Config\Annotations\XmlElementRef;
-use Weasel\XmlMarshaller\Config\Annotations\XmlElementRefs;
-use Weasel\XmlMarshaller\Config\Annotations\XmlAttribute;
+use Weasel\XmlMarshaller\Config\DoctrineAnnotations\XmlRootElement;
+use Weasel\XmlMarshaller\Config\DoctrineAnnotations\XmlElement;
+use Weasel\XmlMarshaller\Config\DoctrineAnnotations\XmlElementWrapper;
+use Weasel\XmlMarshaller\Config\DoctrineAnnotations\XmlElementRef;
+use Weasel\XmlMarshaller\Config\DoctrineAnnotations\XmlElementRefs;
+use Weasel\XmlMarshaller\Config\DoctrineAnnotations\XmlAttribute;
 
 /**
  * @package MooPhp
@@ -94,8 +94,7 @@ class Template
             $this->_itemsByLinkIdInZIndexOrder[$item->getLinkId()] = $item;
         }
         uasort($this->_itemsByLinkIdInZIndexOrder,
-            function(\MooPhp\MooInterface\Data\Template\Items\Item $a, \MooPhp\MooInterface\Data\Template\Items\Item $b)
-            {
+            function (\MooPhp\MooInterface\Data\Template\Items\Item $a, \MooPhp\MooInterface\Data\Template\Items\Item $b) {
                 return $a->compareZIndexTo($b);
             }
         );

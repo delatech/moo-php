@@ -3,11 +3,11 @@ namespace MooPhp\MooInterface\Data\Types;
 use Weasel\JsonMarshaller\Config\DoctrineAnnotations\JsonProperty;
 use Weasel\JsonMarshaller\Config\DoctrineAnnotations\JsonTypeInfo;
 use Weasel\JsonMarshaller\Config\DoctrineAnnotations\JsonSubTypes;
-use Weasel\XmlMarshaller\Config\Annotations\XmlElement;
-use Weasel\XmlMarshaller\Config\Annotations\XmlAttribute;
-use Weasel\XmlMarshaller\Config\Annotations\XmlRootElement;
-use Weasel\XmlMarshaller\Config\Annotations\XmlSeeAlso;
-use Weasel\XmlMarshaller\Config\Annotations\XmlDiscriminator;
+use Weasel\XmlMarshaller\Config\DoctrineAnnotations\XmlElement;
+use Weasel\XmlMarshaller\Config\DoctrineAnnotations\XmlAttribute;
+use Weasel\XmlMarshaller\Config\DoctrineAnnotations\XmlRootElement;
+use Weasel\XmlMarshaller\Config\DoctrineAnnotations\XmlSeeAlso;
+use Weasel\XmlMarshaller\Config\DoctrineAnnotations\XmlDiscriminator;
 
 /**
  * @package MooPhp
