@@ -243,10 +243,14 @@ class Api implements MooInterface\MooApi, LoggerAwareInterface
         $request->setTemplateCode($templateCode);
 
         $rawResponse = $this->getFile($request);
-        return $this->_getXmlMapper()->readString($rawResponse,
+        $object = $this->_getXmlMapper()->readString($rawResponse,
             '\MooPhp\MooInterface\Data\Template\Template',
             'http://www.moo.com/xsd/template-1.0'
         );
+        if (isset($this->_logger)) {
+            $this->_logger->debug("Decoded response to ", array("object" => $object));
+        }
+        return $object;
     }
 
     /**
