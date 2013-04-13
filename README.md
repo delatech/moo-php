@@ -4,20 +4,19 @@ Moo-Php
 Moo-Php is a client library for the moo.com API. It provides a full (at time of writing) implementation of the MOO pack
 and template models.
 
-This is a very early stage implementation, I've released it because I've got to the point where I feel it's usable, and
-could do with more eyes on it.
-
 This is one developer's crazed thrashings after consuming one too many cups of tea over a long weekend. It is in no way,
 shape, or form derived from any internal stuff at MOO, or representative of anything that might happen at MOO. It is not
 supported by MOO. Blah, blah, etc. Basically, if it explodes, don't contact MOO.
 
-It requires the php-weasel library (https://github.com/moodev/php-weasel) to be available via autoloading.
+It requires the php-weasel library (https://github.com/moodev/php-weasel).
+
+Installation
+------------
+If you can, use [composer](http://getcomposer.org/). If you can't, you'll find the list of dependencies in
+composer.json.
 
 Usage
 -----
-Grab the php-weasel library (https://github.com/moodev/php-weasel) and arrange for the packages within it
-to be autoloadable.
-
 There's an example called packManipulator.php in the examples directory. It sets up the API client and creates a
 businesscard pack with some stuff in it.
 
@@ -91,7 +90,7 @@ FAQ
 Where are the tests?
 > Oopse.
 
-If there are no tests, how do you know it's correct?
+If there are so few tests, how do you know it's correct?
 > I don't.
 
 So is this safe to use?
