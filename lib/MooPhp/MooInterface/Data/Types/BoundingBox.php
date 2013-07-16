@@ -144,7 +144,7 @@ class BoundingBox
     }
 
     /**
-     * @param float $width
+     * @param float $_cornerRadius
      * @return \MooPhp\MooInterface\Data\Types\BoundingBox
      * @JsonProperty(type="float")
      * @XmlElement(type="float")
