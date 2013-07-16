@@ -73,7 +73,7 @@ class PrintArea
     }
 
     /**
-     * @param float $width
+     * @param float $cornerRadius
      * @XmlElement(type="float")
      */
     public function setCornerRadius($cornerRadius)
