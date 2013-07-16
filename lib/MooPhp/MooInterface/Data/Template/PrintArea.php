@@ -26,6 +26,11 @@ class PrintArea
     protected $_width;
 
     /**
+     * @var float
+     */
+    protected $_cornerRadius;
+
+    /**
      * @return float
      */
     public function getHeight()
@@ -39,6 +44,14 @@ class PrintArea
     public function getWidth()
     {
         return $this->_width;
+    }
+
+    /**
+     * @return float
+     */
+    public function getCornerRadius()
+    {
+        return $this->_cornerRadius;
     }
 
     /**
@@ -59,4 +72,12 @@ class PrintArea
         $this->_width = $width;
     }
 
+    /**
+     * @param float $width
+     * @XmlElement(type="float")
+     */
+    public function setCornerRadius($cornerRadius)
+    {
+        $this->_cornerRadius = $cornerRadius;
+    }
 }

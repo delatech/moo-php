@@ -31,16 +31,22 @@ class BoundingBox
     protected $_angle;
 
     /**
+     * @var float
+     */
+    protected $_cornerRadius;
+
+    /**
      * @var \MooPhp\MooInterface\Data\Types\Point
      */
     protected $_centre;
 
-    public function __construct($centre = null, $width = null, $height = null, $angle = null)
+    public function __construct($centre = null, $width = null, $height = null, $angle = null, $cornerRadius = null)
     {
         $this->_centre = $centre;
         $this->_width = $width;
         $this->_height = $height;
         $this->_angle = $angle;
+        $this->_cornerRadius = $cornerRadius;
     }
 
     /**
@@ -78,6 +84,15 @@ class BoundingBox
     public function getWidth()
     {
         return $this->_width;
+    }
+
+    /**
+     * @return float
+     * @JsonProperty(type="float")
+     */
+    public function getCornerRadius()
+    {
+        return $this->_cornerRadius;
     }
 
     /**
@@ -128,5 +143,15 @@ class BoundingBox
         return $this;
     }
 
-
+    /**
+     * @param float $width
+     * @return \MooPhp\MooInterface\Data\Types\BoundingBox
+     * @JsonProperty(type="float")
+     * @XmlElement(type="float")
+     */
+    public function setCornerRadius($cornerRadius)
+    {
+        $this->_cornerRadius = $cornerRadius;
+        return $this;
+    }
 }
