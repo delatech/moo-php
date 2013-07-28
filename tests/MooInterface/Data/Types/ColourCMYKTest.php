@@ -10,7 +10,7 @@ class ColourCMYKTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
-     * @covers \MooPhp\MooInterface\Data\ColourCMYK
+     * @covers \MooPhp\MooInterface\Data\Types\ColourCMYK
      */
     public function testMarshallColourCMYK()
     {

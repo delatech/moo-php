@@ -11,7 +11,7 @@ class MultiLineTextDataTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
-     * @covers \MooPhp\MooInterface\Data\MultiLineTextData
+     * @covers \MooPhp\MooInterface\Data\UserData\MultiLineTextData
      */
     public function testMarshallMultiLineTextData()
     {

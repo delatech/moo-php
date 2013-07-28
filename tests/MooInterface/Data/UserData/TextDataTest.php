@@ -11,7 +11,7 @@ class TextDataTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
-     * @covers \MooPhp\MooInterface\Data\TextData
+     * @covers \MooPhp\MooInterface\Data\UserData\TextData
      */
     public function testMarshallTextData()
     {

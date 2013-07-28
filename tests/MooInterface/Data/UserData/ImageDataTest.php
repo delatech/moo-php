@@ -10,7 +10,7 @@ class ImageDataTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
-     * @covers \MooPhp\MooInterface\Data\ImageData
+     * @covers \MooPhp\MooInterface\Data\UserData\ImageData
      */
     public function testMarshallImageData()
     {

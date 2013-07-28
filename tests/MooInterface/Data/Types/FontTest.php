@@ -10,7 +10,7 @@ class FontTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
-     * @covers \MooPhp\MooInterface\Data\Font
+     * @covers \MooPhp\MooInterface\Data\Types\Font
      */
     public function testMarshallFont()
     {

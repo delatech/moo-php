@@ -10,7 +10,7 @@ class PointTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
-     * @covers \MooPhp\MooInterface\Data\Point
+     * @covers \MooPhp\MooInterface\Data\Types\Point
      */
     public function testMarshallPoint()
     {

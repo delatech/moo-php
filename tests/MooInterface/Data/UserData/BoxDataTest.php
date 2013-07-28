@@ -10,7 +10,7 @@ class BoxDataTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
-     * @covers \MooPhp\MooInterface\Data\BoxData
+     * @covers \MooPhp\MooInterface\Data\UserData\BoxData
      */
     public function testMarshallBoxData()
     {

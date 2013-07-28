@@ -10,7 +10,7 @@ class ColourRGBTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
-     * @covers \MooPhp\MooInterface\Data\ColourRGB
+     * @covers \MooPhp\MooInterface\Data\Types\ColourRGB
      */
     public function testMarshallColourRGB()
     {
