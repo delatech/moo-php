@@ -3,6 +3,7 @@ namespace MooPhp\MooInterface\Data;
 
 use Weasel\JsonMarshaller\JsonMapper;
 use Weasel\JsonMarshaller\Config\AnnotationDriver;
+use Weasel\WeaselDoctrineAnnotationDrivenFactory;
 
 class PackTest extends \PHPUnit_Framework_TestCase
 {
@@ -38,7 +39,8 @@ class PackTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(8, $sides[3]->getSideNum());
         $this->assertEquals(1, $dSide->getSideNum());
 
-        $this->assertEquals(array(1 => $sides[0], 5 => $sides[2], 7 => $sides[1], 8 => $sides[3]), $pack->getSidesByType("image"));
+        $this->assertEquals(array(1 => $sides[0], 5 => $sides[2], 7 => $sides[1], 8 => $sides[3]),
+            $pack->getSidesByType("image"));
 
         $this->assertEquals(array($sides[0], $sides[2], $sides[1], $sides[3], $dSide), $pack->getSides());
 
@@ -180,7 +182,8 @@ class PackTest extends \PHPUnit_Framework_TestCase
      */
     public function testMarshallPack()
     {
-        $om = new JsonMapper(new AnnotationDriver());
+        $fact = new WeaselDoctrineAnnotationDrivenFactory();
+        $om = $fact->getJsonMapperInstance();
 
         $pack = new Pack();
         $pack->setProductVersion(7);

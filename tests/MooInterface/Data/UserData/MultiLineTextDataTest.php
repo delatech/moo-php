@@ -5,6 +5,7 @@ use Weasel\JsonMarshaller\JsonMapper;
 use Weasel\JsonMarshaller\Config\AnnotationDriver;
 use MooPhp\MooInterface\Data\Types\ColourRGB;
 use MooPhp\MooInterface\Data\Types\Font;
+use Weasel\WeaselDoctrineAnnotationDrivenFactory;
 
 class MultiLineTextDataTest extends \PHPUnit_Framework_TestCase
 {
@@ -14,7 +15,8 @@ class MultiLineTextDataTest extends \PHPUnit_Framework_TestCase
      */
     public function testMarshallMultiLineTextData()
     {
-        $om = new JsonMapper(new AnnotationDriver());
+        $fact = new WeaselDoctrineAnnotationDrivenFactory();
+        $om = $fact->getJsonMapperInstance();
 
         $multiLineTextData = new MultiLineTextData();
         $multiLineTextData->setLinkId("amtext");

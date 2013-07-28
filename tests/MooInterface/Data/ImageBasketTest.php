@@ -3,6 +3,7 @@ namespace MooPhp\MooInterface\Data;
 
 use Weasel\JsonMarshaller\JsonMapper;
 use Weasel\JsonMarshaller\Config\AnnotationDriver;
+use Weasel\WeaselDoctrineAnnotationDrivenFactory;
 
 class ImageBasketTest extends \PHPUnit_Framework_TestCase
 {
@@ -13,7 +14,8 @@ class ImageBasketTest extends \PHPUnit_Framework_TestCase
      */
     public function testMarshallImageBasket()
     {
-        $om = new JsonMapper(new AnnotationDriver());
+        $fact = new WeaselDoctrineAnnotationDrivenFactory();
+        $om = $fact->getJsonMapperInstance();
 
         $imageBasket = new ImageBasket();
         $imageBasket->setName("dave");

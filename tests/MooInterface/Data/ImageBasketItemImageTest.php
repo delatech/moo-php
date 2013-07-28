@@ -3,6 +3,7 @@ namespace MooPhp\MooInterface\Data;
 
 use Weasel\JsonMarshaller\JsonMapper;
 use Weasel\JsonMarshaller\Config\AnnotationDriver;
+use Weasel\WeaselDoctrineAnnotationDrivenFactory;
 
 class ImageBasketItemImageTest extends \PHPUnit_Framework_TestCase
 {
@@ -12,7 +13,8 @@ class ImageBasketItemImageTest extends \PHPUnit_Framework_TestCase
      */
     public function testMarshallImageBasketItemImage()
     {
-        $om = new JsonMapper(new AnnotationDriver());
+        $fact = new WeaselDoctrineAnnotationDrivenFactory();
+        $om = $fact->getJsonMapperInstance();
 
         $imageBasketItemImage = new ImageBasketItemImage();
         $imageBasketItemImage->setResourceUri("fasdasdsddddd");
@@ -23,7 +25,8 @@ class ImageBasketItemImageTest extends \PHPUnit_Framework_TestCase
 
         $json = $om->writeString($imageBasketItemImage);
 
-        $this->assertEquals($imageBasketItemImage, $om->readString($json, '\MooPhp\MooInterface\Data\ImageBasketItemImage'));
+        $this->assertEquals($imageBasketItemImage,
+            $om->readString($json, '\MooPhp\MooInterface\Data\ImageBasketItemImage'));
 
 
     }

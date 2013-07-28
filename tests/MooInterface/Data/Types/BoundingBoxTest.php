@@ -4,6 +4,7 @@ namespace MooPhp\MooInterface\Data\Types;
 use Weasel\JsonMarshaller\JsonMapper;
 use Weasel\JsonMarshaller\Config\AnnotationDriver;
 use MooPhp\MooInterface\Data\Types\ColourRGB;
+use Weasel\WeaselDoctrineAnnotationDrivenFactory;
 
 class BoundingBoxTest extends \PHPUnit_Framework_TestCase
 {
@@ -13,7 +14,8 @@ class BoundingBoxTest extends \PHPUnit_Framework_TestCase
      */
     public function testMarshallBoundingBox()
     {
-        $om = new JsonMapper(new AnnotationDriver());
+        $fact = new WeaselDoctrineAnnotationDrivenFactory();
+        $om = $fact->getJsonMapperInstance();
 
         $boundingBox = new BoundingBox();
         $boundingBox->setCentre(new Point());

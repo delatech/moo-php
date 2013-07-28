@@ -4,6 +4,7 @@ namespace MooPhp\MooInterface\Data;
 use Weasel\JsonMarshaller\JsonMapper;
 use Weasel\JsonMarshaller\Config\AnnotationDriver;
 use MooPhp\MooInterface\MooApi;
+use Weasel\WeaselDoctrineAnnotationDrivenFactory;
 
 class PhysicalSpecTest extends \PHPUnit_Framework_TestCase
 {
@@ -13,7 +14,8 @@ class PhysicalSpecTest extends \PHPUnit_Framework_TestCase
      */
     public function testMarshallPhysicalSpec()
     {
-        $om = new JsonMapper(new AnnotationDriver());
+        $fact = new WeaselDoctrineAnnotationDrivenFactory();
+        $om = $fact->getJsonMapperInstance();
 
         $physicalSpec = new PhysicalSpec(MooApi::PRODUCT_TYPE_MINICARD, "toilet", "square", 123, "sandpaper");
         $json = $om->writeString($physicalSpec);

@@ -3,6 +3,7 @@ namespace MooPhp\MooInterface\Data;
 
 use Weasel\JsonMarshaller\JsonMapper;
 use Weasel\JsonMarshaller\Config\AnnotationDriver;
+use Weasel\WeaselDoctrineAnnotationDrivenFactory;
 
 class CardTest extends \PHPUnit_Framework_TestCase
 {
@@ -12,7 +13,8 @@ class CardTest extends \PHPUnit_Framework_TestCase
      */
     public function testMarshallCard()
     {
-        $om = new JsonMapper(new AnnotationDriver());
+        $fact = new WeaselDoctrineAnnotationDrivenFactory();
+        $om = $fact->getJsonMapperInstance();
 
         $card = new Card();
         $card->setCardNum(12);

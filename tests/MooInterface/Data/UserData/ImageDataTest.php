@@ -4,6 +4,7 @@ namespace MooPhp\MooInterface\Data\UserData;
 use Weasel\JsonMarshaller\JsonMapper;
 use Weasel\JsonMarshaller\Config\AnnotationDriver;
 use MooPhp\MooInterface\Data\Types\BoundingBox;
+use Weasel\WeaselDoctrineAnnotationDrivenFactory;
 
 class ImageDataTest extends \PHPUnit_Framework_TestCase
 {
@@ -13,7 +14,8 @@ class ImageDataTest extends \PHPUnit_Framework_TestCase
      */
     public function testMarshallImageData()
     {
-        $om = new JsonMapper(new AnnotationDriver());
+        $fact = new WeaselDoctrineAnnotationDrivenFactory();
+        $om = $fact->getJsonMapperInstance();
 
         $imageData = new ImageData();
         $imageData->setLinkId("amimage");

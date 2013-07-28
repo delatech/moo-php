@@ -4,6 +4,7 @@ namespace MooPhp\MooInterface\Data\Types;
 use Weasel\JsonMarshaller\JsonMapper;
 use Weasel\JsonMarshaller\Config\AnnotationDriver;
 use MooPhp\MooInterface\Data\Types\ColourRGB;
+use Weasel\WeaselDoctrineAnnotationDrivenFactory;
 
 class ColourRGBTest extends \PHPUnit_Framework_TestCase
 {
@@ -13,7 +14,9 @@ class ColourRGBTest extends \PHPUnit_Framework_TestCase
      */
     public function testMarshallColourRGB()
     {
-        $om = new JsonMapper(new AnnotationDriver());
+        $fact = new WeaselDoctrineAnnotationDrivenFactory();
+        $om = $fact->getJsonMapperInstance();
+
 
         $colour = new ColourRGB(123, 11, 0);
 

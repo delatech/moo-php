@@ -6,6 +6,7 @@ use Weasel\JsonMarshaller\Config\AnnotationDriver;
 use MooPhp\MooInterface\MooApi;
 use MooPhp\MooInterface\Data\UserData\TextData;
 use MooPhp\MooInterface\Data\UserData\BoxData;
+use Weasel\WeaselDoctrineAnnotationDrivenFactory;
 
 class SideTest extends \PHPUnit_Framework_TestCase
 {
@@ -15,7 +16,8 @@ class SideTest extends \PHPUnit_Framework_TestCase
      */
     public function testMarshallSide()
     {
-        $om = new JsonMapper(new AnnotationDriver());
+        $fact = new WeaselDoctrineAnnotationDrivenFactory();
+        $om = $fact->getJsonMapperInstance();
 
         $side = new Side();
         $side->setType("left");
