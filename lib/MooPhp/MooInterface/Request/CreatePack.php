@@ -44,6 +44,11 @@ class CreatePack extends Request
      */
     private $_includePhysicalSpec = true;
 
+    /**
+     * @var string
+     */
+    private $_designCode;
+
     public function __construct()
     {
         $this->_method = "moo.pack.createPack";
@@ -167,6 +172,22 @@ class CreatePack extends Request
     public function getStartAgainUrl()
     {
         return $this->_startAgainUrl;
+    }
+
+    /**
+     * @param string $designCode
+     */
+    public function setDesignCode($designCode)
+    {
+        $this->_designCode = $designCode;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDesignCode()
+    {
+        return $this->_designCode;
     }
 
 }

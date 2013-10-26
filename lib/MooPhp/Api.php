@@ -157,23 +157,12 @@ class Api implements MooInterface\MooApi, LoggerAwareInterface
         return $object;
     }
 
-    /**
-     * Create a new Moo pack.
-     * This will actually create a pack of a given type on the server.
-     * Requires create permissions which everyone should have.
-     * @abstract
-     * @param \MooPhp\MooInterface\Data\PhysicalSpec $physicalSpec The physical spec to build the pack with
-     * @param \MooPhp\MooInterface\Data\Pack|null $pack An optional initial pack to use.
-     * @param string $friendlyName A friendly name to give the pack in the cart (and I think default save names?)
-     * @param string $trackingId Optional tracking ID to use for tracking callbacks
-     * @param string $startAgainUrl Absolute URL to send the user to if they hit the start again button
-     * @return \MooPhp\MooInterface\Response\CreatePack
-     */
     public function packCreatePack(PhysicalSpec $physicalSpec,
                                    MooInterface\Data\Pack $pack = null,
                                    $friendlyName = null,
                                    $trackingId = null,
-                                   $startAgainUrl = null)
+                                   $startAgainUrl = null,
+                                   $designCode = null)
     {
         $request = new MooInterface\Request\CreatePack();
         $request->setPack($pack);
@@ -181,7 +170,27 @@ class Api implements MooInterface\MooApi, LoggerAwareInterface
         $request->setTrackingId($trackingId);
         $request->setFriendlyName($friendlyName);
         $request->setStartAgainUrl($startAgainUrl);
+        $request->setDesignCode($designCode);
         return $this->makeRequest($request, "CreatePack");
+    }
+
+    public function packCreateTrialPartnerPack(PhysicalSpec $physicalSpec,
+                                               MooInterface\Data\Pack $pack = null,
+                                               $friendlyName = null,
+                                               $trackingId = null,
+                                               $startAgainUrl = null,
+                                               $trialPartner = null,
+                                               $designCode = null)
+    {
+        $request = new MooInterface\Request\CreateTrialPartnerPack();
+        $request->setPack($pack);
+        $request->setPhysicalSpec($physicalSpec);
+        $request->setTrackingId($trackingId);
+        $request->setFriendlyName($friendlyName);
+        $request->setStartAgainUrl($startAgainUrl);
+        $request->setTrialPartner($trialPartner);
+        $request->setDesignCode($designCode);
+        return $this->makeRequest($request, "CreateTrialPartnerPack");
     }
 
     /**

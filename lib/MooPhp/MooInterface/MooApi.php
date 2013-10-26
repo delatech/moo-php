@@ -93,13 +93,38 @@ interface MooApi
      * @param string $friendlyName A friendly name to give the pack in the cart (and I think default save names?)
      * @param string $trackingId Optional tracking ID to use for tracking callbacks
      * @param string $startAgainUrl Absolute URL to send the user to if they hit the start again button
+     * @param string $designCode A design code (if you have been given one.)
      * @return Response\CreatePack
      */
     public function packCreatePack(\MooPhp\MooInterface\Data\PhysicalSpec $physicalSpec,
                                    Data\Pack $pack = null,
                                    $friendlyName = null,
                                    $trackingId = null,
-                                   $startAgainUrl = null);
+                                   $startAgainUrl = null,
+                                   $designCode = null);
+
+    /**
+     * Create a new Moo partner pack.
+     * This will actually create a pack of a given type on the server.
+     * Requires create_trial_pack permissions and a partner ID. If you don't know what this means then you probably
+     * don't have either of these.
+     * @abstract
+     * @param \MooPhp\MooInterface\Data\PhysicalSpec $physicalSpec The physical spec to build the pack with
+     * @param Data\Pack $pack An optional initial pack to use.
+     * @param string $friendlyName A friendly name to give the pack in the cart (and I think default save names?)
+     * @param string $trackingId Optional tracking ID to use for tracking callbacks
+     * @param string $startAgainUrl Absolute URL to send the user to if they hit the start again button
+     * @param string $trialPartner Your trial partner ID
+     * @param string $designCode A design code (if you have been given one.)
+     * @return Response\CreatePack
+     */
+    public function packCreateTrialPartnerPack(\MooPhp\MooInterface\Data\PhysicalSpec $physicalSpec,
+                                               Data\Pack $pack = null,
+                                               $friendlyName = null,
+                                               $trackingId = null,
+                                               $startAgainUrl = null,
+                                               $trialPartner = null,
+                                               $designCode = null);
 
     /**
      * Get a Moo pack from the builder store.
