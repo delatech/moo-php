@@ -1,6 +1,10 @@
 <?php
 namespace MooPhp;
 use MooPhp\MooInterface\Data\FontSpec;
+use MooPhp\MooInterface\Data\ImageBasket;
+use MooPhp\MooInterface\Data\Side;
+use MooPhp\MooInterface\Request\RenderSide;
+use MooPhp\MooInterface\Request\RenderSideUrl;
 use MooPhp\MooInterface\Request\Request;
 use Weasel\Annotation\AnnotationConfigurator;
 use Weasel\JsonMarshaller\JsonMapper;
@@ -117,12 +121,17 @@ class Api implements MooInterface\MooApi, LoggerAwareInterface
      */
     public function makeRequest(Request $request, $responseType)
     {
-        $rawResponse =
+        $rawResponse = $this->getRawResponse($request);
+        return $this->_handleResponse($rawResponse, $responseType);
+    }
+
+    public function getRawResponse(Request $request)
+    {
+        return
             $this->_client->makeRequest($this->_getRequestParams($request),
                 $request->getHttpMethod() == Request::HTTP_GET ? Client\Client::HTTP_GET :
                     Client\Client::HTTP_POST
             );
-        return $this->_handleResponse($rawResponse, $responseType);
     }
 
     public function getFile(Request $request)
@@ -157,6 +166,15 @@ class Api implements MooInterface\MooApi, LoggerAwareInterface
         return $object;
     }
 
+    /**
+     * @param PhysicalSpec $physicalSpec
+     * @param MooInterface\Data\Pack $pack
+     * @param null $friendlyName
+     * @param null $trackingId
+     * @param null $startAgainUrl
+     * @param null $designCode
+     * @return MooInterface\Response\CreatePack
+     */
     public function packCreatePack(PhysicalSpec $physicalSpec,
                                    MooInterface\Data\Pack $pack = null,
                                    $friendlyName = null,
@@ -353,6 +371,48 @@ class Api implements MooInterface\MooApi, LoggerAwareInterface
     public function setLogger(LoggerInterface $logger)
     {
         $this->_logger = $logger;
+    }
+
+    /**
+     * Render a side to PNG, returning the PNG.
+     *
+     * @param Side $side The side to render.
+     * @param ImageBasket $imageBasket Image basket containing at least all of the images used by the side.
+     * @param string $boxType Box to render. One of the BOX_* consts, defaults to print.
+     * @param int $maxSide Default 1500px. The longest side of the output image.
+     * @param Side[] $overlays An array of sides to draw on top of $side. Used for watermarks.
+     * @return string a PNG
+     */
+    public function packRenderSide(Side $side, ImageBasket $imageBasket, $boxType = self::BOX_PRINT, $maxSide = 1500, array $overlays = null)
+    {
+        $request = new RenderSide();
+        $request->setSide($side);
+        $request->setImageBasket($imageBasket);
+        $request->setBoxType($boxType);
+        $request->setMaxSide($maxSide);
+        $request->setOverlays($overlays);
+        return $this->getRawResponse($request);
+    }
+
+    /**
+     * Render a side to PNG and return a URL to fetch it.
+     *
+     * @param Side $side The side to render.
+     * @param ImageBasket $imageBasket Image basket containing at least all of the images used by the side.
+     * @param string $boxType Box to render. One of the BOX_* consts, defaults to print.
+     * @param int $maxSide Default 1500px. The longest side of the output image.
+     * @param Side[] $overlays An array of sides to draw on top of $side. Used for watermarks.
+     * @return string a URL to the PNG. This will expire after a few hours.
+     */
+    public function packRenderSideUrl(Side $side, ImageBasket $imageBasket, $boxType = self::BOX_PRINT, $maxSide = 1500, array $overlays = null)
+    {
+        $request = new RenderSideUrl();
+        $request->setSide($side);
+        $request->setImageBasket($imageBasket);
+        $request->setBoxType($boxType);
+        $request->setMaxSide($maxSide);
+        $request->setOverlays($overlays);
+        return $this->getRawResponse($request);
     }
 }
 

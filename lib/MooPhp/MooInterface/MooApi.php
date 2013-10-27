@@ -7,6 +7,8 @@ namespace MooPhp\MooInterface;
  */
 
 use MooPhp\MooInterface\Data\FontSpec;
+use MooPhp\MooInterface\Data\ImageBasket;
+use MooPhp\MooInterface\Data\Side;
 
 interface MooApi
 {
@@ -51,6 +53,32 @@ interface MooApi
 
     const UNIT_MILLIMETERS = "mm";
     const UNIT_POINTS = "pt";
+
+    /**
+     * The safe area.
+     * Things inside the safe area will definitely appear on your cards unless something has gone very wrong in
+     * production.
+     */
+    const BOX_SAFE = "safe";
+
+    /**
+     * The intended cut area.
+     * Ops will try very hard to cut to this box, but it's not perfect.
+     */
+    const BOX_CUT = "cut";
+
+    /**
+     * Includes the bleed area, outside of the cut box.
+     * Some of this area might appear on your finished cards. It exists to ensure that a cutting error does not lead to
+     * white lines on the edge of your cards.
+     */
+    const BOX_BLEED = "bleed";
+
+    /**
+     * The area that'll be printed.
+     * Generally this is equal to the bleed, but it might be a slightly smaller area in some odd cases (minicards?)
+     */
+    const BOX_PRINT = "print";
 
     /**
      * Send a signed request object to the Moo API, and deserialize the response as $responseType.
@@ -213,5 +241,29 @@ interface MooApi
                                 $wrappingWidth = null,
                                 $leading = null,
                                 $fontSizeUnits = self::UNIT_MILLIMETERS);
+
+    /**
+     * Render a side to PNG, returning the PNG.
+     *
+     * @param Side $side The side to render.
+     * @param ImageBasket $imageBasket Image basket containing at least all of the images used by the side.
+     * @param string $boxType Box to render. One of the BOX_* consts, defaults to print.
+     * @param int $maxSide Default 1500px. The longest side of the output image.
+     * @param Side[] $overlays An array of sides to draw on top of $side. Used for watermarks.
+     * @return string a PNG
+     */
+    public function packRenderSide(Side $side, ImageBasket $imageBasket, $boxType = self::BOX_PRINT, $maxSide = 1500, array $overlays = null);
+
+    /**
+     * Render a side to PNG and return a URL to fetch it.
+     *
+     * @param Side $side The side to render.
+     * @param ImageBasket $imageBasket Image basket containing at least all of the images used by the side.
+     * @param string $boxType Box to render. One of the BOX_* consts, defaults to print.
+     * @param int $maxSide Default 1500px. The longest side of the output image.
+     * @param Side[] $overlays An array of sides to draw on top of $side. Used for watermarks.
+     * @return string a URL to the PNG. This will expire after a few hours.
+     */
+    public function packRenderSideUrl(Side $side, ImageBasket $imageBasket, $boxType = self::BOX_PRINT, $maxSide = 1500, array $overlays = null);
 
 }

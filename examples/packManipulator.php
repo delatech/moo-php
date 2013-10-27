@@ -164,11 +164,14 @@ $detailsSide->addDatum($textLine);
 
 $updateResp = $api->packUpdatePack($packId, $pack->addSide($detailsSide));
 
-
 // OK, all done.
 
 // We might have some warnings (though at time of writing this pack was fine.)
 var_dump($updateResp->getWarnings());
+
+// Let's get a rendering of the details side to see what it'll look like.
+$renderedUrl = $api->packRenderSideUrl($detailsSide, $pack->getImageBasket());
+var_dump($renderedUrl);
 
 // We should also be able to enter the Moo build flow at various points identified by dropins.
 var_dump($updateResp->getDropIns());
