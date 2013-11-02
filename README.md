@@ -15,15 +15,18 @@ Installation
 If you can, use [composer](http://getcomposer.org/). If you can't, you'll find the list of dependencies in
 composer.json.
 
+It requires either the PHP OAuth module to be installed, or, alternatively, "lusitanian/oauth".
+
 Usage
 -----
 There's an example called packManipulator.php in the examples directory. It sets up the API client and creates a
 businesscard pack with some stuff in it.
 
+For an example that uses Lusitanian's OAuth client library, rather than the PHP OAuth module, see
+packManipulatorNoPhpOauth.php instead.
+
 The important bits to start with are a Client and a MooApi. The Client provides a simple interface for making requests
 to MOO. The MooApi interface actually provides the, errr, MooApi methods. It uses the Client to communicate with MOO.
-
-The implementations currently provided are \MooPhp\Client\OAuthSigningClient, and \MooPhp\Api.
 
 ```php
 
