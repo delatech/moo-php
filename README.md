@@ -4,9 +4,8 @@ Moo-Php
 Moo-Php is a client library for the moo.com API. It provides a full (at time of writing) implementation of the MOO pack
 and template models.
 
-This is one developer's crazed thrashings after consuming one too many cups of tea over a long weekend. It is in no way,
-shape, or form derived from any internal stuff at MOO, or representative of anything that might happen at MOO. It is not
-supported by MOO. Blah, blah, etc. Basically, if it explodes, don't contact MOO.
+This is one developer's crazed thrashings after consuming one too many cups of tea over a long weekend. It's therefore
+not complete, and something that we, here at MOO, intend to complete over time.
 
 It requires the php-weasel library (https://github.com/moodev/php-weasel).
 
