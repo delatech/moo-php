@@ -1,5 +1,6 @@
 <?php
 namespace MooPhp\Client\Lusitanian;
+
 use MooPhp\Client\Client;
 use OAuth\Common\Consumer\Credentials;
 use OAuth\Common\Http\Uri\Uri;
@@ -198,11 +199,6 @@ class LusitanianDirectOauthClient implements Client, LoggerAwareInterface
         }
         return $this->_doCurl();
 
-    }
-
-    public function getLogger()
-    {
-        return $this->_logger;
     }
 
     /**

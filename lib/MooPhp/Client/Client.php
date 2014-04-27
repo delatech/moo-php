@@ -1,12 +1,11 @@
 <?php
 namespace MooPhp\Client;
+
 /**
  * @package MooPhp
  * @author Jonathan Oddy <jonathan@moo.com>
  * @copyright Copyright (c) 2012, Moo Print Ltd.
  */
-
-use Psr\Log\LoggerInterface;
 
 interface Client
 {
@@ -35,11 +34,5 @@ interface Client
      * @return string
      */
     public function getFile(array $params);
-
-    /**
-     * @abstract
-     * @return LoggerInterface
-     */
-    public function getLogger();
 
 }

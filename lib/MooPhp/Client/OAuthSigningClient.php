@@ -1,5 +1,6 @@
 <?php
 namespace MooPhp\Client;
+
 /**
  * @package MooPhp
  * @author Jonathan Oddy <jonathan@moo.com>
@@ -56,7 +57,7 @@ class OAuthSigningClient implements Client, LoggerAwareInterface
     public function getAuthUrl($callback = "oob")
     {
         return $this->_urls["authorize"] . "?oauth_token=" . urlencode($this->_token) . "&oauth_callback=" .
-            urlencode($callback);
+        urlencode($callback);
     }
 
     public function setToken($token, $secret)
@@ -187,11 +188,6 @@ class OAuthSigningClient implements Client, LoggerAwareInterface
 
         return $rawResponse;
 
-    }
-
-    public function getLogger()
-    {
-        return $this->_logger;
     }
 
     /**
