@@ -3,14 +3,32 @@
 function getClient($key, $secret)
 {
     $guzzle = new \Guzzle\Http\Client();
-    $guzzle->addSubscriber(new Guzzle\Plugin\Oauth\OauthPlugin(
+    $oauthPlugin = new \MooPhp\Client\Guzzle\ReconfigurableOauthPlugin(
         array(
             "consumer_key" => $key,
             "consumer_secret" => $secret
         )
-    ));
-    // If you want 3 legged oauth, you're going to have to faff with the OauthPlugin for a bit.
-    // I am not providing an example. Sorry.
+    );
+    $guzzle->addSubscriber($oauthPlugin);
+
+    /*
+    // If we want to do three legged we'd need to jump about a bit.
+    // Since most of the API calls no longer need 3 legged, this block of code is not required.
+    $oauthHelper = new \MooPhp\Client\Guzzle\GuzzleOAuthHelper($guzzle);
+
+    $tokenData = $oauthHelper->getRequestToken();
+
+    // At this point if you were writing a web app you'd want to store the request token data.
+    // Then redirect the user orf too (passing a useful callback, this example uses oob callbacks):
+    print "Visit:\n" . $oauthHelper->getAuthUrl($tokenData["token"]) . "\n";
+    print "Hit enter";
+    fgets(STDIN);
+
+    $oauthPlugin->setTokenData($tokenData);
+    $tokenData = $oauthHelper->getAccessToken();
+
+    $oauthPlugin->setTokenData($tokenData);
+    */
 
     return new \MooPhp\Client\GuzzleClient($guzzle);
 }
