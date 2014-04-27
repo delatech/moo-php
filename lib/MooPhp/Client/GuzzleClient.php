@@ -3,6 +3,7 @@
 namespace MooPhp\Client;
 
 use \Guzzle\Http\Client as GuzzleHttpClient;
+use Guzzle\Http\Message\Response;
 use Guzzle\Http\Url;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
@@ -89,5 +90,47 @@ class GuzzleClient implements Client, LoggerAwareInterface
     public function setLogger(LoggerInterface $logger)
     {
         $this->logger = $logger;
+    }
+
+    /**
+     * @param array $paramss Array of arrays of parameters.
+     * @param string $fileParam The name of the param that contains the path to the file on disk
+     * @throws \Exception
+     * @return string
+     */
+    public function sendFiles(array $paramss, $fileParam)
+    {
+        $requests = array();
+        foreach ($paramss as $key => $params) {
+            $params[$fileParam] = "@" . $params[$fileParam];
+            if ($this->logger) {
+                $this->logger->debug("Adding Request", array("params" => $params));
+            }
+            $url = Url::factory($this->endpoint);
+            $requests[$key] = $this->client->post($url, null, $params);
+        }
+        if ($this->logger) {
+            $this->logger->debug("Sending requests");
+        }
+
+        $rawResponses = array();
+        $responses = $this->client->send($requests);
+        reset($responses);
+        foreach ($requests as $key => $request) {
+            $responseArr = each($responses);
+            if ($responseArr === false) {
+                throw new \Exception("Unexpected number of response elements");
+            }
+            $response = $responseArr["value"];
+            /**
+             * @var Response $response
+             */
+            $responseBody = $response->getBody(true);
+            if ($this->logger) {
+                $this->logger->debug("Got Response", array("rawResponse" => $responseBody));
+            }
+            $rawResponses[$key] = $responseBody;
+        }
+        return $rawResponses;
     }
 }

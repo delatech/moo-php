@@ -200,4 +200,18 @@ class OAuthSigningClient implements Client, LoggerAwareInterface
     {
         $this->_logger = $logger;
     }
+
+    /**
+     * @param array $paramss Array of arrays of parameters.
+     * @param string $fileParam The name of the param that contains the path to the file on disk
+     * @return string
+     */
+    public function sendFiles(array $paramss, $fileParam)
+    {
+        $responses = array();
+        foreach ($paramss as $key => $params) {
+            $responses[$key] = $this->sendFile($params, $fileParam);
+        }
+        return $responses;
+    }
 }

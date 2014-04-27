@@ -1,5 +1,7 @@
 <?php
 namespace MooPhp;
+
+use MooPhp\MooInterface\Client\Image;
 use MooPhp\MooInterface\Data\FontSpec;
 use MooPhp\MooInterface\Data\ImageBasket;
 use MooPhp\MooInterface\Data\Side;
@@ -20,7 +22,6 @@ use MooPhp\MooInterface\Data\PhysicalSpec;
  * @author Jonathan Oddy <jonathan@moo.com>
  * @copyright Copyright (c) 2012, Moo Print Ltd.
  */
-
 class Api implements MooInterface\MooApi, LoggerAwareInterface
 {
 
@@ -143,6 +144,25 @@ class Api implements MooInterface\MooApi, LoggerAwareInterface
     {
         $rawResponse = $this->_client->sendFile($this->_getRequestParams($request), $fileParam);
         return $this->_handleResponse($rawResponse, $responseType);
+    }
+
+    public function sendFiles(array $requests, $fileParam, $responseType)
+    {
+        $params = array();
+        foreach ($requests as $key => $request) {
+            $params[$key] = $this->_getRequestParams($request);
+        }
+        $rawResponses = $this->_client->sendFiles($params, $fileParam);
+
+        $responses = array();
+        foreach ($rawResponses as $key => $rawResponse) {
+            try {
+                $responses[$key] = $this->_handleResponse($rawResponse, $responseType);
+            } catch (\Exception $e) {
+                $responses[$key] = $e;
+            }
+        }
+        return $responses;
     }
 
 
@@ -304,6 +324,36 @@ class Api implements MooInterface\MooApi, LoggerAwareInterface
 
         return $this->sendFile($request, "imageFile", "UploadImage");
 
+    }
+
+    /**
+     * @param array $images
+     * @param string $imageType
+     * @return array|MooInterface\Response\UploadImage[]
+     * @throws \InvalidArgumentException
+     */
+    public function imageUploadImages(array $images, $imageType = self::IMAGE_TYPE_UNKNOWN)
+    {
+        $requests = array();
+        foreach ($images as $key => $image) {
+            if ($image instanceof Image) {
+                $imageFile = $image->getImageFile();
+                $thisImageType = $image->getImageType();
+            } else {
+                $imageFile = $image;
+                $thisImageType = $imageType;
+            }
+            $imageFilePath = realpath($imageFile);
+            if (!$imageFilePath || !is_file($imageFilePath) || !is_readable($imageFilePath)) {
+                throw new \InvalidArgumentException("Cannot access file $imageFile");
+            }
+
+            $request = new MooInterface\Request\UploadImage();
+            $request->setImageType($thisImageType);
+            $request->setImageFile($imageFilePath);
+            $requests[$key] = $request;
+        }
+        return $this->sendFiles($requests, "imageFile", "UploadImage");
     }
 
     /**
