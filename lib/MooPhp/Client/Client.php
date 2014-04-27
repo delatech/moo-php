@@ -1,12 +1,11 @@
 <?php
 namespace MooPhp\Client;
+
 /**
  * @package MooPhp
  * @author Jonathan Oddy <jonathan@moo.com>
  * @copyright Copyright (c) 2012, Moo Print Ltd.
  */
-
-use Psr\Log\LoggerInterface;
 
 interface Client
 {
@@ -31,15 +30,17 @@ interface Client
 
     /**
      * @abstract
+     * @param array $paramss Array of arrays of parameters.
+     * @param string $fileParam The name of the param that contains the path to the file on disk
+     * @return string[] Array of response bodies.
+     */
+    public function sendFiles(array $paramss, $fileParam);
+
+    /**
+     * @abstract
      * @param array $params
      * @return string
      */
     public function getFile(array $params);
-
-    /**
-     * @abstract
-     * @return LoggerInterface
-     */
-    public function getLogger();
 
 }

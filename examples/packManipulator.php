@@ -17,10 +17,15 @@ ini_set('display_errors', 1);
 
 // You installed this with composer, right?
 $loader = require __DIR__ . '/../vendor/autoload.php';
-$opts = getopt("k:s:w:");
+$opts = getopt("k:s:w:t:");
 
 if (!isset($opts["k"]) || !isset($opts['s'])) {
     die("Need to provide key and secret.");
+}
+if (!isset($opts["t"])) {
+    $clientType = "guzzle";
+} else {
+    $clientType = $opts['t'];
 }
 
 $localWeasel = getenv("USE_LOCAL_WEASEL");
@@ -30,26 +35,12 @@ if ($localWeasel) {
 
 $key = $opts['k'];
 $secret = $opts['s'];
-$client = new \MooPhp\Client\OAuthSigningClient($key, $secret);
 
-
-/*
-// If we want to do three legged we'd need to jump about a bit.
-// Since most of the API calls no longer need 3 legged, this block of code is not required.
-
-$request_token = $client->getRequestToken();
-
-// At this point if you were writing a web app you'd want to store the request token data.
-// Then redirect the user orf too (passing a useful callback, this example uses oob callbacks):
-print "Visit:\n" . $client->getAuthUrl() . "\n";
-print "Hit enter";
-fgets(STDIN);
-
-// So now the user would be redirected back. You'd need to call setToken() with the request token data.
-
-// Then get an access token and you're done:
-$client->getAccessToken();
-*/
+/**
+ * Require the client we're going to be using.
+ */
+require_once(__DIR__ . "/inc/" . $clientType . ".php");
+$client = getClient($key, $secret);
 
 $api = new \MooPhp\Api($client);
 $weaselFactory = new \Weasel\WeaselDoctrineAnnotationDrivenFactory();
@@ -80,36 +71,14 @@ $packId = $packResp->getPackId();
 $pack = $packResp->getPack();
 
 
-// Lets upload a photo
-$uploadImageResp = $api->imageUploadImage(__DIR__ . '/poor_kettle_purchasing_decision.jpg');
+// First a details side.
+
+// Lets upload a photo for using on the details side.
+$uploadImageResp = $api->imageUploadImage(__DIR__ . '/imgs/poor_kettle_purchasing_decision.jpg');
 $basketItem = $uploadImageResp->getImageBasketItem();
 
 // And add it to our pack's imagebasket so we can use it on our cards.
 $pack->getImageBasket()->addItem($basketItem);
-
-// Lets make an image side
-$imageTemplateCode = "businesscard_full_image_landscape";
-
-$imageSide = new Data\Side();
-$imageSide->setType("image")->setTemplateCode($imageTemplateCode);
-
-/**
- * @var \MooPhp\MooInterface\Data\Template\Items\ImageItem $imageTemplateItem
- */
-// We need to work out how to position our image. The TemplateItem for the image allows us to calculate a sane default.
-$imageTemplate = $api->templateGetTemplate($imageTemplateCode);
-$imageTemplateItem = $imageTemplate->getItemByLinkId("variable_image_front");
-$printImage = $basketItem->getImageItem("print");
-$imageBox = $imageTemplateItem->calculateDefaultImageBox($printImage->getWidth(), $printImage->getHeight());
-
-$imageData = new Data\UserData\ImageData();
-$imageData->setLinkId("variable_image_front");
-$imageData->setImageBox($imageBox);
-$imageData->setResourceUri($basketItem->getResourceUri());
-
-$pack->addSide($imageSide->addDatum($imageData));
-
-// That's an image side done, move onto the details side.
 
 $detailsTemplateCode = "businesscard_right_image_landscape";
 
@@ -162,7 +131,45 @@ $textLine->setPointSize(3.35);
 $textLine->setLinkId("back_line_4");
 $detailsSide->addDatum($textLine);
 
-$updateResp = $api->packUpdatePack($packId, $pack->addSide($detailsSide));
+$pack->addSide($detailsSide);
+
+// Lets make some image sides
+
+// Upload  the photos, lets use the multi upload feature this time!
+
+$uploadImageResponses = $api->imageUploadImages(
+    array(
+        __DIR__ . "/imgs/suboptimal.jpg",
+        __DIR__ . "/imgs/oopse.jpg",
+    )
+);
+
+$imageTemplateCode = "businesscard_full_image_landscape";
+$imageTemplate = $api->templateGetTemplate($imageTemplateCode);
+$imageTemplateItem = $imageTemplate->getItemByLinkId("variable_image_front");
+/**
+ * @var \MooPhp\MooInterface\Data\Template\Items\ImageItem $imageTemplateItem
+ */
+foreach ($uploadImageResponses as $uploadImageResp) {
+    $basketItem = $uploadImageResp->getImageBasketItem();
+    $pack->getImageBasket()->addItem($basketItem);
+    $imageSide = new Data\Side();
+    $imageSide->setType("image")->setTemplateCode($imageTemplateCode);
+
+    // We need to work out how to position our image. The TemplateItem for the image allows us to calculate a sane default.
+    $printImage = $basketItem->getImageItem("print");
+    $imageBox = $imageTemplateItem->calculateDefaultImageBox($printImage->getWidth(), $printImage->getHeight());
+
+    $imageData = new Data\UserData\ImageData();
+    $imageData->setLinkId("variable_image_front");
+    $imageData->setImageBox($imageBox);
+    $imageData->setResourceUri($basketItem->getResourceUri());
+
+    $pack->addSide($imageSide->addDatum($imageData));
+}
+
+// If you don't have permission for this, you can just do another createPack with your now populated pack object.
+$updateResp = $api->packUpdatePack($packId, $pack);
 
 // OK, all done.
 

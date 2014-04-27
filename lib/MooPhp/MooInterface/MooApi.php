@@ -1,5 +1,6 @@
 <?php
 namespace MooPhp\MooInterface;
+
 /**
  * @package MooPhp
  * @author Jonathan Oddy <jonathan@moo.com>
@@ -112,6 +113,16 @@ interface MooApi
     public function sendFile(\MooPhp\MooInterface\Request\Request $request, $fileParam, $responseType);
 
     /**
+     * Send an unsigned series of requests (possible in parallel), containing a file, to the Moo API and deserialize them.
+     * @param Request\Request[] $requests The requests to send.
+     * @param string $fileParam The name of the property containing the path to the file to send
+     * @param string $responseType The response type to deserialize as. Expected to either be fully qualified, or
+     * inside the \MooInterface\MooApi\Response namespace.
+     * @return mixed[] Array of response objects or exceptions, keyed the same as the $requests array.
+     */
+    public function sendFiles(array $requests, $fileParam, $responseType);
+
+    /**
      * Create a new Moo pack.
      * This will actually create a pack of a given type on the server.
      * Requires create permissions which everyone should have.
@@ -198,12 +209,19 @@ interface MooApi
     public function imageUploadImage($imageFile, $imageType = self::IMAGE_TYPE_UNKNOWN);
 
     /**
+     * @param \MooPhp\MooInterface\Client\Image[]|string[] $images
+     * @param string $imageType
+     * @return \MooPhp\MooInterface\Response\UploadImage[]
+     */
+    public function imageUploadImages(array $images, $imageType = self::IMAGE_TYPE_UNKNOWN);
+
+    /**
      * Ask Moo's servers to grab an image from a URL and import it.
      * Requires import_image which is NOT granted by default.
      * @abstract
      * @param string $url URL to obtain the image from
      * @param string $imageType Type of image from the IMAGE_TYPE_ constants. Default is unknown which will not trigger image enhance by default.
-     * @return \MooPhp\MooInterface\Response\ImportImage
+     * @return \MooPhp\MooInterface\Response\ImportImage[]
      */
     public function imageImportImage($url, $imageType = self::IMAGE_TYPE_UNKNOWN);
 

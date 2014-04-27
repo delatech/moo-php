@@ -69,7 +69,7 @@ class TextHelper
         $clippingBox = $item->getClippingBox();
 
         $maxHeight = $clippingBox->getHeight();
-        $maxWidth = $clippingBox->getWidth();
+        $maxWidth = $clippingBox->getWidth() - 0.5; // Fiddle factor to work round canvas and api disagreement.
 
         if (!isset($fontSize)) {
             $fontSize = $item->getPointSize();

@@ -1,5 +1,6 @@
 <?php
 namespace MooPhp\Client;
+
 /**
  * @package MooPhp
  * @author Jonathan Oddy <jonathan@moo.com>
@@ -56,7 +57,7 @@ class OAuthSigningClient implements Client, LoggerAwareInterface
     public function getAuthUrl($callback = "oob")
     {
         return $this->_urls["authorize"] . "?oauth_token=" . urlencode($this->_token) . "&oauth_callback=" .
-            urlencode($callback);
+        urlencode($callback);
     }
 
     public function setToken($token, $secret)
@@ -189,11 +190,6 @@ class OAuthSigningClient implements Client, LoggerAwareInterface
 
     }
 
-    public function getLogger()
-    {
-        return $this->_logger;
-    }
-
     /**
      * Sets a logger instance on the object
      *
@@ -203,5 +199,19 @@ class OAuthSigningClient implements Client, LoggerAwareInterface
     public function setLogger(LoggerInterface $logger)
     {
         $this->_logger = $logger;
+    }
+
+    /**
+     * @param array $paramss Array of arrays of parameters.
+     * @param string $fileParam The name of the param that contains the path to the file on disk
+     * @return string
+     */
+    public function sendFiles(array $paramss, $fileParam)
+    {
+        $responses = array();
+        foreach ($paramss as $key => $params) {
+            $responses[$key] = $this->sendFile($params, $fileParam);
+        }
+        return $responses;
     }
 }

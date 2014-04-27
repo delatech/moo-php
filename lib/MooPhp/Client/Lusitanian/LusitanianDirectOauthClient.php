@@ -1,5 +1,6 @@
 <?php
 namespace MooPhp\Client\Lusitanian;
+
 use MooPhp\Client\Client;
 use OAuth\Common\Consumer\Credentials;
 use OAuth\Common\Http\Uri\Uri;
@@ -200,9 +201,18 @@ class LusitanianDirectOauthClient implements Client, LoggerAwareInterface
 
     }
 
-    public function getLogger()
+    /**
+     * @param array $paramss Array of arrays of parameters.
+     * @param string $fileParam The name of the param that contains the path to the file on disk
+     * @return string
+     */
+    public function sendFiles(array $paramss, $fileParam)
     {
-        return $this->_logger;
+        $responses = array();
+        foreach ($paramss as $key => $params) {
+            $responses[$key] = $this->sendFile($params, $fileParam);
+        }
+        return $responses;
     }
 
     /**
