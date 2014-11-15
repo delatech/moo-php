@@ -1,5 +1,6 @@
 Moo-Php
 =======
+[![Build Status](https://travis-ci.org/moodev/moo-php.png)](https://travis-ci.org/moodev/moo-php)
 
 Moo-Php is a client library for the moo.com API. It provides a full (at time of writing) implementation of the MOO pack
 and template models.
