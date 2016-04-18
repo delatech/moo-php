@@ -2,8 +2,9 @@
 
 namespace MooPhp\Client;
 
-use \Guzzle\Http\Client as GuzzleHttpClient;
-use Guzzle\Http\Message\Response;
+use GuzzleHttp\Client as GuzzleHttpClient;
+use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Psr7\Uri;
 use Guzzle\Http\Url;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
@@ -41,10 +42,10 @@ class GuzzleClient implements Client, LoggerAwareInterface
         if ($this->logger) {
             $this->logger->debug("Making Request", array("params" => $params));
         }
-        $url = Url::factory($this->endpoint);
+        $url = new Uri($this->endpoint);
         switch ($method) {
             case self::HTTP_GET:
-                $url->setQuery($params);
+                $url->setQuery(http_build_query($params));
                 $request = $this->client->get($url);
                 break;
             case self::HTTP_POST:
